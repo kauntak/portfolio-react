@@ -12,7 +12,9 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
     const [mainStyle, setMainStyle] = useState<CSSProperties>({padding: 30});
     const [globeStyle, setGlobeStyle] = useState<CSSProperties>({justifyContent:"center"});
     const [profilePicStyle, setProfilePicStyle] = useState<CSSProperties>({});
-    const [middleDivStyle, setMiddleDivStyle] = useState<CSSProperties>({
+    const [leftStyle, setLeftStyle] = useState<CSSProperties>({});
+    const [rightStyle, setRightStyle] = useState<CSSProperties>({});
+    const [middleStyle, setMiddleStyle] = useState<CSSProperties>({
         width:"100%",
         display:"flex",
         flexDirection:"column",
@@ -20,7 +22,7 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
         alignContent:"center",
         textAlign:"center"
     });
-    const [name, setName] = useState<string>("");
+    const [name, setName] = useState<string>("Nozomu Koshirae");
     const [nameStyle, setNameStyle] = useState<CSSProperties>({});
     const [title, setTitle] = useState<string>("");
     const [titleStyle, setTitleStyle] = useState<CSSProperties>({});
@@ -80,9 +82,16 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
             setMainStyle({
                 padding: 30,
                 overflowY: "hidden",
-                height:"100%"
+                height:"100%",
+                display:"flex",
+                flexDirection:"row"
+            });
+            setLeftStyle({
+                display:"flex",
+                flexDirection:"column",
+                minWidth:"30%"
             })
-            setGlobeStyle({justifyContent:"center"});
+            setGlobeStyle({justifyContent:"center", display:"none"});
             setProfilePicStyle({
                 borderRadius: "50%",
                 width: "30%",
@@ -91,6 +100,7 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                 display: "block",
                 marginLeft: "auto",
                 marginRight: "auto",
+                position:"absolute",
             });
             setName("");
             setTitle("");
@@ -99,19 +109,23 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
     }, [isMinified]);
 
     const animateText = (setter:Dispatch<SetStateAction<string>>, stringToEdit:string, stringTo:string) => {
-        const textInterval = setInterval(()=> {
-            if(stringToEdit.length === 0) {
-                setter(oldString => oldString+stringTo.charAt(0));
-            } else {
-                for(let i = 0; i < stringToEdit.length; i++){
+        return new Promise<void>(resolve => {
+            const textInterval = setInterval(()=> {
+                let i:number;
+                for(i = 0; i < stringToEdit.length; i++){
                     if(stringToEdit.charAt(i) !== stringTo.charAt(i)){
                         setter(oldString => oldString.slice(0, -1));
+                        return;
                     }
-
                 }
-            }
-
-        }, 250)
+                if(i < stringTo.length){
+                    setter(oldString => oldString + stringTo.charAt(i));
+                } else {
+                    clearInterval(textInterval);
+                    resolve();
+                }
+            }, 250)
+        });
     }
 
     const startAnimation = () => {
@@ -121,15 +135,13 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
     return (
         <div
             style={mainStyle}
-        >
-            {  
-                isMinified
-                    ?""
-                    :<h2>
-                        HOME
-                    </h2>
-            }
-            <div style={middleDivStyle}>
+        >   
+            <div style={leftStyle}>
+                <div style={globeStyle}>
+                    <SkillsGlobe />
+                </div>
+            </div>
+            <div style={middleStyle}>
                 <img
                     src={process.env.PUBLIC_URL + "/assets/images/NozomuPortfolioPic.jpg"} 
                     alt="Nozomu"
@@ -151,10 +163,9 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                     {title}
                 </h4>
             </div>
-            <div style={globeStyle}>
-                <SkillsGlobe />
-            </div>
+            <div style={rightStyle}>
 
+            </div>
 
         </div>
     )
