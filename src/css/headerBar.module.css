@@ -154,15 +154,16 @@
 
 .navigationItem:hover{
     background-color: var(--hover);
+    color: var(--text-secondary);
 }
 
 .selected{
-    background-color: black;
+    background-color: var(--bg);
     color: var(--text-primary);
     left: -5px;
 }
 .selected:hover{
-    background-color: black;
+    background-color: var(--bg);
     color: var(--text-primary);
 
 }

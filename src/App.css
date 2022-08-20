@@ -13,12 +13,12 @@
   --bg-secondary: #001F54;
   --text-primary:#FEFCFB;
   --text-secondary:#1282A2;
-  --accent:#001219;
+  --accent:#11323f;
   --button:#94D2BD;
   --hover:#E9D8A6;
 }
 
-[data-them='light']{
+[data-theme='light']{
   --bg: #faf3dd;
   --bg-secondary: #c8d5b9;
   --text-primary:#696d7d;
@@ -35,18 +35,19 @@
   background: var(--bg); /* fallback for old browsers */
   background: -webkit-linear-gradient(
       to right,
-      var(--accent),
       var(--bg),
+      var(--accent),
       var(--bg-secondary)
   ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
       to right,
-      var(--accent),
       var(--bg),
+      var(--accent),
       var(--bg-secondary)
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   color: var(--text-primary);
   overflow-x: hidden;
+  transition: all 0.5s ease-in-out;
 }
 
 h3{
@@ -69,4 +70,11 @@ p{
   font-size:18px;
   color: var(--text-secondary);
   margin: 5px;
+}
+
+.pageTitle{
+  position: absolute;
+  top: 3vh;
+  left: 10vw;
+  font-size: 80px;
 }

@@ -19,7 +19,7 @@ const getCurrentWindowDimensions = () => {
 }
 
 const themeList = ["light", "dark"] as const;
-type ThemeType = typeof themeList[number];
+export type ThemeType = typeof themeList[number];
 const pageList = ["Portfolio", "About", "Contact"] as const;
 export type PageType = typeof pageList[number];
 
@@ -140,6 +140,8 @@ function App() {
             pages={[...pageList]}
             currentPage={currentPage.page}
             onClick={onHeaderClick}
+            currentTheme={theme}
+            setTheme={setTheme}
           />
           <HomeScreen scrollPosition={scrollPosition}/>
           {

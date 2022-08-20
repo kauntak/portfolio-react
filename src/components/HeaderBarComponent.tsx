@@ -1,24 +1,28 @@
-import React, { CSSProperties, useContext, useEffect, useState } from "react";
+import React, { CSSProperties, Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
 import styles from "./../css/headerBar.module.css";
-import { FaAt, FaBars, FaCode, FaAngleDoubleUp, FaTimes, FaUser } from "react-icons/fa"
-
-import { PageType, ScreenSizeContext, ScrollContext } from "../App";
+import { FaAt, FaBars, FaCode, FaAngleDoubleUp, FaTimes, FaUser, FaCertificate, FaMoon } from "react-icons/fa"
+import { BsSlashLg } from "react-icons/bs"
+import { PageType, ScreenSizeContext, ScrollContext, ThemeType } from "../App";
 
 type Props = {
     onClick: (page:PageType|undefined) => void,
     pages: PageType[],
-    currentPage: PageType|undefined
+    currentPage: PageType|undefined,
+    currentTheme: ThemeType,
+    setTheme:Dispatch<SetStateAction<ThemeType>>
 }
-export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage }) => {
+export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage, currentTheme, setTheme }) => {
     const [logoStyle, setLogoStyle] = useState<CSSProperties>({});
     const [isMinified, setIsMinified] = useState<boolean>(true);
     const [showNavigation, setShowNavigation] = useState<boolean>(false);
     const screenSize = useContext(ScreenSizeContext);
     const scrollPosition = useContext(ScrollContext);
-    const icons:{[keys in PageType]:JSX.Element} = {
+    const icons:{[keys in PageType|ThemeType]:JSX.Element} = {
         Portfolio:<FaCode />,
         About: <FaUser />,
-        Contact: <FaAt />
+        Contact: <FaAt />,
+        light:<FaMoon />,
+        dark:<FaCertificate />
     }
     useEffect(() => {
         switch (screenSize) {
@@ -50,6 +54,14 @@ export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage }) => {
 
     const onMenuClick = (e:React.MouseEvent<HTMLLIElement>) => {
         setShowNavigation(oldState => !oldState);
+    }
+
+    const toggleTheme = (e:React.MouseEvent<HTMLAnchorElement>) =>{
+        e.preventDefault();
+        setTheme(theme => {
+            if(theme === "dark") return "light";
+            else return "dark";
+        })
     }
 
 
@@ -103,7 +115,7 @@ export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage }) => {
                                             ?""
                                             :"Close " + currentPage
                                 }
-                                onClick={()=>onClick(undefined)}
+                                onClick={(e)=>{e.preventDefault();onClick(undefined)}}
                                 className={
                                     isMinified
                                         ?styles["icon"]
@@ -140,7 +152,7 @@ export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage }) => {
                                                 ?"Close " + page
                                                 :"Show " + page
                                     }
-                                    onClick={()=>onClick(page)}
+                                    onClick={(e)=>{e.preventDefault();onClick(page)}}
                                     className={
                                         isMinified
                                             ?styles["icon"]
@@ -157,6 +169,33 @@ export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage }) => {
                         );
                     })
                 }
+                <li
+                    style={
+                        showNavigation||!isMinified
+                            ?{}   
+                            :{
+                                top: 0,
+                                opacity: 0
+                            }
+                    }
+                >
+                    <a
+                        href="#theme"
+                        title={"Toggle Theme"}
+                        onClick={toggleTheme}
+                        className={
+                            isMinified
+                                ?styles["icon"]
+                                :styles["navigationItem"]
+                        }
+                    >
+                        {
+                            isMinified
+                                ?icons[currentTheme]
+                                :<>{icons["dark"]}<BsSlashLg />{icons["light"]}</>
+                        }
+                    </a>
+                </li>
             </ul>
         </div>
     )
