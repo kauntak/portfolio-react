@@ -1,0 +1,168 @@
+.navigation{
+    z-index: 80;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+}
+
+.navigation ul li{
+    list-style: none;
+}
+
+.navigation ul li a{
+    text-decoration: none;
+}
+
+.header{
+    position: absolute;
+    z-index: 100;
+    width: 5vw;
+    max-width: 110px;
+    height:100vh;
+    background: var(--bg-secondary); /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+        to bottom,
+        var(--bg-secondary),
+        var(--accent)
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+        to bottom,
+        var(--bg-secondary),
+        var(--accent)
+    );
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+
+.logo{
+    position:absolute;
+    top: 5vh;
+    width: 3vw;
+    max-width: 66px;
+}
+
+.menu{
+    position: fixed;
+    left: 1vw;
+    top: 1vh;
+    font-size: 200%;
+}
+
+.menuButton a{
+    font-size: clamp(30px, 6vw, 35px);
+}
+.menuButton{
+    margin-bottom: 10px;
+    width: 6vw;
+    height: 6vw;
+    min-width: 45px;
+    min-height: 45px;
+    position: relative;
+    z-index:100;
+}
+
+.menu li{
+    position: absolute;
+    transition: all 0.5s ease-in-out;
+}
+
+.menuButton a svg{
+    width: 100%;
+    margin: auto;
+}
+
+.menu li:nth-child(2){
+    top: 50px;
+}
+
+.menu li:nth-child(3){
+    top: 100px;
+}
+
+.menu li:nth-child(4){
+    top: 150px;
+}
+
+.menu li:nth-child(5){
+    top: 200px;
+}
+
+.icon{
+    border-radius: 50%;
+    background-color: var(--hover);
+    width: 7vw;
+    height: 7vw;
+    display: inline-block;
+    justify-content: center;
+    vertical-align: middle;
+    min-width: 40px;
+    min-height: 40px;
+    max-width: 55px;
+    max-height: 55px;
+    line-height: 5px;
+    transition: 0.5s;
+    overflow: hidden;
+    margin-bottom: 10px;
+    transition: all 0.5s ease-in-out;
+}
+
+.icon svg{
+    vertical-align: middle;
+    transform: translateY(30%);
+    width: 100%;
+    margin: auto;
+}
+
+
+.icon:hover{
+	opacity: 0.6;
+    box-shadow: 0 5px 10px black; 
+}
+
+.navBar{
+    z-index: 100;
+    position: absolute;
+    bottom: 5vh;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.5s ease-in-out;
+    padding: 0;
+}
+
+.navBar li{
+    position: relative;
+    min-height: 50px;
+    margin-bottom: 15px;
+    display:inline;
+    vertical-align: middle;
+}
+
+.navigationItem{
+    padding: 10px;
+    position: absolute;
+    color: var(--bg-secondary);
+    background-color: var(--text-primary);
+    width: 100px;
+    height: 30px;
+    font-size: clamp(20px, 0.8vw, 40px);
+    line-height: 5vh;
+    transition: all 0.75s ease-in-out;
+}
+
+.navigationItem:hover{
+    background-color: var(--hover);
+}
+
+.selected{
+    background-color: black;
+    color: var(--text-primary);
+    left: -5px;
+}
+.selected:hover{
+    background-color: black;
+    color: var(--text-primary);
+
+}
