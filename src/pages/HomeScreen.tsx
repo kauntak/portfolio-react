@@ -21,6 +21,11 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
         alignContent:"center",
         textAlign:"center"
     });
+    const [sentenceStyle, setSentenceStyle] = useState<CSSProperties>({
+        opacity: 1,
+        display:"flex",
+        flexDirection:"column"
+    });
     const [nameSentence, setNameSentence]  = useState<string>("");
     const [nickNameSentence, setNickNameSentence]  = useState<string>("");
     const [loveSentence, setLoveSentence]  = useState<string>("");
@@ -87,6 +92,9 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                 display: "block",
                 margin:"50px auto 30px auto"
             });
+            setSentenceStyle({
+                display:"none"
+            });
             setName("Nozomu Koshirae");
             setNameStyle({
                 paddingLeft:"auto",
@@ -108,6 +116,11 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                 minWidth:"30%",
                 paddingTop: "20vh"
             })
+            setSentenceStyle({ 
+                opacity: 1,
+                display:"flex",
+                flexDirection:"column"
+            });
             setGlobeStyle({justifyContent:"center", display:"none"});
             setProfilePicStyle({
                 borderRadius: "50%",
@@ -206,16 +219,44 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                 }, {
                     setter: setTitle,
                     stringTo:"Software Developer",
-                    sideEffect: ()=> transitionGlobe
+                    sideEffect: ()=> fadeSentences
                 }
             ];
             animateStringList(list);
         }
     }
 
-    const transitionGlobe = ()=>{
+    const fadeSentences = ()=>{
+        setSentenceStyle({
+            opacity: 0,
+            display:"flex",
+            flexDirection:"column"
+        });
         setGlobeStyle({
+            display:"none",
+            position: "absolute",
+            top:"10vh",
+            left: "8vw",
+            transform: "scale3d(2, 2, 2)",
+            transition: "all 1s ease-in-out",
+            opacity: 0
+        });
+    }
 
+    const sentenceTransitionEnd = (e:React.TransitionEvent<HTMLDivElement>) => {
+        if(e.currentTarget.style.opacity === "0")
+        setSentenceStyle({display:"none"});
+        setGlobeStyle({
+            display: "flex",
+            width: "100%",
+            position: "absolute",
+            top:"10vh",
+            left: "8vw",
+            justifyContent:"center",
+            alignItems:"center",
+            transform: "scale3d(1, 1, 1)",
+            transition: "all 1s ease-in-out",
+            opacity: 1
         });
     }
 
@@ -225,38 +266,43 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
             style={mainStyle}
         >   
             <div style={leftStyle}>
-                <div style={globeStyle}>
-                    <SkillsGlobe />
-                </div>
-                <h4>
-                    {nameSentence}
-                </h4>
-                <h6>
-                    {nickNameSentence}
-                </h6>
-                <div 
-                    style={
-                        {
-                            display:"flex",
-                            flexDirection: "row"
-                        }
-                    }  
+                <div
+                    style={sentenceStyle}
+                    onTransitionEnd={sentenceTransitionEnd}
                 >
-                    <h5>{loveSentence}</h5>
-                    <ul
+                    <h4>
+                        {nameSentence}
+                    </h4>
+                    <h6>
+                        {nickNameSentence}
+                    </h6>
+                    <div
                         style={
                             {
-                                listStyle:"none",
-                                margin: "0px",
-                                padding: 0
+                                display:"flex",
+                                flexDirection: "row"
                             }
                         }
                     >
-                        {loveList.map((list, index) => <li key={list} style={listStyle[index]}><h5>{list}</h5></li>)}
-                        <li onTransitionEnd={onListTransitionEnd} style={listStyle[loveList.length]}><p>except printers...CAUSE UGH printers....</p></li>
-                    </ul>
+                        <h5>{loveSentence}</h5>
+                        <ul
+                            style={
+                                {
+                                    listStyle:"none",
+                                    margin: "0px",
+                                    padding: 0
+                                }
+                            }
+                        >
+                            {loveList.map((list, index) => <li key={list} style={listStyle[index]}><h5>{list}</h5></li>)}
+                            <li onTransitionEnd={onListTransitionEnd} style={listStyle[loveList.length]}><p>except printers...CAUSE UGH printers....</p></li>
+                        </ul>
+                    </div>
+                    <h4>{titleSentence}</h4>
                 </div>
-                <h4>{titleSentence}</h4>
+                <div style={globeStyle}>
+                    <SkillsGlobe />
+                </div>
             </div>
             <div style={middleStyle}>
                 <img
