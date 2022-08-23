@@ -1,6 +1,7 @@
-import React, { CSSProperties, Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
+import React, { CSSProperties, Dispatch, SetStateAction, useContext, useEffect, useLayoutEffect, useState } from "react";
 import { ScreenSizeContext } from "../App";
 import { SkillsGlobe } from "../components/SkillsComponent";
+import { SortDiv } from "../components/SortComponent";
 
 type Props = {
     scrollPosition:number
@@ -9,11 +10,14 @@ type Props = {
 
 export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
     const [isMinified, setIsMinified] = useState<boolean>(true);
+    const [isReady, setIsReady] = useState<boolean>(false);
+    const [isScreenSizeChanged, setIsScreenSizeChanged] = useState<boolean>(false);
     const [mainStyle, setMainStyle] = useState<CSSProperties>({padding: 30});
-    const [globeStyle, setGlobeStyle] = useState<CSSProperties>({justifyContent:"center"});
+    const [globeStyle, setGlobeStyle] = useState<CSSProperties>({justifyContent:"center", display:"none", opacity:0});
     const [profilePicStyle, setProfilePicStyle] = useState<CSSProperties>({});
     const [leftStyle, setLeftStyle] = useState<CSSProperties>({});
     const [rightStyle, setRightStyle] = useState<CSSProperties>({});
+    const [isShown, setIsShown] = useState<boolean>(false);
     const [middleStyle, setMiddleStyle] = useState<CSSProperties>({
         width:"100%",
         display:"flex",
@@ -34,6 +38,7 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
     const [nameStyle, setNameStyle] = useState<CSSProperties>({});
     const [title, setTitle] = useState<string>("");
     const [titleStyle, setTitleStyle] = useState<CSSProperties>({});
+    const [psNote, setPsNote] = useState<string>("");
     const screenSize = useContext(ScreenSizeContext);
     const loveList = [
         "making things",
@@ -65,19 +70,45 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
             case "medium":
                 setIsMinified(true);
                 break;
+            case "large":
+                setRightStyle({display:"none"});
+                setIsNotMini();
+                break;
             default:
-                setIsMinified(false);
+                setRightStyle({display:"flex", alignContent:"center"});
+                setIsNotMini();
+                if(psNote === "P.S. Can you find the hidden section of my page?"){
+                    setPsNote("!!!");
+                    setTimeout(()=> {
+                        setPsNote("You found me!")
+                    }, 750);
+                } else setPsNote("");
                 break;
         }
     }, [screenSize]);
 
-    useEffect(()=>{
+    const setIsNotMini = ()=>{
+        setIsMinified(false);
+        setIsReady(false);
+    }
+
+    useLayoutEffect(()=>{
+        setIsScreenSizeChanged(true);
         if(isMinified){
             setMainStyle({
                 padding: 30,
                 overflowY: "visible",
-                height:"fit-content"
-            })
+                height:"fit-content",
+                display:"flex",
+                flexDirection:"column-reverse"
+            });
+            setMiddleStyle({
+                width:"100%",
+                display:"flex",
+                flexDirection:"column",
+                alignContent:"center",
+                textAlign:"center"
+            });
             setGlobeStyle({
                 display: "flex",
                 width: "100%",
@@ -86,7 +117,7 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
             });
             setProfilePicStyle({
                 borderRadius: "50%",
-                width: "60%",
+                width: "100%",
                 maxWidth: "45vh",
                 height: "auto",
                 display: "block",
@@ -101,30 +132,49 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                 paddingRight:"auto"
             })
             setTitle("Software Developer");
+            setPsNote("");
         } else {
+            setGlobeStyle({
+                position: "absolute",
+                top:"10vh",
+                left: "12vw",
+                transform: "scale3d(2, 2, 2)",
+                opacity: 0
+            });
             setMainStyle({
                 padding: 30,
-                paddingLeft: "200px",
+                paddingLeft: "12vw",
                 overflowY: "hidden",
                 height:"100%",
                 display:"flex",
                 flexDirection:"row"
             });
             setLeftStyle({
-                display:"flex",
+                // display:"flex",
+                                    display:"none",
                 flexDirection:"column",
-                minWidth:"30%",
-                paddingTop: "20vh"
-            })
+                minWidth:"28%",
+                width: "28%",
+                paddingTop: "20vh",
+                transition:"all 0.5s ease-in-out",
+            });
+            setMiddleStyle({
+                width:"100%",
+                maxWidth:"30%",
+                // display:"flex",
+                                        display:"none",
+                flexDirection:"column",
+                alignContent:"center",
+                textAlign:"center"
+            });
             setSentenceStyle({ 
                 opacity: 1,
                 display:"flex",
                 flexDirection:"column"
             });
-            setGlobeStyle({justifyContent:"center", display:"none"});
             setProfilePicStyle({
                 borderRadius: "50%",
-                width: "30%",
+                width: "100%",
                 maxWidth: "45vh",
                 height: "auto",
                 display: "block",
@@ -133,30 +183,53 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                 top: "1vh"
             });
             setName("");
+            setNameSentence("");
+            setNickNameSentence("");
             setTitle("");
-            startAnimation();
+            setTitleSentence("");
+            setLoveSentence("");
+            setPsNote("");
+            setListStyle(new Array(loveList.length + 1).fill({
+                transition:"all 0.5s ease-in-out",
+                opacity: 0
+            }));
+            setIsScreenSizeChanged(false);
+            setIsReady(true);
         }
     }, [isMinified]);
 
+    useEffect(()=>{
+        if(isReady){
+            startAnimation();
+            
+        }
+    }, [isReady])
+
     const animateText:(obj:StringAnimationType)=>void = ({setter, stringTo, sideEffect}) => {
         return new Promise<void>(resolve => {
-            const textInterval = setInterval(()=> {
-                setter(oldString => {
-                    let i: number;
-                    for(i = 0; i < oldString.length; i++){
-                        if(oldString.charAt(i) !== stringTo.charAt(i))
-                            return oldString.slice(0, -1);
-                    }
-                    if(i < stringTo.length) {
-                        return oldString + stringTo.charAt(i);
-                    } else {
+            setTimeout(()=> {
+                const textInterval = setInterval(()=> {
+                    if(isScreenSizeChanged) {
                         clearInterval(textInterval);
-                        if(sideEffect) sideEffect();
-                        resolve();
-                        return oldString;
+                        return;
                     }
-                });
-            }, 50)
+                    setter(oldString => {
+                        let i: number;
+                        for(i = 0; i < oldString.length; i++){
+                            if(oldString.charAt(i) !== stringTo.charAt(i))
+                                return oldString.slice(0, -1);
+                        }
+                        if(i < stringTo.length) {
+                            return oldString + stringTo.charAt(i);
+                        } else {
+                            clearInterval(textInterval);
+                            if(sideEffect) sideEffect();
+                            resolve();
+                            return oldString;
+                        }
+                    });
+                }, 50)
+            }, 1000);
         });
     }
     type StringAnimationType = {
@@ -164,6 +237,7 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
     }
     const animateStringList = async (list:StringAnimationType[]) =>{
         for(let i = 0; i < list.length; i++){
+            if(isScreenSizeChanged) return;
             await animateText(list[i]);
         }
     }
@@ -192,8 +266,16 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
     }
 
     const startListTransition = (opacity:number) => {
-        let i = 0;
+        let i = -1;
         const listInterval = setInterval(()=>{
+            if(isScreenSizeChanged) {
+                clearInterval(listInterval);
+                return;
+            }
+            if(i === -1) {
+                i++;
+                return;
+            }
             if(i === listStyle.length){
                 clearInterval(listInterval);
             }
@@ -206,11 +288,11 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                 return newStyle;
             });
             i++;
-        }, 200)
+        }, 750)
         
     }
 
-    const onListTransitionEnd = (e:React.TransitionEvent<HTMLLIElement>) => {
+    const onListTransitionEnd = (e:React.TransitionEvent<HTMLLIElement>, index?:number) => {
         if(e.currentTarget.style.opacity === "1"){
             const list:StringAnimationType[] = [
                 {
@@ -219,7 +301,7 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                 }, {
                     setter: setTitle,
                     stringTo:"Software Developer",
-                    sideEffect: ()=> fadeSentences
+                    sideEffect: fadeSentences
                 }
             ];
             animateStringList(list);
@@ -229,35 +311,37 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
     const fadeSentences = ()=>{
         setSentenceStyle({
             opacity: 0,
+            transition:"all 0.5s ease-in-out",
             display:"flex",
             flexDirection:"column"
-        });
-        setGlobeStyle({
-            display:"none",
-            position: "absolute",
-            top:"10vh",
-            left: "8vw",
-            transform: "scale3d(2, 2, 2)",
-            transition: "all 1s ease-in-out",
-            opacity: 0
         });
     }
 
     const sentenceTransitionEnd = (e:React.TransitionEvent<HTMLDivElement>) => {
-        if(e.currentTarget.style.opacity === "0")
-        setSentenceStyle({display:"none"});
-        setGlobeStyle({
-            display: "flex",
-            width: "100%",
-            position: "absolute",
-            top:"10vh",
-            left: "8vw",
-            justifyContent:"center",
-            alignItems:"center",
-            transform: "scale3d(1, 1, 1)",
-            transition: "all 1s ease-in-out",
-            opacity: 1
-        });
+        if(e.currentTarget === e.target){
+            setSentenceStyle({display:"none"});
+            setGlobeStyle({
+                display: "flex",
+                position: "absolute",
+                top:"10vh",
+                left: "12vw",
+                justifyContent:"center",
+                alignItems:"center",
+                transform: "scale3d(1, 1, 1)",
+                transition: "all 1s ease-in-out",
+                opacity: 1
+            });
+        }
+    }
+
+    const globeTransitionEnd = (e:React.TransitionEvent<HTMLDivElement>) => {
+        if(e.currentTarget.style.opacity === "1" && screenSize === "large"){
+            animateText({setter:setPsNote, stringTo:"P.S. Can you find the hidden section of my page?"})
+        }
+    }
+
+    const onShowClick = (e:React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
     }
 
 
@@ -265,15 +349,16 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
         <div
             style={mainStyle}
         >   
+            <h3 style={{position:"absolute", bottom: "3vh", left: "20%"}}>{psNote}</h3>
             <div style={leftStyle}>
                 <div
                     style={sentenceStyle}
                     onTransitionEnd={sentenceTransitionEnd}
                 >
-                    <h4>
+                    <h4 style={{margin:0}}>
                         {nameSentence}
                     </h4>
-                    <h6>
+                    <h6 style={{fontSize:"20px", marginTop:20}}>
                         {nickNameSentence}
                     </h6>
                     <div
@@ -284,23 +369,37 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                             }
                         }
                     >
-                        <h5>{loveSentence}</h5>
+                        <h5 style={{minWidth: "100px"}}>{loveSentence}</h5>
                         <ul
                             style={
                                 {
                                     listStyle:"none",
                                     margin: "0px",
-                                    padding: 0
+                                    padding: 0,
+                                    minWidth: "200px"
                                 }
                             }
                         >
-                            {loveList.map((list, index) => <li key={list} style={listStyle[index]}><h5>{list}</h5></li>)}
-                            <li onTransitionEnd={onListTransitionEnd} style={listStyle[loveList.length]}><p>except printers...CAUSE UGH printers....</p></li>
+                            {loveList.map((list, index) => <li key={list} style={listStyle[index]}><h5>- {list}</h5></li>)}
+                            <li onTransitionEnd={(e)=> onListTransitionEnd(e, loveList.length)} style={listStyle[loveList.length]}>
+                                <p
+                                    style={
+                                        {
+                                            fontSize:"11px !important"
+                                        }
+                                    }
+                                >
+                                    except printers...CAUSE UGH printers....
+                                </p>
+                            </li>
                         </ul>
                     </div>
                     <h4>{titleSentence}</h4>
                 </div>
-                <div style={globeStyle}>
+                <div
+                    style={globeStyle}
+                    onTransitionEnd={globeTransitionEnd}
+                >
                     <SkillsGlobe />
                 </div>
             </div>
@@ -327,7 +426,16 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                 </h4>
             </div>
             <div style={rightStyle}>
-
+                {
+                    isShown
+                        ?<SortDiv />
+                        :<button
+                            onClick={()=> setIsShown(true)}
+                            className="foundButton"
+                        >
+                            Hmm awfully empty here...
+                        </button>
+                }
             </div>
 
         </div>

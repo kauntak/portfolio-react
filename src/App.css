@@ -1,80 +1,145 @@
-:root{
-  --bg: #005F73;
-  --bg-secondary: #0A9396;
-  --text-primary:#BB3E03;
-  --text-secondary:#CA6702;
-  --accent:#001219;
-  --button:#94D2BD;
-  --hover:#E9D8A6;
+:root {
+    --bg: #005f73;
+    --bg-secondary: #0a9396;
+    --text-primary: #bb3e03;
+    --text-secondary: #ca6702;
+    --accent: #001219;
+    --button: #94d2bd;
+    --hover: #e9d8a6;
 }
 
-[data-theme='dark']{
-  --bg: #0A1128;
-  --bg-secondary: #001F54;
-  --text-primary:#FEFCFB;
-  --text-secondary:#1282A2;
-  --accent:#11323f;
-  --button:#94D2BD;
-  --hover:#E9D8A6;
+[data-theme="dark"] {
+    --bg: #0a1128;
+    --bg-secondary: #001f54;
+    --text-primary: #fefcfb;
+    --text-secondary: #1282a2;
+    --accent: #11323f;
+    --button: #94d2bd;
+    --hover: #e9d8a6;
 }
 
-[data-theme='light']{
-  --bg: #faf3dd;
-  --bg-secondary: #c8d5b9;
-  --text-primary:#696d7d;
-  --text-secondary:#1282A2;
-  --accent:#68b0ab;
-  --button:#8fc0a9;
-  --hover:#E9D8A6;
+[data-theme="light"] {
+    --bg: #faf3dd;
+    --bg-secondary: #c8d5b9;
+    --text-primary: #696d7d;
+    --text-secondary: #1282a2;
+    --accent: #68b0ab;
+    --button: #8fc0a9;
+    --hover: #e9d8a6;
 }
 
-
-.App{
-  width: 100%;
-  height: 100%;
-  background: var(--bg); /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-      to right,
-      var(--bg),
-      var(--accent),
-      var(--bg-secondary)
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-      to right,
-      var(--bg),
-      var(--accent),
-      var(--bg-secondary)
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  color: var(--text-primary);
-  overflow-x: hidden;
-  transition: all 0.5s ease-in-out;
+.App {
+    width: 100%;
+    height: 100%;
+    background: var(--bg); /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+        to right,
+        var(--bg),
+        var(--accent),
+        var(--bg-secondary)
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+        to right,
+        var(--bg),
+        var(--accent),
+        var(--bg-secondary)
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: var(--text-primary);
+    overflow-x: hidden;
+    transition: all 0.5s ease-in-out;
 }
 
-h3{
-  font-size: 50px;
-  margin: 5px;
+h3 {
+    font-size: 50px;
+    margin: 5px;
 }
 
-h4{
-  font-size: 35px;
-  color: var(--text-secondary);
-  margin: 5px;
+h4 {
+    font-size: 35px;
+    color: var(--text-secondary);
+    margin: 5px;
 }
 
-h5{
-  font-size: 25px;
-  margin: 5px;
+h5 {
+    font-size: 25px;
+    margin: 5px;
 }
 
-p{
-  font-size:18px;
-  color: var(--text-secondary);
-  margin: 5px;
+p {
+    font-size: 18px;
+    color: var(--text-secondary);
+    margin: 5px;
 }
 
-.pageTitle{
+.pageTitle {
+    position: absolute;
+    top: 3vh;
+    left: 10vw;
+    font-size: 80px;
+}
+
+.foundButton {
+    position: fixed;
+    top: 45vh;
+    right: 3vw;
+    appearance: none;
+    background-color: var(--text-primary);
+    border: 2px solid #1a1a1a;
+    border-radius: 15px;
+    box-sizing: border-box;
+    color: var(--bg-secondary);
+    cursor: pointer;
+    display: inline-block;;
+    font-size: 1.5vw;
+    font-weight: 600;
+    line-height: normal;
+    margin: 0;
+    min-height: 60px;
+    min-width: 0;
+    max-height: 15vh;
+    outline: none;
+    padding: 16px 24px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    will-change: transform;
+}
+
+.foundButton:disabled {
+  pointer-events: none;
+}
+
+.foundButton:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.foundButton:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+.block{
+  width: 5px;
+  transition: all 0.1s ease-in-out;
   position: absolute;
-  top: 3vh;
-  left: 10vw;
-  font-size: 80px;
+}
+
+.sorted{
+  background-color: var(--hover);
+}
+
+.unsorted{
+  background-color: var(--text-primary);
+}
+
+.target{
+  background-color: var(--text-secondary);
+}
+
+.currentTarget{
+  background-color: var(--button);
 }

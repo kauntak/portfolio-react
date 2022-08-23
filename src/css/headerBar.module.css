@@ -90,6 +90,10 @@
     top: 200px;
 }
 
+.menu li:nth-child(6){
+    top: 250px;
+}
+
 .icon{
     border-radius: 50%;
     background-color: var(--hover);
