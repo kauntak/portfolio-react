@@ -27,10 +27,7 @@ declare global {
 
 
 export type BlockType = {
-    state: stateType,
-    height: number,
-    position: number,
-    transition?: string
+    height: number
 }
 
 export {};

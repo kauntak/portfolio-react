@@ -37,11 +37,12 @@ export class BlockArray extends Array<BlockType> {
      * performs a shallow copy of the Block Array
      */
     copy: () => BlockArray
-  constructor(...items:T[]){
-    super(...items);
+    
+  constructor(items:number = 0){
+    super(items);
     this.copy = () => {
       const newBlocks = new BlockArray();
-      for(let i in this){
+      for(let i = 0; i < this.length; i++){
         newBlocks[i] = this[i];
       }
       return newBlocks;
@@ -54,9 +55,9 @@ export class BlockArray extends Array<BlockType> {
     }
     this.insert = (indexFrom, indexTo) => {
       const temp = this[indexFrom];
-      const isLarger = indexFrom < indexTo;
-      for(let i = indexFrom; isLarger? i < indexTo: i > indexTo ;isLarger? i++ : i--){
-        if(isLarger){
+      const toIsLarger = indexFrom < indexTo;
+      for(let i = indexFrom; toIsLarger? i < indexTo: i > indexTo ;toIsLarger? i++ : i--){
+        if(toIsLarger){
           this[i] = this[i + 1];
         } else {
           this[i] = this[i - 1];
@@ -71,15 +72,6 @@ export class BlockArray extends Array<BlockType> {
   }
 
 }
-
-// if( ! Array.prototype.swap) {
-//   Array.prototype.swap = (indexA, indexB) => {
-//     const temp = this[indexA];
-//     this[indexA] = this[indexB];
-//     this[indexB] = temp;
-//     return this;
-//   }
-// }
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

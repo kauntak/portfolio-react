@@ -1,12 +1,11 @@
 import { BlockArray } from "..";
 import { SequenceType } from "../components/SortComponent";
 
-const sequence:SequenceType[] = [];
 export const merge = (oldBlocks:BlockArray):SequenceType[] => {
-    const blocks = [...oldBlocks];
-
-    const sort = (leftIndex:number, midIndex:number, rightIndex:number, isFirst?: boolean):void => {
-        while(leftIndex < midIndex && midIndex <= rightIndex){
+    const blocks = oldBlocks.copy();
+    const sequence:SequenceType[] = [];
+    const sort = async (leftIndex:number, midIndex:number, rightIndex:number, isFirst: boolean = false):Promise<void> => {
+        while((leftIndex < midIndex) && (midIndex <= rightIndex)){
             const compareSequence:SequenceType = {
                 type:"compare",
                 indexA:leftIndex,
@@ -21,21 +20,22 @@ export const merge = (oldBlocks:BlockArray):SequenceType[] => {
                     blocks: blocks.insert(midIndex, leftIndex)
                 }
                 sequence.push(insertSequence);
-            }
+                midIndex++;
+            } else {}
             if(isFirst){
                 const completedSequence:SequenceType = {
                     type:"complete",
-                    completedIndex: leftIndex
+                    index: leftIndex
                 }
                 sequence.push(completedSequence);
             }
             leftIndex++;
         }
         if(isFirst) {
-            while(leftIndex <= midIndex){
+            while(leftIndex <= rightIndex){
                 const completedSequence:SequenceType = {
                     type:"complete",
-                    completedIndex: leftIndex
+                    index: leftIndex
                 }
                 sequence.push(completedSequence);
                 leftIndex++;
@@ -43,20 +43,23 @@ export const merge = (oldBlocks:BlockArray):SequenceType[] => {
         }
     }
 
-    const mergeSplitter = (leftIndex?:number, rightIndex?:number):void => {
+    const split = async (leftIndex?:number, rightIndex?:number):Promise<void> => {
+        const isFirst:boolean = (rightIndex === undefined) && (leftIndex === undefined);
         if(leftIndex === undefined) leftIndex = 0;
         if(rightIndex === undefined) rightIndex = blocks.length - 1;
         const difference:number  = rightIndex - leftIndex;
+        console.log("split run with left:", leftIndex, "right: ", rightIndex);
         if(difference <= 1)
-            return sort(leftIndex, leftIndex + 1, rightIndex);
-        const midIndex = Math.floor((leftIndex + rightIndex) / 2);
+            return await sort(leftIndex, leftIndex + 1, rightIndex);
+        const midIndex = Math.round(difference / 2) + leftIndex; //Math.floor((leftIndex + rightIndex) / 2);
 
-        mergeSplitter(leftIndex, midIndex);
-        mergeSplitter(midIndex + 1, rightIndex);
+        await split(leftIndex, midIndex);
+        await split(midIndex + 1, rightIndex);
 
-        const isFirst:boolean = rightIndex === blocks.length && leftIndex === 0;
-        sort(leftIndex, midIndex, rightIndex, isFirst);
+        return await sort(leftIndex, midIndex, rightIndex, isFirst);
     }
+
+    split();
     return sequence;
 }
 

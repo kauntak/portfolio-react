@@ -1,10 +1,9 @@
 import { BlockArray } from "..";
 import { SequenceType } from "../components/SortComponent";
 
-export const bubble = (oldblocks:BlockArray):SequenceType[] => {
-    console.log(BlockArray);
+export const bubble = (oldBlocks:BlockArray):SequenceType[] => {
     const sequence: SequenceType[] = [];
-    const blocks = [...oldblocks];
+    const blocks = oldBlocks.copy();
     for(let i = 0; i < blocks.length - 1; i++){
         let j:number;
         for(j = 0; j < blocks.length - i - 1; j++){
@@ -26,9 +25,14 @@ export const bubble = (oldblocks:BlockArray):SequenceType[] => {
         }
         const completeSequence:SequenceType = {
             type:"complete",
-            completedIndex: j
+            index: j
         }
         sequence.push(completeSequence);
     }
+    const completeSequence:SequenceType = {
+        type:"complete",
+        index: 0
+    }
+    sequence.push(completeSequence);
     return sequence;
 }

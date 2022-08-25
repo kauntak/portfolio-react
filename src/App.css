@@ -136,10 +136,10 @@ p {
   background-color: var(--text-primary);
 }
 
-.target{
+.comparing{
   background-color: var(--text-secondary);
 }
 
-.currentTarget{
+.swapping{
   background-color: var(--button);
 }

@@ -3,7 +3,7 @@ import { SequenceType } from "../components/SortComponent";
 
 export const insertion = (oldBlocks:BlockArray):SequenceType[] => {
     const sequence:SequenceType[] = [];
-    const blocks = [...oldBlocks];
+    const blocks = oldBlocks.copy();
     for(let i = 0; i < blocks.length; i++){
         for(let j = i + 1; j < blocks.length; j++){
             const compareSequence:SequenceType = {
@@ -24,7 +24,7 @@ export const insertion = (oldBlocks:BlockArray):SequenceType[] => {
         }
         const completeSequence:SequenceType = {
             type:"complete",
-            completedIndex: i
+            index: i
         }
         sequence.push(completeSequence);
     }
