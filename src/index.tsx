@@ -10,21 +10,21 @@ import { BlockType } from './types';
 
 
 
-export class BlockArray extends Array<BlockType> {
+export class Arr<T> extends Array<T> {
     /**
      * Swap elements of index at indexA and indexB;
      * MODIFIES array, and returns a SHALLOW COPY.
      * @param indexA first element to swap with
      * @param indexB second element to swap with
      */
-    swap: (indexA: number, indexB:number) => BlockArray;
+    swap: (indexA: number, indexB:number) => Arr<T>;
     /**
      * remove an element from index of indexFrom, and place element into indexTo
      * MODIFIES array, and returns a SHALLOW COPY.
      * @param indexFrom the index to switch the element from
      * @param indexTo the index to swith the element to
      */
-    insert: (indexFrom:number, indexTo:number) => BlockArray;
+    insert: (indexFrom:number, indexTo:number) => Arr<T>;
 
     /**
      * compares the height of element at indexA to height of element at indexB
@@ -32,16 +32,16 @@ export class BlockArray extends Array<BlockType> {
      * @param indexA index of first element for comparison 
      * @param indexB index of second element for comparison
      */
-    isFirstTaller: (indexA:number, indexB:number) => boolean;
+    isFirstLarger: (indexA:number, indexB:number) => boolean;
     /**
      * performs a shallow copy of the Block Array
      */
-    copy: () => BlockArray
+    copy: () => Arr<T>
     
   constructor(items:number = 0){
     super(items);
     this.copy = () => {
-      const newBlocks = new BlockArray();
+      const newBlocks = new Arr<T>();
       for(let i = 0; i < this.length; i++){
         newBlocks[i] = this[i];
       }
@@ -66,8 +66,8 @@ export class BlockArray extends Array<BlockType> {
       this[indexTo] = temp;
       return this.copy();
     }
-    this.isFirstTaller = (indexA, indexB) => {
-      return (this[indexA].height > this[indexB].height)
+    this.isFirstLarger = (indexA, indexB) => {
+      return (this[indexA] > this[indexB])
     }
   }
 

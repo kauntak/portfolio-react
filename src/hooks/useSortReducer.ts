@@ -1,5 +1,5 @@
 import { Dispatch, Reducer, ReducerState, useReducer, } from "react";
-import { BlockArray } from "..";
+import { Arr } from "..";
 
 export const SORT_STATE = {
     SORTED:"sorted",
@@ -30,7 +30,7 @@ type CompareAction = {
 type SwapAction = {
     type: "swap",
     payload: {
-        blocks:BlockArray,
+        blocks:Arr<number>,
         indexA: number,
         indexB?: number
     }
@@ -39,7 +39,7 @@ type SwapAction = {
 type InsertAction = {
     type: "insert",
     payload: {
-        blocks:BlockArray,
+        blocks:Arr<number>,
         indexFrom: number,
         indexTo: number,
     }
@@ -53,7 +53,7 @@ type CompleteAction = {
 type Action = ResetAction | CompareAction | SwapAction | InsertAction | CompleteAction;
 
 type StateType = {
-    blocks: BlockArray,
+    blocks: Arr<number>,
     compare: [number, number]|[],
     swap: [number, number|undefined]|[],
     complete: number[]
@@ -68,11 +68,9 @@ const getRandomHeight = ():number =>{
 }
 
 function init(amount:number = 100):StateType{
-    const blocks:BlockArray = new BlockArray(amount);
+    const blocks:Arr<number> = new Arr<number>(amount);
     for(let i = 0; i < blocks.length; i++){
-        blocks[i] = {
-            height: getRandomHeight()
-        };
+        blocks[i] = getRandomHeight();
     }
 
     return {
@@ -83,7 +81,7 @@ function init(amount:number = 100):StateType{
     };
 }
 
-function swap(state:StateType, blocks:BlockArray, indexA:number, indexB?:number):StateType{
+function swap(state:StateType, blocks:Arr<number>, indexA:number, indexB?:number):StateType{
     return {
         ...state,
         blocks,

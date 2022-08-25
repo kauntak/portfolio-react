@@ -1,5 +1,5 @@
 declare global {
-    interface BlockArray extends Array<BlockType> {
+    interface Arr extends Array<BlockType> {
         /**
          * Swap elements of index at indexA and indexB;
          * MODIFIES array, and returns a SHALLOW COPY.
@@ -21,7 +21,7 @@ declare global {
          * @param indexA index of first element for comparison 
          * @param indexB index of second element for comparison
          */
-        isFirstTaller(indexA:number, indexB:number): boolean;
+        isFirstLarger(indexA:number, indexB:number): boolean;
     }
 }
 

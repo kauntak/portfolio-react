@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useRef, useState } from "react";
-import { BlockArray } from "..";
+import { Arr } from "..";
 import { bubble } from "../algorithms/bubbleSort";
 import { insertion } from "../algorithms/insertionSort";
 import { merge } from "../algorithms/mergeSort";
@@ -39,14 +39,14 @@ type SwapSequenceType = {
     type:"swap",
     indexA:number,
     indexB:number,
-    blocks: BlockArray
+    blocks: Arr<number>
 }
 
 type InsertSequenceType = {
     type:"insert"
     indexFrom: number,
     indexTo:number,
-    blocks: BlockArray
+    blocks: Arr<number>
 }
 
 
@@ -62,7 +62,7 @@ export const SortDiv:React.FC = () => {
     const isPausedRef = useRef<boolean>(false);
     const [sequenceIndex, setSequenceIndex] = useState<number>(0);
     const [sortType, setSortType] = useState<sortType>("merge");
-    const [amount, setAmount] = useState<number>(20);
+    const [amount, setAmount] = useState<number>(5);
     const [state, dispatch] = useSortReducer()
     
     const generateBlocks = () =>{
@@ -73,7 +73,7 @@ export const SortDiv:React.FC = () => {
         dispatch({type:"reset", payload: amount});
     }
 
-    const playSequence = (index:number = 0) => { return;
+    const playSequence = (index:number = 0) => { //return;
         const sequenceTimer = setTimeout(()=> {
             clearTimeout(sequenceTimer)
             if(isPausedRef.current) {
@@ -128,7 +128,7 @@ export const SortDiv:React.FC = () => {
     }, [isPaused]);
 
     const algorithms:{
-        [key in sortType]: (blocks: BlockArray) => SequenceType[];
+        [key in sortType]: (blocks: Arr<number>) => SequenceType[];
     } = {
         bubble,
         insertion,
@@ -212,15 +212,15 @@ export const SortDiv:React.FC = () => {
                             }
                             return (
                                 <div
-                                    key={`${index}-${block.height}`}
+                                    key={`${index}-${block}`}
                                     style={{
-                                        height:`${block.height * 1.5}px`,
+                                        height:`${block * 1.5}px`,
                                         transform:`translateX(${index * (WIDTH + WIDTH/5)}px)`,
                                         width: WIDTH,
                                         color:"black"
                                     }}
                                     className={`block ${colorState}`}
-                                >{block.height}</div>
+                                >{block}</div>
                             )
                         })
                     }

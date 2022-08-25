@@ -1,7 +1,7 @@
-import { BlockArray } from "..";
+import { Arr } from "..";
 import { SequenceType } from "../components/SortComponent";
 
-export const insertion = (oldBlocks:BlockArray):SequenceType[] => {
+export const insertion = (oldBlocks:Arr<number>):SequenceType[] => {
     const sequence:SequenceType[] = [];
     const blocks = oldBlocks.copy();
     for(let i = 0; i < blocks.length; i++){
@@ -12,7 +12,7 @@ export const insertion = (oldBlocks:BlockArray):SequenceType[] => {
                 indexB: i
             }
             sequence.push(compareSequence);
-            if(blocks.isFirstTaller(i, j)){
+            if(blocks.isFirstLarger(i, j)){
                 const swapSequence:SequenceType = {
                     type:"swap",
                     indexA: i,

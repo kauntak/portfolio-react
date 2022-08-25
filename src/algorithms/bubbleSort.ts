@@ -1,7 +1,7 @@
-import { BlockArray } from "..";
+import { Arr } from "..";
 import { SequenceType } from "../components/SortComponent";
 
-export const bubble = (oldBlocks:BlockArray):SequenceType[] => {
+export const bubble = (oldBlocks:Arr<number>):SequenceType[] => {
     const sequence: SequenceType[] = [];
     const blocks = oldBlocks.copy();
     for(let i = 0; i < blocks.length - 1; i++){
@@ -13,7 +13,7 @@ export const bubble = (oldBlocks:BlockArray):SequenceType[] => {
                 indexB: j + 1
             }
             sequence.push(compareSequence);
-            if(blocks.isFirstTaller(j, j + 1)){
+            if(blocks.isFirstLarger(j, j + 1)){
                 const swapSequence:SequenceType = {
                     type:"swap",
                     indexA:j,

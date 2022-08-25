@@ -1,10 +1,13 @@
-import { BlockArray } from "..";
+import { Arr } from "..";
 import { SequenceType } from "../components/SortComponent";
 
-export const merge = (oldBlocks:BlockArray):SequenceType[] => {
+export const merge = (oldBlocks:Arr<number>):SequenceType[] => {
     const blocks = oldBlocks.copy();
     const sequence:SequenceType[] = [];
-    const sort = async (leftIndex:number, midIndex:number, rightIndex:number, isFirst: boolean = false):Promise<void> => {
+    
+    const sort = (leftIndex:number, midIndex:number, rightIndex:number, isFirst: boolean = false):void => {
+        console.log("sort left:", leftIndex, "mid:", midIndex, "right:", rightIndex);
+        
         while((leftIndex < midIndex) && (midIndex <= rightIndex)){
             const compareSequence:SequenceType = {
                 type:"compare",
@@ -12,7 +15,7 @@ export const merge = (oldBlocks:BlockArray):SequenceType[] => {
                 indexB:midIndex
             }
             sequence.push(compareSequence);
-            if(blocks.isFirstTaller(leftIndex, midIndex)){
+            if(blocks.isFirstLarger(leftIndex, midIndex)){
                 const insertSequence:SequenceType = {
                     type:"insert",
                     indexFrom:midIndex,
@@ -43,20 +46,22 @@ export const merge = (oldBlocks:BlockArray):SequenceType[] => {
         }
     }
 
-    const split = async (leftIndex?:number, rightIndex?:number):Promise<void> => {
+    const split = (leftIndex?:number, rightIndex?:number, depth?:number):void => {
         const isFirst:boolean = (rightIndex === undefined) && (leftIndex === undefined);
+        if(depth === undefined) depth = 0;
         if(leftIndex === undefined) leftIndex = 0;
         if(rightIndex === undefined) rightIndex = blocks.length - 1;
         const difference:number  = rightIndex - leftIndex;
-        console.log("split run with left:", leftIndex, "right: ", rightIndex);
+        console.log("split depth: ", depth);
         if(difference <= 1)
-            return await sort(leftIndex, leftIndex + 1, rightIndex);
+            return sort(leftIndex, leftIndex + 1, rightIndex);
         const midIndex = Math.round(difference / 2) + leftIndex; //Math.floor((leftIndex + rightIndex) / 2);
+        console.log("left:", leftIndex, "midIndex:", midIndex, "depth: ", depth);
+        split(leftIndex, midIndex, depth + 1);
+        console.log("mid+1:", midIndex+1, "right: ", rightIndex, "depth: ", depth);
+        split(midIndex + 1, rightIndex, depth + 1);
 
-        await split(leftIndex, midIndex);
-        await split(midIndex + 1, rightIndex);
-
-        return await sort(leftIndex, midIndex, rightIndex, isFirst);
+        return sort(leftIndex, midIndex, rightIndex, isFirst);
     }
 
     split();

@@ -1,7 +1,7 @@
-import { BlockArray } from "..";
+import { Arr } from "..";
 import { SequenceType } from "../components/SortComponent";
 
-export const quick = (oldBlocks:BlockArray):SequenceType[] => {
+export const quick = (oldBlocks:Arr<number>):SequenceType[] => {
     const sequence:SequenceType[] = [];
     const blocks = oldBlocks.copy();
 
