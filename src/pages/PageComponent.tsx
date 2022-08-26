@@ -29,7 +29,10 @@ export const Page: React.FC<Props> = ({ page, currentPage, refs }) => {
                     height: "fit-content",
                     minHeight: "100%",
                     overflowY: "visible",
-                    minWidth: "100%"
+                    minWidth: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center"
                 })
                 break;
             default:
@@ -45,7 +48,8 @@ export const Page: React.FC<Props> = ({ page, currentPage, refs }) => {
                     position: "absolute",
                     top: 0,
                     left: 0,
-                    maxWidth: 0
+                    maxWidth: 0,
+                    display: "block"
                 })
                 break;
         }
@@ -71,7 +75,7 @@ export const Page: React.FC<Props> = ({ page, currentPage, refs }) => {
     return (
         <div
             style={style}
-            className={styles["panel"]}
+            className={`${styles["panel"]}`}
             ref={element => {
                 if(element && refs.current)
                     refs.current[page] = element

@@ -1,4 +1,4 @@
-import React, { CSSProperties, Dispatch, SetStateAction, useContext, useEffect, useLayoutEffect, useState } from "react";
+import React, { CSSProperties, Dispatch, SetStateAction, useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ScreenSizeContext } from "../App";
 import { SkillsGlobe } from "../components/SkillsComponent";
 import { SortDiv } from "../components/SortComponent";
@@ -11,7 +11,8 @@ type Props = {
 export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
     const [isMinified, setIsMinified] = useState<boolean>(true);
     const [isReady, setIsReady] = useState<boolean>(false);
-    const [isScreenSizeChanged, setIsScreenSizeChanged] = useState<boolean>(false);
+    // const [isScreenSizeChanged, setIsScreenSizeChanged] = useState<boolean>(false);
+    const isScreenSizeChangedRef = useRef<boolean>(false);
     const [mainStyle, setMainStyle] = useState<CSSProperties>({padding: 30});
     const [globeStyle, setGlobeStyle] = useState<CSSProperties>({justifyContent:"center", display:"none", opacity:0});
     const [profilePicStyle, setProfilePicStyle] = useState<CSSProperties>({});
@@ -93,7 +94,8 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
     }
 
     useLayoutEffect(()=>{
-        setIsScreenSizeChanged(true);
+        // setIsScreenSizeChanged(true);
+        isScreenSizeChangedRef.current = true;
         if(isMinified){
             setMainStyle({
                 padding: 30,
@@ -109,6 +111,9 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                 alignContent:"center",
                 textAlign:"center"
             });
+            setRightStyle({
+                display:"none"
+            })
             setGlobeStyle({
                 display: "flex",
                 width: "100%",
@@ -150,8 +155,7 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                 flexDirection:"row"
             });
             setLeftStyle({
-                // display:"flex",
-                                    display:"none",
+                display:"flex",
                 flexDirection:"column",
                 minWidth:"28%",
                 width: "28%",
@@ -161,8 +165,7 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
             setMiddleStyle({
                 width:"100%",
                 maxWidth:"30%",
-                // display:"flex",
-                                        display:"none",
+                display:"flex",
                 flexDirection:"column",
                 alignContent:"center",
                 textAlign:"center"
@@ -193,7 +196,8 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                 transition:"all 0.5s ease-in-out",
                 opacity: 0
             }));
-            setIsScreenSizeChanged(false);
+            // setIsScreenSizeChanged(false);
+            isScreenSizeChangedRef.current = false;
             setIsReady(true);
         }
     }, [isMinified]);
@@ -209,7 +213,7 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
         return new Promise<void>(resolve => {
             setTimeout(()=> {
                 const textInterval = setInterval(()=> {
-                    if(isScreenSizeChanged) {
+                    if(isScreenSizeChangedRef.current) {
                         clearInterval(textInterval);
                         return;
                     }
@@ -237,7 +241,7 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
     }
     const animateStringList = async (list:StringAnimationType[]) =>{
         for(let i = 0; i < list.length; i++){
-            if(isScreenSizeChanged) return;
+            if(isScreenSizeChangedRef.current) return;
             await animateText(list[i]);
         }
     }
@@ -268,7 +272,7 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
     const startListTransition = (opacity:number) => {
         let i = -1;
         const listInterval = setInterval(()=>{
-            if(isScreenSizeChanged) {
+            if(isScreenSizeChangedRef.current) {
                 clearInterval(listInterval);
                 return;
             }
@@ -339,11 +343,6 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
             animateText({setter:setPsNote, stringTo:"P.S. Can you find the hidden section of my page?"})
         }
     }
-
-    const onShowClick = (e:React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-    }
-
 
     return (
         <div
