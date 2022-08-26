@@ -72,9 +72,8 @@ p {
 }
 
 .pageTitle {
-    position: absolute;
-    top: 3vh;
-    left: 10vw;
+    margin-top: 12vh;
+    margin-left: 3vw;
     font-size: 80px;
 }
 .centerTitle {

@@ -1,18 +1,20 @@
-import { Dispatch, SetStateAction } from "react"
+import { CSSProperties, Dispatch, SetStateAction } from "react"
 import { SelectorType } from "../pages/Portfolio";
 import styles from "./../css/selector.module.css";
 
 type Props = {
     list: SelectorType[],
     current: SelectorType,
-    setCurrent: Dispatch<SetStateAction<SelectorType>>
+    setCurrent: Dispatch<SetStateAction<SelectorType>>,
+    style:CSSProperties
 }
 
-export const Selector:React.FC<Props> = ({list, current, setCurrent}) => {
+export const Selector:React.FC<Props> = ({list, current, setCurrent, style}) => {
 
     return (
         <section
             style={{
+                ...style,
                 maxWidth: 900,
                 display:"flex",
                 flexDirection:"row"

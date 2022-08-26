@@ -10,10 +10,6 @@
     list-style: none;
 }
 
-.navigation ul li a{
-    text-decoration: none;
-}
-
 .header{
     position: absolute;
     z-index: 100;
@@ -51,10 +47,8 @@
     font-size: 200%;
 }
 
-.menuButton a{
-    font-size: clamp(30px, 6vw, 35px);
-}
 .menuButton{
+    font-size: clamp(30px, 6vw, 35px);
     margin-bottom: 10px;
     width: 6vw;
     height: 6vw;
@@ -69,7 +63,7 @@
     transition: all 0.5s ease-in-out;
 }
 
-.menuButton a svg{
+.menuButton svg{
     width: 100%;
     margin: auto;
 }
@@ -154,6 +148,7 @@
     font-size: clamp(20px, 0.8vw, 40px);
     line-height: 5vh;
     transition: all 0.75s ease-in-out;
+    cursor: pointer;
 }
 
 .navigationItem:hover{

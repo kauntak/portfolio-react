@@ -54,15 +54,15 @@ export type SequenceType = CompletedSequenceType | CompareSequenceType | SwapSeq
 export const SortDiv:React.FC = () => {
     const [isSorting, setIsSorting] = useState<boolean>(false);
     const [isSorted, setIsSorted] = useState<boolean>(false);
-    const [speed, setSpeed] = useState<number>(500);
-    const speedRef = useRef<number>(500);
+    const [speed, setSpeed] = useState<number>(50);
+    const speedRef = useRef<number>(50);
     const [sequence, setSequence] = useState<SequenceType[]>([]);
     const [isPaused, setIsPaused] = useState<boolean>(false);
     const isPausedRef = useRef<boolean>(false);
     const [sequenceIndex, setSequenceIndex] = useState<number>(0);
-    const [sortType, setSortType] = useState<sortType>("merge");
-    const [amount, setAmount] = useState<number>(5);
-    const [width, setWidth] = useState<number>(116)
+    const [sortType, setSortType] = useState<sortType>("bubble");
+    const [amount, setAmount] = useState<number>(50);
+    const [width, setWidth] = useState<number>(12)
     const [state, dispatch] = useSortReducer()
     const sequenceTimerRef = useRef<ReturnType<typeof setTimeout>>(setTimeout(()=>{}));
     
@@ -154,8 +154,6 @@ export const SortDiv:React.FC = () => {
     }
 
     const onSortClick = () => {
-        console.log("clicked");
-        console.log(...state.blocks);
         setIsPaused(false);
         setIsSorted(false);
         setIsSorting(true);
@@ -184,6 +182,7 @@ export const SortDiv:React.FC = () => {
     return (
         <>
             <div style={{display:"flex", flexDirection:"column", width: 700, alignItems:"center"}}>
+                <h1>Sort Algorithm Visualizer</h1>
                 <div style={{display:"flex", flexDirection:"row", margin: "20px"}}>
                     {
                         isSorting

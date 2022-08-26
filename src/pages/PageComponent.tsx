@@ -41,8 +41,7 @@ export const Page: React.FC<Props> = ({ page, currentPage, refs }) => {
                     maxHeight: "100%",
                     height:"100%",
                     width: "100%",
-                    overflowY: "auto",
-                    overflowX: "hidden",
+                    overflow: "hidden",
                     transition: "max-width " + transitionDelay + " ease-in-out",
                     boxShadow: "10px 0 5px -2px #888",
                     position: "absolute",
@@ -81,13 +80,15 @@ export const Page: React.FC<Props> = ({ page, currentPage, refs }) => {
                     refs.current[page] = element
             }}
         >
-            {
+            <div style={{padding: "4vh 4vw 4vh min(8vw, 200px)", margin:0, overflow: "hidden"}}>
                 {
-                    "Portfolio": <Portfolio />,
-                    "About": <About />,
-                    "Contact": <Contact />
-                }[page]
-            }
+                    {
+                        "Portfolio": <Portfolio />,
+                        "About": <About />,
+                        "Contact": <Contact />
+                    }[page]
+                }
+            </div>
         </div>
     )
 }
