@@ -1,0 +1,30 @@
+.label{
+    width: 100px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    color: var(--text-secondary);
+}
+
+.active{
+    background-color: var(--hover);
+    box-shadow: inset 5px 0 5px -5px black, inset -5px 0 5px -5px black;
+}
+
+.inactive{
+    background-color: var(--button);
+}
+
+.startPiece{
+    background-color: var(--button);
+    width: 15px;
+    border-radius: 10px 0 0 10px;
+}
+
+.endPiece{
+    background-color: var(--button);
+    width: 15px;
+    border-radius: 0 10px 10px 0;
+}
