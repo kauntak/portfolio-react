@@ -12,7 +12,6 @@ type Props = {
     setTheme:Dispatch<SetStateAction<ThemeType>>
 }
 export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage, currentTheme, setTheme }) => {
-    const [logoStyle, setLogoStyle] = useState<CSSProperties>({});
     const [isMinified, setIsMinified] = useState<boolean>(true);
     const [showNavigation, setShowNavigation] = useState<boolean>(false);
     const screenSize = useContext(ScreenSizeContext);
@@ -39,16 +38,6 @@ export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage, curren
     useEffect(() => {
         if (isMinified) {
             setShowNavigation(false);
-            setLogoStyle({
-                display: "none",
-            })
-        } else {
-            setLogoStyle({
-                height: "100%",
-                overflowY: "auto",
-                transition: "max-width 0.5s ease-in-out",
-                boxShadow: "10px 0 5px -2px #888"
-            })
         }
     }, [isMinified])
 
@@ -56,7 +45,7 @@ export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage, curren
         setShowNavigation(oldState => !oldState);
     }
 
-    const toggleTheme = (e:React.MouseEvent<HTMLAnchorElement>) =>{
+    const toggleTheme = (e:React.MouseEvent<HTMLLIElement>) =>{
         e.preventDefault();
         setTheme(theme => {
             if(theme === "dark") return "light";
@@ -88,7 +77,7 @@ export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage, curren
                             className={styles["menuButton"]}
                             onClick={onMenuClick}
                         >
-                            <a href="#menu">{showNavigation?<FaTimes />:<FaBars />}</a>
+                            {showNavigation?<FaTimes />:<FaBars />}
                         </li>
                         :""
                 }
@@ -105,27 +94,16 @@ export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage, curren
                                         }
                                     :{}
                             }
+                            className={
+                                isMinified
+                                    ?styles["icon"]
+                                    :`${styles["navigationItem"]} ${currentPage===undefined
+                                        ?styles["selected"]
+                                        :""}`
+                            }
+                            onClick={(e)=>{e.preventDefault();onClick(undefined)}}
                         >
-                            <a
-                                href="#Home"
-                                title={
-                                    isMinified
-                                        ?"Home"
-                                        :currentPage===undefined
-                                            ?""
-                                            :"Close " + currentPage
-                                }
-                                onClick={(e)=>{e.preventDefault();onClick(undefined)}}
-                                className={
-                                    isMinified
-                                        ?styles["icon"]
-                                        :`${styles["navigationItem"]} ${currentPage===undefined
-                                            ?styles["selected"]
-                                            :""}`
-                                }
-                            >
-                                {isMinified?<FaAngleDoubleUp />:"Home"}
-                            </a>
+                            {isMinified?<FaAngleDoubleUp />:"Home"}
                         </li>
                         :""
                 }
@@ -142,29 +120,18 @@ export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage, curren
                                             opacity: 0
                                         }
                                 }
+                                onClick={(e)=>{e.preventDefault();onClick(page)}}
+                                className={
+                                    isMinified
+                                        ?styles["icon"]
+                                        :`${styles["navigationItem"]} ${
+                                            currentPage===page
+                                                ?styles["selected"]
+                                                :""
+                                            }`
+                                }
                             >
-                                <a
-                                    href={"#" + page}
-                                    title={
-                                        isMinified
-                                            ?page
-                                            :currentPage===page
-                                                ?"Close " + page
-                                                :"Show " + page
-                                    }
-                                    onClick={(e)=>{e.preventDefault();onClick(page)}}
-                                    className={
-                                        isMinified
-                                            ?styles["icon"]
-                                            :`${styles["navigationItem"]} ${
-                                                currentPage===page
-                                                    ?styles["selected"]
-                                                    :""
-                                                }`
-                                    }
-                                >
-                                    {isMinified?icons[page]:page}
-                                </a>
+                                {isMinified?icons[page]:page}
                             </li>
                         );
                     })
@@ -178,23 +145,18 @@ export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage, curren
                                 opacity: 0
                             }
                     }
+                    onClick={toggleTheme}
+                    className={
+                        isMinified
+                            ?styles["icon"]
+                            :styles["navigationItem"]
+                    }
                 >
-                    <a
-                        href="#theme"
-                        title={"Toggle Theme"}
-                        onClick={toggleTheme}
-                        className={
-                            isMinified
-                                ?styles["icon"]
-                                :styles["navigationItem"]
-                        }
-                    >
-                        {
-                            isMinified
-                                ?icons[currentTheme]
-                                :<>{icons["dark"]}<BsSlashLg />{icons["light"]}</>
-                        }
-                    </a>
+                    {
+                        isMinified
+                            ?icons[currentTheme]
+                            :<>{icons["dark"]}<BsSlashLg />{icons["light"]}</>
+                    }
                 </li>
             </ul>
         </div>
