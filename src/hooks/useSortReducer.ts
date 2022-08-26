@@ -13,7 +13,8 @@ export const SORT_ACTION = {
     COMPLETE:"complete",
     SWAP:"swap",
     INSERT:"insert",
-    COMPARE:"compare"
+    COMPARE:"compare",
+    SELECT:"select"
 } as const;
 
 type ResetAction = {
@@ -50,18 +51,26 @@ type CompleteAction = {
     payload: number
 }
 
-type Action = ResetAction | CompareAction | SwapAction | InsertAction | CompleteAction;
+type SelectAction = {
+    type: "select",
+    payload: {
+        index: number,
+        indexA:number,
+        indexB:number,
+    }
+}
+
+type Action = ResetAction | CompareAction | SwapAction | InsertAction | CompleteAction | SelectAction;
 
 type StateType = {
     blocks: Arr<number>,
     compare: [number, number]|[],
-    swap: [number, number|undefined]|[],
+    swap: [number, number|undefined]|[number]|[],
     complete: number[]
 }
 
-const MAX_HEIGHT = 200;
-const MIN_HEIGHT = 5
-const WIDTH = 40;
+const MAX_HEIGHT = 500;
+const MIN_HEIGHT = 5;
 
 const getRandomHeight = ():number =>{
     return Math.floor(Math.random() * MAX_HEIGHT) + MIN_HEIGHT;
@@ -107,6 +116,14 @@ function complete(state:StateType, index:number):StateType{
     };
 }
 
+function select(state:StateType, index:number, indexA:number, indexB:number):StateType{
+    return {
+        ...state,
+        compare: [indexA, indexB],
+        swap: [index]
+    };
+}
+
 
 function reducer(state:StateType, action:Action):StateType{
     switch(action.type){
@@ -118,6 +135,9 @@ function reducer(state:StateType, action:Action):StateType{
             return swap(state, action.payload.blocks ,action.payload.indexA, action.payload.indexB);
         case SORT_ACTION.INSERT:
             return swap(state, action.payload.blocks ,action.payload.indexFrom);
+        case SORT_ACTION.SELECT:
+            const {index, indexA, indexB} = action.payload;
+            return select(state, index, indexA, indexB);
         case SORT_ACTION.COMPLETE:
             return complete(state, action.payload);
     }

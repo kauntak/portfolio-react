@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer, useRef, useState } from "react";
+import { MdPause, MdPlayArrow, MdLoop } from "react-icons/md";
 import { Arr } from "..";
 import { bubble } from "../algorithms/bubbleSort";
 import { insertion } from "../algorithms/insertionSort";
@@ -7,14 +8,6 @@ import { quick } from "../algorithms/quickSort";
 import { selection } from "../algorithms/selectionSort";
 import { useSortReducer } from "../hooks/useSortReducer";
 import { BlockType } from "../types";
-
-const MAX_HEIGHT = 200;
-const MIN_HEIGHT = 5
-const WIDTH = 40;
-
-const getRandomHeight = ():number =>{
-    return Math.floor(Math.random() * MAX_HEIGHT) + MIN_HEIGHT;
-}
 
 const STATE_CLASS_NAME = ["unsorted", "comparing", "swapping","sorted"] as const;
 
@@ -49,8 +42,14 @@ type InsertSequenceType = {
     blocks: Arr<number>
 }
 
+type SelectSequenceType = {
+    type: "select",
+    index: number,
+    indexA:number,
+    indexB:number
+}
 
-export type SequenceType = CompletedSequenceType | CompareSequenceType | SwapSequenceType | InsertSequenceType;
+export type SequenceType = CompletedSequenceType | CompareSequenceType | SwapSequenceType | InsertSequenceType | SelectSequenceType;
 
 export const SortDiv:React.FC = () => {
     const [isSorting, setIsSorting] = useState<boolean>(false);
@@ -63,9 +62,13 @@ export const SortDiv:React.FC = () => {
     const [sequenceIndex, setSequenceIndex] = useState<number>(0);
     const [sortType, setSortType] = useState<sortType>("merge");
     const [amount, setAmount] = useState<number>(5);
+    const [width, setWidth] = useState<number>(116)
     const [state, dispatch] = useSortReducer()
+    const sequenceTimerRef = useRef<ReturnType<typeof setTimeout>>(setTimeout(()=>{}));
     
     const generateBlocks = () =>{
+        setIsPaused(true);
+        clearTimeout(sequenceTimerRef.current);
         setSequence([]);
         setSequenceIndex(0);
         setIsSorting(false);
@@ -74,8 +77,9 @@ export const SortDiv:React.FC = () => {
     }
 
     const playSequence = (index:number = 0) => { //return;
-        const sequenceTimer = setTimeout(()=> {
-            clearTimeout(sequenceTimer)
+        // setSequenceTimer((timer) => setTimeout(()=> {
+        sequenceTimerRef.current = setTimeout(()=> {
+            clearTimeout(sequenceTimerRef.current)
             if(isPausedRef.current) {
                 setSequenceIndex(index);
                 return;
@@ -107,11 +111,16 @@ export const SortDiv:React.FC = () => {
                 setIsSorting(false);
                 setSequence([]);
             }
-        }, speedRef.current);
+        }, speedRef.current)//);
     }
+
+    useEffect(()=> {
+        return () => clearTimeout(sequenceTimerRef.current)
+    }, [])
 
     useEffect(()=>{
         generateBlocks();
+        setWidth(Math.floor(3500/(6 * amount)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[amount]);
 
@@ -125,7 +134,14 @@ export const SortDiv:React.FC = () => {
         if(!isPaused && sequence.length > 0){
             playSequence(sequenceIndex);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isPaused]);
+
+    useEffect(()=>{
+        if(isSorted){
+            generateBlocks();
+        }
+    }, [sortType])
 
     const algorithms:{
         [key in sortType]: (blocks: Arr<number>) => SequenceType[];
@@ -140,12 +156,9 @@ export const SortDiv:React.FC = () => {
     const onSortClick = () => {
         console.log("clicked");
         console.log(...state.blocks);
-        if(isSorted) {
-            generateBlocks();
-        }
+        setIsPaused(false);
         setIsSorted(false);
         setIsSorting(true);
-        setIsPaused(false);
         setSequence(() => algorithms[sortType](state.blocks));
     }
 
@@ -163,42 +176,87 @@ export const SortDiv:React.FC = () => {
         speedRef.current = value;
         setSpeed(value);
     }
+
+    const onAmountChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        const value = parseInt(e.currentTarget.value);
+        setAmount(value);
+    }
     return (
         <>
-            <div style={{display:"flex", flexDirection:"column"}}>
-                <div style={{display:"flex", flexDirection:"column"}}>
-                    <button onClick={onSortClick}>Sort!</button>
+            <div style={{display:"flex", flexDirection:"column", width: 700, alignItems:"center"}}>
+                <div style={{display:"flex", flexDirection:"row", margin: "20px"}}>
                     {
                         isSorting
-                        ?<button onClick={onPausePlayClick}>Pause/Play</button>
-                        :""
+                        ?<button onClick={onPausePlayClick} style={{minWidth:100, margin: 5}}>
+                                {isPaused?<MdPlayArrow />:<MdPause />}
+                            </button>
+                        :<button onClick={onSortClick} style={{minWidth:100, margin: 5}} disabled={isSorted}>
+                            {isSorted?"Done!":"Sort!"}
+                        </button>
                     }
-                    <select value={sortType} onChange={onAlgorithmChange}>
-                        {
-                            SORT_ALGORITHMS.map((algorithm, index) => {
-                                return (
-                                    <option
-                                        key={index}
-                                        value={algorithm}
-                                    >
-                                        {`${algorithm.charAt(0).toUpperCase() + algorithm.slice(1)} Sort`}
-                                    </option>
-                                )
-                            })
-                        }
-                    </select>
-                    Slow
-                    <input 
-                        type="range"
-                        min="100"
-                        max="1000"
-                        value={speed} 
-                        step="100" 
-                        style={{direction:"rtl"}}
-                        onChange={onSpeedChange}
-                    />Fast
+                    <button onClick={generateBlocks} style={{maxWidth:50, margin: 5}}>
+                        <MdLoop />
+                    </button>
+                    <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
+                        Algorithm
+                        <select value={sortType} onChange={onAlgorithmChange} style={{margin:5}} disabled={isSorting}>
+                            {
+                                SORT_ALGORITHMS.map((algorithm, index) => {
+                                    return (
+                                        <option
+                                            key={index}
+                                            value={algorithm}
+                                        >
+                                            {`${algorithm.charAt(0).toUpperCase() + algorithm.slice(1)} Sort`}
+                                        </option>
+                                    )
+                                })
+                            }
+                        </select>
+                    </div>
+                    <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
+                        Speed
+                        <div style={{display:"flex", flexDirection:"row", alignContent:"middle", margin:5}}>
+                            Slow
+                            <input 
+                                type="range"
+                                min="5"
+                                max="800"
+                                value={speed} 
+                                step="5" 
+                                style={{direction:"rtl"}}
+                                onChange={onSpeedChange}
+                            />
+                            Fast
+                        </div>
+                    </div>
+                    <div style={{display:"flex", flexDirection:"column", alignItems:"center", margin: 5}}>
+                        # of rows
+                        <input
+                            type="number"
+                            name="amount" 
+                            value={amount} 
+                            onChange={onAmountChange} 
+                            readOnly={isSorting} 
+                            disabled={isSorting}
+                            min={5}
+                            max={100}
+                            step={5}
+                            style={{maxWidth:50}}
+                        />
+                    </div>
                 </div>
-                <div>
+                <div style={{display:"flex", flexDirection:"row", margin: "10px", alignItems:"center", justifyContent:"space-between"}}>
+                    {STATE_CLASS_NAME.map(stateName => {
+                        return (
+                            <div style={{display:"flex", flexDirection:"row", margin: 5, alignContent:"center"}}>
+                                <div className={stateName} style={{width: 15, height: 15, marginRight: 5}}/>
+                                {`${stateName.charAt(0).toUpperCase() + stateName.slice(1)}`}
+                            </div>
+                        )
+                    })}
+                </div>
+                <div style={{display:"flex", flexDirection:"row", margin: "10px", alignContent:"center", width: "100%", justifyContent:"space-between", alignItems:"flex-start"}}>
                     {
                         state.blocks.map((block, index) => {
                             let colorState:stateType = "unsorted";
@@ -214,13 +272,11 @@ export const SortDiv:React.FC = () => {
                                 <div
                                     key={`${index}-${block}`}
                                     style={{
-                                        height:`${block * 1.5}px`,
-                                        transform:`translateX(${index * (WIDTH + WIDTH/5)}px)`,
-                                        width: WIDTH,
-                                        color:"black"
+                                        height:`${block}px`,
+                                        width: width
                                     }}
                                     className={`block ${colorState}`}
-                                >{block}</div>
+                                ></div>
                             )
                         })
                     }
