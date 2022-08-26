@@ -43,7 +43,6 @@ function App() {
   const handleResize = () => {
     const { width, height } = getCurrentWindowDimensions();
     heightRef.current = height;
-    console.log(width, height);
     if (width <= 600) { setScreenSize("small"); }
     else if (width <= 1024) { setScreenSize("medium"); }
     else if (width <= 1920) { setScreenSize("large"); }
@@ -76,13 +75,11 @@ function App() {
     } else {
       setTheme((localTheme as ThemeType));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    handleResize();
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      setCurrentPage({page:undefined})
+    }
   }, []);
 
   useEffect(() => {
@@ -130,7 +127,7 @@ function App() {
             overflowY: "auto"
           }
           :{
-            overflowY:"hidden"
+            overflow:"hidden"
           }
       }
     >
