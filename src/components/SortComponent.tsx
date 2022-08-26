@@ -1,13 +1,12 @@
-import React, { useEffect, useReducer, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MdPause, MdPlayArrow, MdLoop } from "react-icons/md";
-import { Arr } from "..";
-import { bubble } from "../algorithms/bubbleSort";
-import { insertion } from "../algorithms/insertionSort";
-import { merge } from "../algorithms/mergeSort";
-import { quick } from "../algorithms/quickSort";
-import { selection } from "../algorithms/selectionSort";
+import { Arr } from "../utils/classes/Arr";
+import { bubble } from "../utils/algorithms/bubbleSort";
+import { insertion } from "../utils/algorithms/insertionSort";
+import { merge } from "../utils/algorithms/mergeSort";
+import { quick } from "../utils/algorithms/quickSort";
+import { selection } from "../utils/algorithms/selectionSort";
 import { useSortReducer } from "../hooks/useSortReducer";
-import { BlockType } from "../types";
 
 const STATE_CLASS_NAME = ["unsorted", "comparing", "swapping","sorted"] as const;
 

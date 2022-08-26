@@ -1,6 +1,7 @@
 import React, { CSSProperties, RefObject, useContext, useEffect, useLayoutEffect, useState } from "react";
 import styles from "./../css/pages.module.css";
-import { PageType, ScreenSizeContext } from "../App";
+import { ScreenSizeContext } from "../context/ScreenSize";
+import { PageType } from "../types";
 import { usePrevious } from "../hooks/usePrevious";
 import { About } from "./About";
 import { Contact } from "./Contact";

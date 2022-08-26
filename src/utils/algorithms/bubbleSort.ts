@@ -1,5 +1,5 @@
-import { Arr } from "..";
-import { SequenceType } from "../components/SortComponent";
+import { Arr } from "../classes/Arr";
+import { SequenceType } from "../../components/SortComponent";
 
 export const bubble = (oldBlocks:Arr<number>):SequenceType[] => {
     const sequence: SequenceType[] = [];

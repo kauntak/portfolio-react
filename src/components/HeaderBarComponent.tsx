@@ -1,8 +1,10 @@
-import React, { CSSProperties, Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
 import styles from "./../css/headerBar.module.css";
 import { FaAt, FaBars, FaCode, FaAngleDoubleUp, FaTimes, FaUser, FaCertificate, FaMoon } from "react-icons/fa"
 import { BsSlashLg } from "react-icons/bs"
-import { PageType, ScreenSizeContext, ScrollContext, ThemeType } from "../App";
+import { PageType, ThemeType } from "../types";
+import { ScreenSizeContext } from "../context/ScreenSize";
+import { ScrollContext } from "../context/Scroll";
 
 type Props = {
     onClick: (page:PageType|undefined) => void,
@@ -47,7 +49,7 @@ export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage, curren
 
     const toggleTheme = (e:React.MouseEvent<HTMLLIElement>) =>{
         e.preventDefault();
-        setTheme(theme => {
+        setTheme((theme:ThemeType) => {
             if(theme === "dark") return "light";
             else return "dark";
         })

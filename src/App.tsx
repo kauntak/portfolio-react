@@ -1,14 +1,16 @@
-import { createContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import './App.css';
 import { HomeScreen } from './pages/HomeScreen';
 import { Page } from './pages/PageComponent';
 import { HeaderBar } from './components/HeaderBarComponent';
+import { PageType, ScreenSizeType, ThemeType } from './types';
+import { ScreenSizeContext } from './context/ScreenSize';
+import { ScrollContext } from './context/Scroll';
 
 
-type ScreenSizeType = "small" | "medium" | "large" | "x-large" | "xx-large";
+export const themeList = ["light", "dark"] as const;
+export const pageList = ["Portfolio", "About", "Contact"] as const;
 
-export const ScreenSizeContext = createContext<ScreenSizeType>("small");
-export const ScrollContext = createContext<number>(0);
 
 const getCurrentWindowDimensions = () => {
   const { innerWidth, innerHeight } = window;
@@ -17,11 +19,6 @@ const getCurrentWindowDimensions = () => {
     height: innerHeight
   }
 }
-
-const themeList = ["light", "dark"] as const;
-export type ThemeType = typeof themeList[number];
-const pageList = ["Portfolio", "About", "Contact"] as const;
-export type PageType = typeof pageList[number];
 
 const defaultPageRef = {
   Portfolio: (<div></div>) as unknown as HTMLDivElement,

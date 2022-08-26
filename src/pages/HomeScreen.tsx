@@ -1,5 +1,5 @@
 import React, { CSSProperties, Dispatch, SetStateAction, useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { ScreenSizeContext } from "../App";
+import { ScreenSizeContext } from "../context/ScreenSize";
 import { SkillsGlobe } from "../components/SkillsComponent";
 import { SortDiv } from "../components/SortComponent";
 

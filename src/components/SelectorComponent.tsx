@@ -1,5 +1,5 @@
 import { CSSProperties, Dispatch, SetStateAction } from "react"
-import { SelectorType } from "../pages/Portfolio";
+import { SelectorType } from "../types";
 import styles from "./../css/selector.module.css";
 
 type Props = {

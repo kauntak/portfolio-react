@@ -1,33 +1,48 @@
-declare global {
-    interface Arr extends Array<BlockType> {
-        /**
-         * Swap elements of index at indexA and indexB;
-         * MODIFIES array, and returns a SHALLOW COPY.
-         * @param indexA first element to swap with
-         * @param indexB second element to swap with
-         */
-        swap(indexA: number, indexB:number): T[];
-        /**
-         * remove an element from index of indexFrom, and place element into indexTo
-         * MODIFIES array, and returns a SHALLOW COPY.
-         * @param indexFrom the index to switch the element from
-         * @param indexTo the index to swith the element to
-         */
-        insert(indexFrom:number, indexTo:number): T[];
+import { themeList, pageList } from "./App";
+import { projectTypeList } from "./pages/Portfolio";
 
-        /**
-         * compares the height of element at indexA to height of element at indexB
-         * returns true if element at indexA is taller
-         * @param indexA index of first element for comparison 
-         * @param indexB index of second element for comparison
-         */
-        isFirstLarger(indexA:number, indexB:number): boolean;
-    }
+export type ScreenSizeType = "small" | "medium" | "large" | "x-large" | "xx-large";
+
+export type ThemeType = typeof themeList[number];
+export type PageType = typeof pageList[number];
+
+export type SelectorType = typeof projectTypeList[number];
+
+
+type ProgramingProjectType = {
+    type: "Programs",
+    imagePath:string,
+    projectName:string,
+    description:string,
+    usage:string[],
+    screenShots?:string[],
+    backend?:string[],
+    frontend?:string[],
+    tools?:string[],
+    githubLink?:string,
+    liveLink?: string | {link:string, isSlow:boolean}
 }
 
-
-export type BlockType = {
-    height: number
+type WebsiteProjectType = {
+    type: "Websites",
+    imagePath: string,
+    sitePath: string,
+    projectName: string,
+    note?:string
 }
+
+type DesignProjectType = {
+    type: "Designs",
+    imagePath: string,
+    projectName: string,
+    designs: DesignType[]
+}
+
+type DesignType = {
+    imagePath: string,
+    projectName: string
+}
+
+export type ProjectType = ProgramingProjectType | WebsiteProjectType | DesignProjectType;
 
 export {};

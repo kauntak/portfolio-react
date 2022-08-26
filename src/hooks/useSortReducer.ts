@@ -1,5 +1,5 @@
 import { Dispatch, Reducer, ReducerState, useReducer, } from "react";
-import { Arr } from "..";
+import { Arr } from "../utils/classes/Arr";
 
 export const SORT_STATE = {
     SORTED:"sorted",

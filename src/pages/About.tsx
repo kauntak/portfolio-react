@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { ScreenSizeContext } from "../App";
+import { ScreenSizeContext } from "../context/ScreenSize";
 
 
 export const About:React.FC = ()=>{
