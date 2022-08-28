@@ -40,10 +40,10 @@ export const Modal:React.FC<Props> = ({setIsShown, modal}) => {
                     borderRadius: "10px",
                     display: "flex",
                     flexDirection: "column",
-                    position: "absolute",
-                    top: "40%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
+                    position: "relative",
+                    top: "15%",
+                    marginLeft: "auto",
+                    marginRight: "auto",
                     overflow: "hidden"
                 }}
                 onClick={e => e.stopPropagation()}
