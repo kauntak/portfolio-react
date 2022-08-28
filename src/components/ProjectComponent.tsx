@@ -1,5 +1,7 @@
-import React, { Dispatch, SetStateAction, useState } from "react"
+import React, { Dispatch, ReactElement, SetStateAction, useState } from "react"
 import { ProjectType, SelectorType } from "../types"
+import { DesignModal } from "./DesignComponent"
+import { Modal } from "./ModalComponent"
 import { Popup } from "./PopupComponent"
 
 
@@ -12,8 +14,11 @@ type Props = {
 
 export const ProjectIcon:React.FC<Props> = ({project, current}) => {
     const [isHovering, setIsHovering] = useState<boolean>(false);
-    const [isPopupShown, setIsPopupShown] = useState<boolean>(false);
+    const [popupMessage, setPopupMessage] = useState<string>("");
+    const [popupButtonText, setPopupButtonText] = useState<string>();
     const [onPopupButtonClick, setOnPopupButtonClick] = useState<(e:React.MouseEvent<HTMLButtonElement>) => void>()
+    const [isModalShown, setIsModalShown] = useState<boolean>(false);
+    const [modal, setModal] = useState<ReactElement>(<></>);
 
     const onClick = (e:React.MouseEvent<HTMLDivElement>) => {
         if(!(current === "All" || current === project.type)) return;
@@ -22,22 +27,29 @@ export const ProjectIcon:React.FC<Props> = ({project, current}) => {
             case "Websites":
                 if(project.note === undefined || project.note === "") {
                     if(project.sitePath === undefined || project.sitePath === "") {
-                        setOnPopupButtonClick(undefined);
                         return;
                     }
                     window.open(project.sitePath, "_blank");
                 } else {
                     if(project.sitePath === undefined || project.sitePath === "") return;
+                    setPopupMessage(project.note);
                     setOnPopupButtonClick(() => {
                         const onButtonClick = (e:React.MouseEvent<HTMLButtonElement>) => {
                             window.open(project.sitePath, "_blank");
                         }
                         return onButtonClick;
                     })
-                    setIsPopupShown(true);
+                    setPopupButtonText("Let's go!");
+                    setModal(<Popup message={popupMessage} setIsShown={setIsModalShown} onClick={onPopupButtonClick} buttonText={popupButtonText}/>);
+                    setIsModalShown(true);
                 }
                 break;
             case "Designs":
+                setModal(
+                    <DesignModal list={project.designs}/>
+                )
+                setIsModalShown(true);
+                break;
             case "Programs":
         }
     }
@@ -52,8 +64,8 @@ export const ProjectIcon:React.FC<Props> = ({project, current}) => {
     return (
         <>
             {
-                ((project.type==="Websites" && project.note) && isPopupShown)
-                ?<Popup message={project.note} setIsShown={setIsPopupShown} onClick={onPopupButtonClick}/>
+                modal && isModalShown
+                ?<Modal modal={modal} setIsShown={setIsModalShown} />
                 :""
             }
             <div 

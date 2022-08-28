@@ -112,7 +112,7 @@ export const projects:ProjectType[] = [
         type: "Websites",
         imagePath: "/assets/images/big-catch-web-preview.jpg",
         projectName: "Big Catch Sushi Bar",
-        sitePath: "www.bigcatchcalgary.ca"
+        sitePath: "https://www.bigcatchcalgary.ca"
     }, {
         type: "Designs",
         imagePath: "/assets/images/Cards/BC-sqaure-2-1.jpg",
@@ -141,53 +141,53 @@ export const projects:ProjectType[] = [
     }, {
         type: "Websites",
         projectName: "Old Website",
-        imagePath: "public/assets/images/old-website-preview.jpg",
+        imagePath: "/assets/images/old-website-preview.jpg",
         sitePath: "https://github.com/kauntak/Portfolio-webpage",
-        note: "This site is my old portfolio site creating using pure Javascript/HTML/CSS. The new site was updated/refactored using React! (Link is a github link)"
+        note: "This site is my old portfolio site creating using pure Javascript/HTML/CSS. The new site was updated/refactored using React! \nLink is a github link"
     }, {
         type: "Designs",
         projectName: "Menu Designs",
-        imagePath: "public/assets/images/Menus/200222-dessert_menu_BigCatch.jpg",
+        imagePath: "/assets/images/Menus/200222-dessert_menu_BigCatch.jpg",
         designs:[
             {
-                projectName: "Desset menu",
-                imagePath: "public/assets/images/Menus/200222-dessert_menu_BigCatch.jpg",
+                projectName: "Dessert menu",
+                imagePath: "/assets/images/Menus/200222-dessert_menu_BigCatch.jpg",
             }, {
                 projectName: "Drink Menu - Front",
-                imagePath: "public/assets/images/Menus/191204_drinkmenu6.jpg"
+                imagePath: "/assets/images/Menus/191204_drinkmenu6.jpg"
             }, {
                 projectName: "Drink Menu - Back",
-                imagePath: "public/assets/images/Menus/191204_drinkmenu62.jpg"
+                imagePath: "/assets/images/Menus/191204_drinkmenu62.jpg"
             }, {
                 projectName: "Lunch Menu - Front",
-                imagePath: "public/assets/images/Menus/191212-lunch_menu_BigCatch2.jpg"
+                imagePath: "/assets/images/Menus/191212-lunch_menu_BigCatch2.jpg"
             }, {
                 projectName: "Lunch Menu - Back",
-                imagePath: "public/assets/images/Menus/191212-lunch_menu_BigCatch22.jpg"
+                imagePath: "/assets/images/Menus/191212-lunch_menu_BigCatch22.jpg"
             }, {
                 projectName: "Takeout Menu - Double Gate Fold - Inside",
-                imagePath: "public/assets/images/Menus/210513 -takeout_menu_BigCatch2.jpg"
+                imagePath: "/assets/images/Menus/210513 -takeout_menu_BigCatch2.jpg"
             }, {
                 projectName: "Takeout Menu - Double Gate Fold - Outside",
-                imagePath: "public/assets/images/Menus/210513 -takeout_menu_BigCatch.jpg"
+                imagePath: "/assets/images/Menus/210513 -takeout_menu_BigCatch.jpg"
             }, {
                 projectName: "Newspaper theme menu",
-                imagePath: "public/assets/images/Menus/Coast Newspaper 1-0-pg1.jpg"
+                imagePath: "/assets/images/Menus/Coast Newspaper 1-0-pg1.jpg"
             }, {
                 projectName: "Map theme menu",
-                imagePath: "public/assets/images/Menus/Map Horizontal Coast.jpg"
+                imagePath: "/assets/images/Menus/Map Horizontal Coast.jpg"
             }, {
                 projectName: "Takeout Menu - Double Gate Fold - Inside",
-                imagePath: "public/assets/images/Menus/Takeout v6-3 (2)-in.jpg"
+                imagePath: "/assets/images/Menus/Takeout v6-3 (2)-in.jpg"
             }, {
                 projectName: "Takeout Menu - Double Gate Fold  - Outside",
-                imagePath: "public/assets/images/Menus/Takeout v6-3 (2)-out.jpg"
+                imagePath: "/assets/images/Menus/Takeout v6-3 (2)-out.jpg"
             }, {
                 projectName: "Takeout Menu - Bi-Fold - Inside",
-                imagePath: "public/assets/images/Menus/Takeout v3-2-in.jpg"
+                imagePath: "/assets/images/Menus/Takeout v3-2-in.jpg"
             }, {
                 projectName: "Takeout Menu - Bi-Fold - Outside",
-                imagePath: "public/assets/images/Menus/Takeout v3-2-out.jpg"
+                imagePath: "/assets/images/Menus/Takeout v3-2-out.jpg"
             }
         ]
     }
