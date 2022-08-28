@@ -197,6 +197,9 @@ export const projects:ProjectType[] = [
             }, {
                 projectName: "Takeout Menu - Bi-Fold - Outside",
                 imagePath: "/assets/images/Menus/Takeout v3-2-out.jpg"
+            }, {
+                projectName: "Billboard menu",
+                imagePath: "/assets/images/Menus/Front menu.jpg"
             }
         ]
     }
