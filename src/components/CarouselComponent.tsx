@@ -1,23 +1,18 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
 import { BiRightArrow, BiLeftArrow } from "react-icons/bi"
-import { ScreenSizeContext } from "../context/ScreenSize"
+import { MinifiedContext } from "../context/MinifiedContext"
+import { DesignType } from "../types"
 
-
-type listType = {
-    imagePath: string,
-    projectName: string
-}
 
 type Props = {
-    list: listType[]
+    list: DesignType[]
 }
 const dragPrecision = 150;
 
-export const DesignModal: React.FC<Props> = ({ list }) => {
+export const Carousel: React.FC<Props> = ({ list }) => {
     const [currentItemIndex, setCurrentItemIndex] = useState<number>(0);
     const moveToIndexRef = useRef<number>(0);
-    const [isMinified, setIsMinified] = useState<boolean>(true);
-    const screenSize = useContext(ScreenSizeContext);
+    const isMinified = useContext(MinifiedContext);
     const [dragPosition, setDragPosition] = useState<number>(0);
     const [isDragging, setIsDragging] = useState<boolean>(false);
     const wasDraggingRef = useRef<boolean>(false);
@@ -43,17 +38,6 @@ export const DesignModal: React.FC<Props> = ({ list }) => {
             });
         }
     }, [dragPosition])
-
-    useEffect(() => {
-        switch (screenSize) {
-            case "small":
-            case "medium":
-                setIsMinified(true);
-                break;
-            default:
-                setIsMinified(false);
-        }
-    }, [screenSize]);
 
 
     const onRightClick = (e: React.MouseEvent<SVGElement>) => {
@@ -131,10 +115,10 @@ export const DesignModal: React.FC<Props> = ({ list }) => {
                     flexDirection: "row",
                     alignContent: "center",
                     alignItems: "center",
-                    height: 550,
-                    maxHeight: "100%",
+                    height: "50vh",
                     width: 900,
-                    maxWidth: "100%",
+                    maxWidth: "80vw",
+                    position: "relative",
                     justifyContent: isMinified?"space-evenly":undefined
                 }}
                 onPointerUp={onPointerUp}
@@ -203,7 +187,19 @@ export const DesignModal: React.FC<Props> = ({ list }) => {
                     </>
                 }
             </div>
-            <h5 style={{margin:0, position:"relative", alignSelf:"center"}}>{list[currentItemIndex]?list[currentItemIndex].projectName:""}</h5>
+            <h5 
+                style={{
+                    margin:5, 
+                    position:"relative", 
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems:"center",
+                    alignContent:"center",
+                    justifyContent: "center"
+                }}
+            >
+                {list[currentItemIndex]?list[currentItemIndex].projectName:""}
+            </h5>
             <div
                 style={{
                     display: "flex",
