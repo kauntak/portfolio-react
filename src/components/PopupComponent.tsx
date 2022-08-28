@@ -19,8 +19,9 @@ export const Popup:React.FC<Props> = ({message, buttonText, setIsShown, onClick}
 
     return (
         <>
-            <h5 style={{whiteSpace: "pre-line"}}>{message}</h5>
+            <h5 style={{whiteSpace: "pre-line", margin: 15}}>{message}</h5>
             <button
+                style={{margin:15}}
                 onClick={onButtonClick}
             >
                 {buttonText?buttonText:"OK"}
