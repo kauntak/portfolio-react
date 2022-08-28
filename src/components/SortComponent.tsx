@@ -7,48 +7,13 @@ import { merge } from "../utils/algorithms/mergeSort";
 import { quick } from "../utils/algorithms/quickSort";
 import { selection } from "../utils/algorithms/selectionSort";
 import { useSortReducer } from "../hooks/useSortReducer";
+import { SequenceType, sortType, stateType } from "../types";
 
-const STATE_CLASS_NAME = ["unsorted", "comparing", "swapping","sorted"] as const;
+export const STATE_CLASS_NAME = ["unsorted", "comparing", "swapping","sorted"] as const;
 
-type stateType = typeof STATE_CLASS_NAME[number]
 
-const SORT_ALGORITHMS = ["bubble", "insertion", "selection", "quick", "merge"] as const;
+export const SORT_ALGORITHMS = ["bubble", "insertion", "selection", "quick", "merge"] as const;
 
-type sortType = typeof SORT_ALGORITHMS[number];
-
-type CompletedSequenceType = {
-    type:"complete"
-    index:number
-}
-
-type CompareSequenceType = {
-    type: "compare"
-    indexA:number,
-    indexB:number
-}
-
-type SwapSequenceType = {
-    type:"swap",
-    indexA:number,
-    indexB:number,
-    blocks: Arr<number>
-}
-
-type InsertSequenceType = {
-    type:"insert"
-    indexFrom: number,
-    indexTo:number,
-    blocks: Arr<number>
-}
-
-type SelectSequenceType = {
-    type: "select",
-    index: number,
-    indexA:number,
-    indexB:number
-}
-
-export type SequenceType = CompletedSequenceType | CompareSequenceType | SwapSequenceType | InsertSequenceType | SelectSequenceType;
 
 export const SortDiv:React.FC = () => {
     const [isSorting, setIsSorting] = useState<boolean>(false);

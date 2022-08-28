@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { ScreenSizeContext } from "../context/ScreenSize";
+import { MinifiedContext } from "../context/MinifiedContext";
 
 
 export const Contact:React.FC = ()=>{
-    const screenSize = useContext(ScreenSizeContext);
+    const isMinified = useContext(MinifiedContext);
     
     return (
         <>

@@ -6,6 +6,7 @@ import { HeaderBar } from './components/HeaderBarComponent';
 import { PageType, ScreenSizeType, ThemeType } from './types';
 import { ScreenSizeContext } from './context/ScreenSize';
 import { ScrollContext } from './context/Scroll';
+import { MinifiedContext } from './context/MinifiedContext';
 
 
 export const themeList = ["light", "dark"] as const;
@@ -77,6 +78,7 @@ function App() {
       window.removeEventListener("resize", handleResize);
       setCurrentPage({page:undefined})
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -128,25 +130,27 @@ function App() {
           }
       }
     >
-      <ScreenSizeContext.Provider value={screenSize}>
-        <ScrollContext.Provider value={scrollPosition}>
-          <HeaderBar
-            pages={[...pageList]}
-            currentPage={currentPage.page}
-            onClick={onHeaderClick}
-            currentTheme={theme}
-            setTheme={setTheme}
-          />
-          <HomeScreen scrollPosition={scrollPosition}/>
-          {
-            pageList.map((page, index) => {
-              return (
-                <Page key={index} page={page} currentPage={currentPage.page} refs={pageRef}/>
-              );
-            })
-          }
-        </ScrollContext.Provider>
-      </ScreenSizeContext.Provider>
+      <MinifiedContext.Provider value={isMinified}>
+        <ScreenSizeContext.Provider value={screenSize}>
+          <ScrollContext.Provider value={scrollPosition}>
+            <HeaderBar
+              pages={[...pageList]}
+              currentPage={currentPage.page}
+              onClick={onHeaderClick}
+              currentTheme={theme}
+              setTheme={setTheme}
+            />
+            <HomeScreen scrollPosition={scrollPosition}/>
+            {
+              pageList.map((page, index) => {
+                return (
+                  <Page key={index} page={page} currentPage={currentPage.page} refs={pageRef}/>
+                );
+              })
+            }
+          </ScrollContext.Provider>
+        </ScreenSizeContext.Provider>
+      </MinifiedContext.Provider>
     </div>
   );
 }

@@ -1,5 +1,7 @@
 import { themeList, pageList } from "./App";
 import { projectTypeList } from "./pages/Portfolio";
+import { STATE_CLASS_NAME, SORT_ALGORITHMS } from "./components/SortComponent";
+
 
 export type ScreenSizeType = "small" | "medium" | "large" | "x-large" | "xx-large";
 
@@ -8,14 +10,13 @@ export type PageType = typeof pageList[number];
 
 export type SelectorType = typeof projectTypeList[number];
 
-
-type ProgramingProjectType = {
+export type ProgramingProjectType = {
     type: "Programs",
     imagePath:string,
     projectName:string,
     description:string,
     usage:string[],
-    screenShots?:string[],
+    screenShots?:DesignType[],
     backend?:string[],
     frontend?:string[],
     tools?:string[],
@@ -38,11 +39,52 @@ type DesignProjectType = {
     designs: DesignType[]
 }
 
-type DesignType = {
+export type DesignType = {
     imagePath: string,
     projectName: string
 }
 
 export type ProjectType = ProgramingProjectType | WebsiteProjectType | DesignProjectType;
 
-export {};
+
+
+export type AboutOptionTypes = "About" | "Resume"
+
+
+
+export type stateType = typeof STATE_CLASS_NAME[number]
+export type sortType = typeof SORT_ALGORITHMS[number];
+
+type CompletedSequenceType = {
+    type:"complete"
+    index:number
+}
+
+type CompareSequenceType = {
+    type: "compare"
+    indexA:number,
+    indexB:number
+}
+
+type SwapSequenceType = {
+    type:"swap",
+    indexA:number,
+    indexB:number,
+    blocks: Arr<number>
+}
+
+type InsertSequenceType = {
+    type:"insert"
+    indexFrom: number,
+    indexTo:number,
+    blocks: Arr<number>
+}
+
+type SelectSequenceType = {
+    type: "select",
+    index: number,
+    indexA:number,
+    indexB:number
+}
+
+export type SequenceType = CompletedSequenceType | CompareSequenceType | SwapSequenceType | InsertSequenceType | SelectSequenceType;

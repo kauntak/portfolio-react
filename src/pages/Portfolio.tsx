@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ScreenSizeContext } from "../context/ScreenSize";
+import React, { useContext, useState } from "react";
 import { ProjectIcon } from "../components/ProjectComponent";
 import { Selector } from "../components/SelectorComponent";
 import { projects } from "../utils/projects";
 import { SelectorType } from "../types";
+import { MinifiedContext } from "../context/MinifiedContext";
 
 export const projectTypeList = [
     "All",
@@ -14,25 +14,11 @@ export const projectTypeList = [
 
 
 export const Portfolio:React.FC = ()=>{
-    const [isMinified, setIsMinified] = useState<boolean>(true);
     const [current, setCurrent] = useState<SelectorType>("All");
-    const screenSize = useContext(ScreenSizeContext);
+    const isMinified = useContext(MinifiedContext);
     
-    useEffect(()=> {
-        switch(screenSize){
-            case "small":
-            case "medium":
-                setIsMinified(true);
-                break;
-            case "large":
-            case "x-large":
-            case "xx-large":
-                setIsMinified(false);
-        }
-    }, [screenSize]);
 
     const onGridClick = (e:React.MouseEvent<HTMLDivElement>) => {
-        console.log("Grid Clicked!")
         setCurrent("All");
     }
 

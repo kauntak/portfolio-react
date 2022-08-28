@@ -1,5 +1,5 @@
+import { SequenceType } from "../../types";
 import { Arr } from "../classes/Arr";
-import { SequenceType } from "../../components/SortComponent";
 
 export const selection = (oldBlocks:Arr<number>):SequenceType[] => {
     const sequence:SequenceType[] = [];

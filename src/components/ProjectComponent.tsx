@@ -1,8 +1,9 @@
-import React, { Dispatch, ReactElement, SetStateAction, useState } from "react"
+import React, { ReactElement, useState } from "react"
 import { ProjectType, SelectorType } from "../types"
-import { DesignModal } from "./DesignComponent"
+import { Carousel } from "./CarouselComponent"
 import { Modal } from "./ModalComponent"
 import { Popup } from "./PopupComponent"
+import { ProgramModal } from "./ProgramComponent"
 
 
 type Props = {
@@ -46,11 +47,17 @@ export const ProjectIcon:React.FC<Props> = ({project, current}) => {
                 break;
             case "Designs":
                 setModal(
-                    <DesignModal list={project.designs}/>
+                    <Carousel list={project.designs}/>
                 )
                 setIsModalShown(true);
                 break;
             case "Programs":
+                setModal(
+                    <ProgramModal
+                        project={project}
+                    />
+                );
+                setIsModalShown(true);
         }
     }
 

@@ -1,5 +1,6 @@
 .label{
-    width: 100px;
+    min-width: 100px;
+    padding: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
     cursor: pointer;

@@ -3,8 +3,8 @@ import styles from "./../css/headerBar.module.css";
 import { FaAt, FaBars, FaCode, FaAngleDoubleUp, FaTimes, FaUser, FaCertificate, FaMoon } from "react-icons/fa"
 import { BsSlashLg } from "react-icons/bs"
 import { PageType, ThemeType } from "../types";
-import { ScreenSizeContext } from "../context/ScreenSize";
 import { ScrollContext } from "../context/Scroll";
+import { MinifiedContext } from "../context/MinifiedContext";
 
 type Props = {
     onClick: (page:PageType|undefined) => void,
@@ -14,9 +14,8 @@ type Props = {
     setTheme:Dispatch<SetStateAction<ThemeType>>
 }
 export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage, currentTheme, setTheme }) => {
-    const [isMinified, setIsMinified] = useState<boolean>(true);
+    const isMinified = useContext(MinifiedContext);
     const [showNavigation, setShowNavigation] = useState<boolean>(false);
-    const screenSize = useContext(ScreenSizeContext);
     const scrollPosition = useContext(ScrollContext);
     const icons:{[keys in PageType|ThemeType]:JSX.Element} = {
         Portfolio:<FaCode />,
@@ -25,17 +24,6 @@ export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage, curren
         light:<FaMoon />,
         dark:<FaCertificate />
     }
-    useEffect(() => {
-        switch (screenSize) {
-            case "small":
-            case "medium":
-                setIsMinified(true);
-                break;
-            default:
-                setIsMinified(false);
-                break;
-        }
-    }, [screenSize]);
 
     useEffect(() => {
         if (isMinified) {

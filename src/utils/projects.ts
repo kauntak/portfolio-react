@@ -29,7 +29,7 @@ export const projects:ProjectType[] = [
             "mongoDB",
             "heroku"
         ],
-        githubLink: "",
+        githubLink: "https://github.com/kauntak/Sabores",
         liveLink: {
             link:"https://github.com/kauntak/Sabores",
             isSlow:true
@@ -66,10 +66,19 @@ export const projects:ProjectType[] = [
         tools:["ngrok"],
         githubLink: "http://github.com/kauntak/SambaPOS-integration",
         screenShots:[
-            "/assets/images/SambaPOS/Create-order.gif",
-            "/assets/images/SambaPOS/Integration-window.gif",
-            "/assets/images/SambaPOS/Report-viewer.gif",
-            "/assets/images/SambaPOS/SDS-order-received.gif"
+            {
+                projectName: "Creating Order",
+                imagePath: "/assets/images/SambaPOS/Create-order.gif"
+            }, {
+                imagePath: "/assets/images/SambaPOS/SDS-order-received.gif",
+                projectName: "Order being displayed"
+            }, {
+                imagePath: "/assets/images/SambaPOS/Integration-window.gif",
+                projectName: "App window to start integration server and to edit settings"
+            }, {
+                imagePath: "/assets/images/SambaPOS/Report-viewer.gif",
+                projectName: "Online report viewer"
+            }
         ]
     }, {
         type: "Programs",

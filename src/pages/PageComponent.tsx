@@ -3,7 +3,7 @@ import styles from "./../css/pages.module.css";
 import { ScreenSizeContext } from "../context/ScreenSize";
 import { PageType } from "../types";
 import { usePrevious } from "../hooks/usePrevious";
-import { About } from "./About";
+import { AboutMain } from "./AboutMain";
 import { Contact } from "./Contact";
 import { Portfolio } from "./Portfolio";
 
@@ -85,7 +85,7 @@ export const Page: React.FC<Props> = ({ page, currentPage, refs }) => {
                 {
                     {
                         "Portfolio": <Portfolio />,
-                        "About": <About />,
+                        "About": <AboutMain />,
                         "Contact": <Contact />
                     }[page]
                 }

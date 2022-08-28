@@ -1,11 +1,11 @@
 import { CSSProperties, Dispatch, SetStateAction } from "react"
-import { SelectorType } from "../types";
+import { AboutOptionTypes, SelectorType } from "../types";
 import styles from "./../css/selector.module.css";
 
 type Props = {
-    list: SelectorType[],
-    current: SelectorType,
-    setCurrent: Dispatch<SetStateAction<SelectorType>>,
+    list: SelectorType[]|AboutOptionTypes[],
+    current: SelectorType|AboutOptionTypes,
+    setCurrent: Dispatch<SetStateAction<SelectorType>>|Dispatch<SetStateAction<AboutOptionTypes>>|Dispatch<SetStateAction<any>>,
     style:CSSProperties
 }
 
