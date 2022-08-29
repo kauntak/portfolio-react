@@ -3,6 +3,7 @@ import { Selector } from "../components/SelectorComponent";
 import { MinifiedContext } from "../context/MinifiedContext";
 import { AboutOptionTypes } from "../types";
 import { About } from "./About";
+import { Resume } from "./Resume";
 
 
 export const AboutMain:React.FC = ()=>{
@@ -18,26 +19,32 @@ export const AboutMain:React.FC = ()=>{
                 style={{
                     fontSize:isMinified?35:50,
                     position: "relative",
-                    marginTop: isMinified?20:"12vh",
-                    marginLeft: isMinified?"3vw":"3vw"
+                    marginTop: isMinified?100:"12vh",
+                    marginLeft: isMinified?undefined:"13vw",
+                    alignSelf:"center"
                 }}
             />
             <div
                 style={{
                     display:"flex",
-                    flexDirection:"row"
+                    flexDirection:"row",
+                    overflowX:"hidden",
+                    overflowY:"auto",
+                    maxWidth: "85vw",
+                    marginLeft:isMinified?"3vw":"10vw"
                 }}
             >
                 <div
                     style={{
                         transform: current==="About"?"translateX(0px)":"translateX(-95vw)",
-                        minWidth: "90vw",
+                        minWidth: "80vw",
                         paddingLeft: 20,
                         paddingRight: 30,
                         transition: "transform 0.4s ease-in-out",
                         marginLeft: isMinified?undefined:"3vw",
                         marginTop: 30,
-                        overflowY: isMinified?undefined:"scroll"
+                        height:isMinified?undefined:"75vh",
+                        overflowY: isMinified?undefined:"auto"
                     }}
                 >
                     <About />
@@ -45,15 +52,17 @@ export const AboutMain:React.FC = ()=>{
                 <div
                     style={{
                         transform:current==="About"?"translateX(0px)":"translateX(-95vw)",
-                        minWidth: "90vw",
+                        minWidth: "80vw",
                         paddingLeft: 20,
                         paddingRight: 30,
                         marginTop: 30,
                         marginLeft: isMinified?undefined:"3vw",
-                        transition: "transform 0.6s ease-in-out"
+                        transition: "transform 0.5s ease-in-out",
+                        height:isMinified?undefined:"75vh",
+                        overflowY: isMinified?undefined:"auto"
                     }}
                 >
-                    <h1>Goodbye!</h1>
+                    <Resume />
                 </div>
             </div>
             

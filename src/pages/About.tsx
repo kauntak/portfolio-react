@@ -7,17 +7,11 @@ export const About:React.FC = ()=> {
 
     return (
         <>
-            <div
-                style={{
-                    display:"flex",
-                    flexDirection: isMinified?"column":"row"
-                }}
-            >
-                <h2>Relationships.</h2>
-                <h2 style={{marginLeft: 10}}>Problem Solving.</h2>
-                <h2 style={{marginLeft: 10}}>Creating.</h2>
-                <h2 style={{marginLeft: 10}}>Learning.</h2>
-            </div>
+           
+            <h2 style={{marginLeft: 10}}>Relationships.</h2>
+            <h2 style={{marginLeft: 10}}>Problem Solving.</h2>
+            <h2 style={{marginLeft: 10}}>Creating.</h2>
+            <h2 style={{marginLeft: 10}}>Learning.</h2>
             <h5>These are my four passions that help me maintain my core belief of "living life to bring joy to myself, and others."</h5>
             <ul>
                 <li>The joy of creating something from nothing; with my hands, digitally, or even unseen things like bonds.</li>
@@ -26,9 +20,9 @@ export const About:React.FC = ()=> {
                 <li>The joy that building relationships brings; learning about people, the chance of learning from others, helping others, and creating lasting memories.</li>
             </ul>
             <h5>These four passions have led me to learning my wide range of skills, and connecting with many people both in my professional and private life.</h5>
-            <h5>My main specialties lie in interpersonal skills, and quickly learning new skills, especially if computer related</h5>
+            <h5>My main specialties lie in interpersonal skills, and quickly learning new skills, especially if computer related.</h5>
             <h6>Technical skills: JavaScript/Node.JS, React, Typescript, SQL, MongoDB, HTML/CSS</h6>
-            <h6>Soft skills: Leadership, patience, communication, self-reliance, patience, empathy, adaptability, critical thinking, and problem solving.</h6>
+            <h6>Soft skills: Leadership, patience, communication, self-reliance, patience, empathy, adaptability, critical thinking, problem solving.</h6>
             <h6>Misc Skills: Adobe Photoshop, Adobe InDesign, Adobe Premier Pro, Adobe Illustrator, Squarespace, Wordpress, MS Office Suite, Godot Game Engine.</h6>
             <div style={{
                 display: "grid",

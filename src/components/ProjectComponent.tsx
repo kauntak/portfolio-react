@@ -1,4 +1,6 @@
 import React, { ReactElement, useState } from "react"
+import { useContext } from "react"
+import { MinifiedContext } from "../context/MinifiedContext"
 import { ProjectType, SelectorType } from "../types"
 import { Carousel } from "./CarouselComponent"
 import { Modal } from "./ModalComponent"
@@ -20,6 +22,7 @@ export const ProjectIcon:React.FC<Props> = ({project, current}) => {
     const [onPopupButtonClick, setOnPopupButtonClick] = useState<(e:React.MouseEvent<HTMLButtonElement>) => void>()
     const [isModalShown, setIsModalShown] = useState<boolean>(false);
     const [modal, setModal] = useState<ReactElement>(<></>);
+    const isMinified = useContext(MinifiedContext);
 
     const onClick = (e:React.MouseEvent<HTMLDivElement>) => {
         if(!(current === "All" || current === project.type)) return;
@@ -78,8 +81,8 @@ export const ProjectIcon:React.FC<Props> = ({project, current}) => {
             <div 
                 onClick={onClick}
                 style={{
-                    width: 200,
-                    height: 200,
+                    width: isMinified?200:"min(9vw, 20vh)",
+                    height: isMinified?200:"min(9vw, 20vh)",
                     backgroundColor: "white",
                     padding: "10px",
                     transition: "all 0.5s ease-in-out",

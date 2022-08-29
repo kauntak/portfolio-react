@@ -74,8 +74,11 @@ function App() {
       setTheme((localTheme as ThemeType));
     }
     window.addEventListener("resize", handleResize);
+    window.addEventListener("scroll", onScroll);
     return () => {
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", onScroll)
+
       setCurrentPage({page:undefined})
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -92,7 +95,7 @@ function App() {
         pageRef.current[currentPage.page].scrollIntoView(scrollOptions)
       } else {
         if(homeRef.current !== null)
-          homeRef.current.scrollTo(scrollOptions);
+          homeRef.current.scrollIntoView(scrollOptions);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -110,25 +113,18 @@ function App() {
     setCurrentPage({page});
   }
 
-  const onScroll = (e:React.UIEvent<HTMLDivElement>) => {
-    setScrollPosition(Math.min((e.target as any).scrollTop, 210));
+  const onScroll = (e:any) => {
+    setScrollPosition(Math.min(e.target.scrollingElement.scrollTop, 210));
   }
 
   return (
     <div 
       className="App" 
-      data-theme={theme} 
-      onScroll={onScroll} 
+      data-theme={theme}
       ref={homeRef}
-      style={
-        isMinified
-          ?{
-            overflowY: "auto"
-          }
-          :{
-            overflow:"hidden"
-          }
-      }
+      style={{
+        overflow: isMinified?undefined:"hidden"
+      }}
     >
       <MinifiedContext.Provider value={isMinified}>
         <ScreenSizeContext.Provider value={screenSize}>

@@ -81,7 +81,17 @@ export const Page: React.FC<Props> = ({ page, currentPage, refs }) => {
                     refs.current[page] = element
             }}
         >
-            <div style={{padding: "4vh 4vw 4vh min(8vw, 200px)", margin:0, overflow: "hidden"}}>
+            <div 
+                style={{
+                    padding: 0, 
+                    margin:0, 
+                    overflowX: isMinified?undefined:"hidden",
+                    overflowY: isMinified?undefined:"hidden",
+                    width: "95vw",
+                    display: "flex",
+                    flexDirection: "column"
+            }}
+            >
                 {
                     {
                         "Portfolio": <Portfolio />,

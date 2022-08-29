@@ -1,83 +1,63 @@
-import React, { CSSProperties, Dispatch, SetStateAction, useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { Dispatch, SetStateAction, useContext, useEffect, useRef, useState } from "react";
 import { ScreenSizeContext } from "../context/ScreenSize";
 import { SkillsGlobe } from "../components/SkillsComponent";
 import { SortDiv } from "../components/SortComponent";
+import { Modal } from "../components/ModalComponent";
+import { Popup } from "../components/PopupComponent";
+import { useHomePageReducer } from "../hooks/useHomePageReducer";
+import { MinifiedContext } from "../context/MinifiedContext";
+import { usePrevious } from "../hooks/usePrevious";
 
 type Props = {
     scrollPosition:number
 }
 
+export const LOVE_LIST = [
+    "making things",
+    "problem solving",
+    "team work",
+    "self-reliance",
+    "learning",
+    "everything computer related!"
+] as const;
 
 export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
-    const [isMinified, setIsMinified] = useState<boolean>(true);
     const [isReady, setIsReady] = useState<boolean>(false);
-    // const [isScreenSizeChanged, setIsScreenSizeChanged] = useState<boolean>(false);
+    const isMinified = useContext(MinifiedContext);
     const isScreenSizeChangedRef = useRef<boolean>(false);
-    const [mainStyle, setMainStyle] = useState<CSSProperties>({padding: 30});
-    const [globeStyle, setGlobeStyle] = useState<CSSProperties>({justifyContent:"center", display:"none", opacity:0});
-    const [profilePicStyle, setProfilePicStyle] = useState<CSSProperties>({});
-    const [leftStyle, setLeftStyle] = useState<CSSProperties>({});
-    const [rightStyle, setRightStyle] = useState<CSSProperties>({});
     const [isShown, setIsShown] = useState<boolean>(false);
-    const [middleStyle, setMiddleStyle] = useState<CSSProperties>({
-        width:"100%",
-        display:"flex",
-        flexDirection:"column",
-        alignContent:"center",
-        textAlign:"center"
-    });
-    const [sentenceStyle, setSentenceStyle] = useState<CSSProperties>({
-        opacity: 1,
-        display:"flex",
-        flexDirection:"column"
-    });
+    const [styles, dispatch] = useHomePageReducer();
     const [nameSentence, setNameSentence]  = useState<string>("");
     const [nickNameSentence, setNickNameSentence]  = useState<string>("");
     const [loveSentence, setLoveSentence]  = useState<string>("");
     const [titleSentence, setTitleSentence] = useState<string>("");
     const [name, setName] = useState<string>("Nozomu Koshirae");
-    const [nameStyle, setNameStyle] = useState<CSSProperties>({});
     const [title, setTitle] = useState<string>("");
-    const [titleStyle, setTitleStyle] = useState<CSSProperties>({});
     const [psNote, setPsNote] = useState<string>("");
+    const [showHiddenMessage, setShowHiddenMessage] = useState<boolean>(false);
+    const [isModalShown, setIsModalShown] = useState<boolean>(false);
+    const wasModalShown = useRef<boolean>(false);
     const screenSize = useContext(ScreenSizeContext);
-    const loveList = [
-        "making things",
-        "problem solving",
-        "team work",
-        "self-reliance",
-        "learning",
-        "everything computer related!"
-    ];
+    const prevScreenSize = usePrevious(screenSize);
 
-    const [listStyle, setListStyle] = useState<CSSProperties[]>(new Array(loveList.length + 1).fill({
-        transition:"all 0.5s ease-in-out",
-        opacity: 0
-    }));
     useEffect(()=> {
         if(isMinified) {
-            const newValue = Math.floor((60 - (scrollPosition / 7)) * 10) / 10;
-            setProfilePicStyle(oldStyle =>{
-                const newStyle = {...oldStyle};
-                newStyle.width=newValue + "%";
-                return newStyle;
-            });
+            dispatch({type:"scroll", payload: scrollPosition});
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scrollPosition])
 
     useEffect(() => {
+        dispatch({type:"screenChange", payload: {current:screenSize, prev:prevScreenSize}});
+
         switch (screenSize) {
             case "small":
             case "medium":
-                setIsMinified(true);
-                break;
             case "large":
-                setRightStyle({display:"none"});
-                setIsNotMini();
                 break;
-            default:
-                setRightStyle({display:"flex", alignContent:"center"});
-                setIsNotMini();
+            case "x-large":
+            case "xx-large":
+                setShowHiddenMessage(false);
                 if(psNote === "P.S. Can you find the hidden section of my page?"){
                     setPsNote("!!!");
                     setTimeout(()=> {
@@ -86,105 +66,24 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                 } else setPsNote("");
                 break;
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [screenSize]);
 
-    const setIsNotMini = ()=>{
-        setIsMinified(false);
-        setIsReady(false);
-    }
-
-    useLayoutEffect(()=>{
+    useEffect(()=>{
         // setIsScreenSizeChanged(true);
+        setIsReady(false);
         isScreenSizeChangedRef.current = true;
+        // dispatch({type:"minify", payload:isMinified});
         if(isMinified){
-            setMainStyle({
-                padding: 30,
-                overflowY: "visible",
-                height:"fit-content",
-                display:"flex",
-                flexDirection:"column-reverse"
-            });
-            setMiddleStyle({
-                width:"100%",
-                display:"flex",
-                flexDirection:"column",
-                alignContent:"center",
-                textAlign:"center"
-            });
-            setRightStyle({
-                display:"none"
-            })
-            setGlobeStyle({
-                display: "flex",
-                width: "100%",
-                justifyContent:"center",
-                alignItems:"center"
-            });
-            setProfilePicStyle({
-                borderRadius: "50%",
-                width: "100%",
-                maxWidth: "45vh",
-                height: "auto",
-                display: "block",
-                margin:"50px auto 30px auto"
-            });
-            setSentenceStyle({
-                display:"none"
-            });
+            if(!wasModalShown.current){
+                wasModalShown.current = true;
+                setIsModalShown(true);
+            }
             setName("Nozomu Koshirae");
-            setNameStyle({
-                paddingLeft:"auto",
-                paddingRight:"auto"
-            })
             setTitle("Software Developer");
             setPsNote("");
         } else {
-            setGlobeStyle({
-                position: "absolute",
-                top:"10vh",
-                left: "12vw",
-                transform: "scale3d(2, 2, 2)",
-                opacity: 0
-            });
-            setMainStyle({
-                padding: 30,
-                paddingLeft: "12vw",
-                overflowY: "hidden",
-                height:"100%",
-                display:"flex",
-                flexDirection:"row"
-            });
-            setLeftStyle({
-                display:"flex",
-                flexDirection:"column",
-                minWidth:"28%",
-                width: "28%",
-                paddingTop: "20vh",
-                transition:"all 0.5s ease-in-out",
-            });
-            setMiddleStyle({
-                width:"100%",
-                maxWidth:"30%",
-                display:"flex",
-                flexDirection:"column",
-                alignContent:"center",
-                textAlign:"center"
-            });
-            setSentenceStyle({ 
-                opacity: 1,
-                display:"flex",
-                flexDirection:"column"
-            });
-            setProfilePicStyle({
-                borderRadius: "50%",
-                width: "100%",
-                maxWidth: "45vh",
-                height: "auto",
-                display: "block",
-                marginLeft: "auto",
-                marginRight: "auto",
-                top: "1vh"
-            });
+            setIsModalShown(false);
             setName("");
             setNameSentence("");
             setNickNameSentence("");
@@ -192,11 +91,6 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
             setTitleSentence("");
             setLoveSentence("");
             setPsNote("");
-            setListStyle(new Array(loveList.length + 1).fill({
-                transition:"all 0.5s ease-in-out",
-                opacity: 0
-            }));
-            // setIsScreenSizeChanged(false);
             isScreenSizeChangedRef.current = false;
             setIsReady(true);
         }
@@ -205,8 +99,8 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
     useEffect(()=>{
         if(isReady){
             startAnimation();
-            
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isReady])
 
     const animateText:(obj:StringAnimationType)=>void = ({setter, stringTo, sideEffect}) => {
@@ -280,17 +174,10 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                 i++;
                 return;
             }
-            if(i === listStyle.length){
+            if(i === LOVE_LIST.length){
                 clearInterval(listInterval);
             }
-            setListStyle(oldStyle => {
-                const newStyle = [...oldStyle];
-                newStyle[i] = {
-                    transition:"all 0.5s ease-in-out",
-                    opacity
-                };
-                return newStyle;
-            });
+            dispatch({type:"listTransition", payload:{index: i, opacity}})
             i++;
         }, 750)
         
@@ -305,53 +192,48 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                 }, {
                     setter: setTitle,
                     stringTo:"Software Developer",
-                    sideEffect: fadeSentences
+                    sideEffect: () => dispatch({type:"fadeSentences"})
                 }
             ];
             animateStringList(list);
         }
     }
 
-    const fadeSentences = ()=>{
-        setSentenceStyle({
-            opacity: 0,
-            transition:"all 0.5s ease-in-out",
-            display:"flex",
-            flexDirection:"column"
-        });
-    }
-
     const sentenceTransitionEnd = (e:React.TransitionEvent<HTMLDivElement>) => {
         if(e.currentTarget === e.target){
-            setSentenceStyle({display:"none"});
-            setGlobeStyle({
-                display: "flex",
-                position: "absolute",
-                top:"10vh",
-                left: "12vw",
-                justifyContent:"center",
-                alignItems:"center",
-                transform: "scale3d(1, 1, 1)",
-                transition: "all 1s ease-in-out",
-                opacity: 1
-            });
+            setShowHiddenMessage(true);
+            dispatch({type:"displayGlobeLeft"});
         }
     }
 
     const globeTransitionEnd = (e:React.TransitionEvent<HTMLDivElement>) => {
-        if(e.currentTarget.style.opacity === "1" && screenSize === "large"){
+        if(e.currentTarget.style.opacity === "1" && screenSize === "large" && showHiddenMessage){
+            setShowHiddenMessage(false);
             animateText({setter:setPsNote, stringTo:"P.S. Can you find the hidden section of my page?"})
         }
     }
 
     return (
         <div
-            style={mainStyle}
+            style={styles.main}
         >   
+            {
+                isModalShown
+                ?<Modal
+                    setIsShown={setIsModalShown}
+                    modal={
+                        <Popup 
+                            setIsShown={setIsModalShown}
+                            message="This page is best viewed on larger screens!"
+                        />
+                    }
+                />
+                :""
+            }
             <h3 style={{position:"absolute", bottom: "3vh", left: "20%"}}>{psNote}</h3>
-            <div style={leftStyle}>
+            <div style={styles.left}>
                 <div
-                    style={sentenceStyle}
+                    style={styles.sentence}
                     onTransitionEnd={sentenceTransitionEnd}
                 >
                     <h4 style={{margin:0}}>
@@ -379,8 +261,8 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                                 }
                             }
                         >
-                            {loveList.map((list, index) => <li key={list} style={listStyle[index]}><h5>- {list}</h5></li>)}
-                            <li onTransitionEnd={(e)=> onListTransitionEnd(e, loveList.length)} style={listStyle[loveList.length]}>
+                            {LOVE_LIST.map((list, index) => <li key={list} style={styles.list[index]}><h5>- {list}</h5></li>)}
+                            <li onTransitionEnd={(e)=> onListTransitionEnd(e, LOVE_LIST.length)} style={styles.list[LOVE_LIST.length]}>
                                 <p
                                     style={
                                         {
@@ -396,20 +278,20 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                     <h4>{titleSentence}</h4>
                 </div>
                 <div
-                    style={globeStyle}
+                    style={styles.globe}
                     onTransitionEnd={globeTransitionEnd}
                 >
                     <SkillsGlobe />
                 </div>
             </div>
-            <div style={middleStyle}>
+            <div style={styles.middle}>
                 <img
                     src={process.env.PUBLIC_URL + "/assets/images/NozomuPortfolioPic.jpg"} 
                     alt="Nozomu"
-                    style={profilePicStyle}
+                    style={styles.profilePic}
                 />
                 <h3
-                    style={nameStyle}
+                    style={styles.name}
                 >
                     {name}
                 </h3>
@@ -418,25 +300,38 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                         ?<h4>(Non)</h4>
                         :""
                 }
-                <h4
-                    style={titleStyle}
-                >
+                <h4>
                     {title}
                 </h4>
             </div>
-            <div style={rightStyle}>
+            <div style={styles.right}>
                 {
                     isShown
                         ?<SortDiv />
                         :<button
                             onClick={()=> setIsShown(true)}
-                            className="foundButton"
+                            style={{
+                                position: "relative",
+                                top: "30vh",
+                                minHeight: "60px",
+                                minWidth: 0,
+                                maxHeight: "15vh",
+                                marginLeft:"3vw",
+                                padding: "16px 24px",
+                                fontSize: "min(1.5vw, 35px)",
+                                fontWeight: 600
+                            }}
                         >
                             Hmm awfully empty here...
                         </button>
                 }
             </div>
-
+            <div style={styles.doge}>
+                <img 
+                    src="/assets/images/doge.jpg"
+                    alt="Such Screen, Much Big"
+                />
+            </div>
         </div>
     )
 }
