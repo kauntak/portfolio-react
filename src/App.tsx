@@ -114,7 +114,7 @@ function App() {
   }
 
   const onScroll = (e:any) => {
-    setScrollPosition(Math.min(e.target.scrollingElement.scrollTop, 210));
+    setScrollPosition(e.target.scrollingElement.scrollTop);
   }
 
   return (

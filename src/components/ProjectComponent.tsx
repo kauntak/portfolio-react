@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react"
+import React, { ReactElement, useEffect, useState } from "react"
 import { useContext } from "react"
 import { MinifiedContext } from "../context/MinifiedContext"
 import { ProjectType, SelectorType } from "../types"
@@ -17,12 +17,14 @@ type Props = {
 
 export const ProjectIcon:React.FC<Props> = ({project, current}) => {
     const [isHovering, setIsHovering] = useState<boolean>(false);
-    const [popupMessage, setPopupMessage] = useState<string>("");
-    const [popupButtonText, setPopupButtonText] = useState<string>();
-    const [onPopupButtonClick, setOnPopupButtonClick] = useState<(e:React.MouseEvent<HTMLButtonElement>) => void>()
     const [isModalShown, setIsModalShown] = useState<boolean>(false);
-    const [modal, setModal] = useState<ReactElement>(<></>);
+    const [modal, setModal] = useState<ReactElement>();
     const isMinified = useContext(MinifiedContext);
+
+    useEffect(()=> {
+        if(modal !== undefined)
+            setIsModalShown(true);
+    }, [modal])
 
     const onClick = (e:React.MouseEvent<HTMLDivElement>) => {
         if(!(current === "All" || current === project.type)) return;
@@ -36,23 +38,18 @@ export const ProjectIcon:React.FC<Props> = ({project, current}) => {
                     window.open(project.sitePath, "_blank");
                 } else {
                     if(project.sitePath === undefined || project.sitePath === "") return;
-                    setPopupMessage(project.note);
-                    setOnPopupButtonClick(() => {
-                        const onButtonClick = (e:React.MouseEvent<HTMLButtonElement>) => {
-                            window.open(project.sitePath, "_blank");
-                        }
-                        return onButtonClick;
-                    })
-                    setPopupButtonText("Let's go!");
-                    setModal(<Popup message={popupMessage} setIsShown={setIsModalShown} onClick={onPopupButtonClick} buttonText={popupButtonText}/>);
-                    setIsModalShown(true);
+                    const onButtonClick = (e:React.MouseEvent<HTMLButtonElement>) => {
+                        window.open(project.sitePath, "_blank");
+                    }
+                    setModal(<Popup message={project.note} setIsShown={setIsModalShown} onClick={onButtonClick} buttonText="Let's go!"/>);
+                    // setIsModalShown(true);
                 }
                 break;
             case "Designs":
                 setModal(
                     <Carousel list={project.designs}/>
                 )
-                setIsModalShown(true);
+                // setIsModalShown(true);
                 break;
             case "Programs":
                 setModal(
@@ -60,7 +57,7 @@ export const ProjectIcon:React.FC<Props> = ({project, current}) => {
                         project={project}
                     />
                 );
-                setIsModalShown(true);
+                // setIsModalShown(true);
         }
     }
 

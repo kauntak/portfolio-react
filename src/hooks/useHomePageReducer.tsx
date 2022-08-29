@@ -99,7 +99,8 @@ const init = ():HomePageStyles => {
             maxWidth: "45vh",
             height: "auto",
             display: "block",
-            margin:"50px auto 30px auto"
+            margin:"50px auto 30px auto",
+            transition: "all 0.5s ease"
         },
         name:{
             paddingLeft:"auto",

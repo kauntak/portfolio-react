@@ -119,7 +119,8 @@ export const Carousel: React.FC<Props> = ({ list }) => {
                     width: 900,
                     maxWidth: "80vw",
                     position: "relative",
-                    justifyContent: isMinified?"space-evenly":undefined
+                    justifyContent: isMinified?"space-evenly":undefined,
+                    marginTop: 10
                 }}
                 onPointerUp={onPointerUp}
                 onPointerDown={onPointerDown}

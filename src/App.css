@@ -68,6 +68,10 @@ h5 {
     margin: 5px;
 }
 
+.resumeProject{
+  color: #fefcfb;
+}
+
 h6 {
   font-size: 20px;
 }
@@ -125,11 +129,6 @@ button:active {
   transform: translateY(0);
 }
 
-/* .block{
-  width: 5px;
-  transition: all 0.1s ease-in-out;
-  position: absolute;
-} */
 
 .sorted{
   background-color: var(--hover);

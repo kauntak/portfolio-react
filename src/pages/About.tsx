@@ -31,9 +31,10 @@ export const About:React.FC = ()=> {
                 maxWidth: "80vw"
             }}>
                 {
-                    skills.filter(skill => skill.imagePath && skill.imagePath !== "").map(skill => {
+                    skills.filter(skill => skill.imagePath && skill.imagePath !== "").map((skill, index) => {
                         return (
                             <img
+                                key={index}
                                 src={skill.imagePath}
                                 alt={skill.text}
                                 title={skill.text}
@@ -42,7 +43,6 @@ export const About:React.FC = ()=> {
                                     maxHeight:100,
                                     marginTop: "auto",
                                     marginBottom: "auto"
-                                    // backgroundColor: "rgba(0,0,0,0.5)"
                                 }}
                             />
                         )

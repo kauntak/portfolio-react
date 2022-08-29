@@ -6,9 +6,12 @@ import { Popup } from "./PopupComponent";
 
 
 // type Props = Omit<ProgramingProjectType, "type" | "imagePath">
-type Props = {project:ProgramingProjectType}
+type Props = {
+    project:ProgramingProjectType,
+    isResume?:boolean
+}
 
-export const ProgramModal:React.FC<Props> = ({project:{projectName, description, usage, frontend, backend, tools, githubLink, liveLink, screenShots}}) => {
+export const ProgramModal:React.FC<Props> = ({project:{projectName, resumeDescription, description, usage, frontend, backend, tools, githubLink, liveLink, screenShots}, isResume}) => {
     const [programTypes, setProgramTypes] = useState<{title:string, list:string}[]>([]);
     const [isModalShown, setIsModalShown] = useState<boolean>(false);
 
@@ -52,14 +55,21 @@ export const ProgramModal:React.FC<Props> = ({project:{projectName, description,
                 style={{
                     overflowX:"hidden",
                     overflowY: "auto",
-                    padding: 10
+                    padding: 10,
+                    marginTop: 20
                 }}
             >
                 <h2>
                     {projectName}
                 </h2>
                 <h5>
-                    {description}
+                    {
+                        isResume
+                            ?resumeDescription
+                                ?resumeDescription
+                                :description
+                            :description
+                    }
                 </h5>
                 <ul>
                     {usage.map((item, index)=> <li key={index} style={{listStyle:"none"}}>-{item}</li> )}

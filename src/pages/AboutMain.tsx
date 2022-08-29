@@ -51,12 +51,12 @@ export const AboutMain:React.FC = ()=>{
                 </div>
                 <div
                     style={{
-                        transform:current==="About"?"translateX(0px)":"translateX(-95vw)",
+                        transform:current==="About"?"translateX(0px)":`translateX(${isMinified?"-85vw":"-95vw"})`,
                         minWidth: "80vw",
                         paddingLeft: 20,
                         paddingRight: 30,
                         marginTop: 30,
-                        marginLeft: isMinified?undefined:"3vw",
+                        marginLeft: isMinified?undefined:"10vw",
                         transition: "transform 0.5s ease-in-out",
                         height:isMinified?undefined:"75vh",
                         overflowY: isMinified?undefined:"auto"
