@@ -1,6 +1,5 @@
 import { CSSProperties, Dispatch, SetStateAction } from "react"
 import { AboutOptionTypes, SelectorType } from "../types";
-import styles from "./../css/selector.module.css";
 
 type Props = {
     list: SelectorType[]|AboutOptionTypes[],
@@ -23,7 +22,6 @@ export const Selector:React.FC<Props> = ({list, current, setCurrent, style, isVe
             }}
         >
             <div 
-                // className={styles["startPiece"]}
                 style={{
                     backgroundColor: "var(--button)",
                     [isVertical?"height":"width"]: isVertical?20:15,
@@ -35,10 +33,8 @@ export const Selector:React.FC<Props> = ({list, current, setCurrent, style, isVe
                 return (
                     <div 
                         key={item}
-                        // className={`${styles["label"]} ${current===item?styles["active"]:styles["inactive"]}`}
                         style={{
                             minWidth: 100,
-                            // height: isVertical?25:undefined,
                             padding: isVertical?"5px 0px 5px 0px":"0px 5px 0px 5px",
                             cursor: "pointer",
                             textAlign: "center",
@@ -54,7 +50,6 @@ export const Selector:React.FC<Props> = ({list, current, setCurrent, style, isVe
                 )
             })}
             <div
-                // className={styles["endPiece"]}
                 style={{
                     backgroundColor: "var(--button)",
                     [isVertical?"height":"width"]: 15,
