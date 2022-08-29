@@ -14,6 +14,7 @@ export type ProgramingProjectType = {
     type: "Programs",
     imagePath:string,
     projectName:string,
+    resumeDescription?: string,
     description:string,
     usage:string[],
     screenShots?:DesignType[],
@@ -88,3 +89,32 @@ type SelectSequenceType = {
 }
 
 export type SequenceType = CompletedSequenceType | CompareSequenceType | SwapSequenceType | InsertSequenceType | SelectSequenceType;
+
+
+export type ExperienceType = {
+    title: string,
+    company: string,
+    from: string,
+    to?: string,
+    duties: string[]
+}
+
+type EducationType = {
+    type:"education"
+    instituteName: string,
+    courses: string[],
+    from: string,
+    to:string
+}
+
+type CertificateType = {
+    type: "certificate",
+    instituteName: string,
+    description: string,
+    certificates: {
+        certificateName:string,
+        link:string
+    }
+}
+
+export type EduAndCertType = EduAndCertType | CertificateType;

@@ -5,6 +5,7 @@ export const projects:ProjectType[] = [
         type: "Programs",
         imagePath: "/assets/images/Logos/sabores_logo.png",
         projectName: "Sabores Restaurants Management App",
+        resumeDescription:"",
         description: "App for multi-location inventory ordering, and staff management",
         usage:[
             "Authentication, with access management depending on roles.",
@@ -38,6 +39,7 @@ export const projects:ProjectType[] = [
         type: "Programs",
         imagePath: "/assets/images/Logos/SambaPOS-icon-Logo.png",
         projectName: "SambaPOS Integrations",
+        resumeDescription:"Spearheaded a project that integrated modules for a Point of Sales system(SambaPOS) which has reduced error rates from roughly 5% to 0.004%(50 errors in the last 14,000 orders); decreased order input time by 99%; and reduced end-of-day closing time by 10%(if end-of-day totals were not matching, reduced closing time by over 90%)",
         description: "Integrating multiple modules into a Point of Sales system(SambaPOS).",
         usage: [
             "Integrating multiple modules into a Point of Sales system(SambaPOS).",
@@ -85,6 +87,7 @@ export const projects:ProjectType[] = [
         imagePath: "/assets/images/Logos/jinrou-logo.png",
         projectName: "Werewolf Game",
         description: "An online multiplayer social deduction game powered by nodeJS, socket.io, and aws.",
+        resumeDescription:"",
         usage: [
             "Play the Werewolf game online with friends!(Think Among Us© but with Villagers and Werewolves)",
             "Live chat/chat room(per game) functionality.",
