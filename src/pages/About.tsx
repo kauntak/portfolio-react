@@ -1,9 +1,6 @@
-import { useContext } from "react"
-import { MinifiedContext } from "../context/MinifiedContext"
 import { skills } from "../utils/skills"
 
 export const About:React.FC = ()=> {
-    const isMinified = useContext(MinifiedContext);
 
     return (
         <>
