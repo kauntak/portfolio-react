@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react"
 import { skills } from "../utils/skills";
 
+type Props = {
+    isVisible:boolean
+}
 
-export const SkillsGlobe:React.FC = ()=>{
+export const SkillsGlobe:React.FC<Props> = ({isVisible})=>{
     const [isError, setIsError] = useState<boolean>(false);
 
     useEffect(()=>{
@@ -26,7 +29,8 @@ export const SkillsGlobe:React.FC = ()=>{
         <div
             style={
                 {
-                    display: isError?"none":"block"
+                    display: isError?"none":"block",
+                    visibility: isVisible?"visible":"hidden"
                 }
             }
         >

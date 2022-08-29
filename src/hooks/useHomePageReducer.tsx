@@ -156,7 +156,7 @@ const largify = ():HomePageStyles => {
             left: "12vw",
             transform: "scale3d(2, 2, 2)",
             opacity: 0,
-            display:"none"
+            display:"flex"
         },
         profilePic:{
             borderRadius: "50%",
@@ -170,6 +170,7 @@ const largify = ():HomePageStyles => {
             top: "1vh"
         },
         name:{
+            paddingTop: "3vh",
             paddingLeft:"auto",
             paddingRight:"auto"
         },
@@ -296,13 +297,15 @@ const handleScreenSizeChange = (state:HomePageStyles, {current, prev}:{current:S
                 }
             }
     }
-    return state;
 }
 
 const handleUpdate = (state:HomePageStyles, {div, properties}:UpdateCSSPayloadType):HomePageStyles => {
     return {
         ...state,
-        [div]:properties
+        [div]:{
+            ...state[div],
+            ...properties
+        }
     };
 }
 

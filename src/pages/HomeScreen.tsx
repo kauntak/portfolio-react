@@ -27,6 +27,7 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
     const isScreenSizeChangedRef = useRef<boolean>(false);
     const [isShown, setIsShown] = useState<boolean>(false);
     const [styles, dispatch] = useHomePageReducer();
+    const [isGlobeVisible, setIsGlobeVisible] = useState<boolean>(true);
     const [nameSentence, setNameSentence]  = useState<string>("");
     const [nickNameSentence, setNickNameSentence]  = useState<string>("");
     const [loveSentence, setLoveSentence]  = useState<string>("");
@@ -58,7 +59,6 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
             case "large":
                 break;
             case "x-large":
-            case "xx-large":
                 setShowHiddenMessage(false);
                 if(psNote === "P.S. Can you find the hidden section of my page?"){
                     setPsNote("!!!");
@@ -81,10 +81,12 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                 wasModalShown.current = true;
                 setIsModalShown(true);
             }
+            setIsGlobeVisible(true);
             setName("Nozomu Koshirae");
             setTitle("Software Developer");
             setPsNote("");
         } else {
+            setIsGlobeVisible(false);
             setIsModalShown(false);
             setName("");
             setNameSentence("");
@@ -203,12 +205,14 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
 
     const sentenceTransitionEnd = (e:React.TransitionEvent<HTMLDivElement>) => {
         if(e.currentTarget === e.target){
+            setIsGlobeVisible(true);
             setShowHiddenMessage(true);
             dispatch({type:"displayGlobeLeft"});
         }
     }
 
     const globeTransitionEnd = (e:React.TransitionEvent<HTMLDivElement>) => {
+        console.log("Globe end;", {showHiddenMessage, screenSize})
         if(e.currentTarget.style.opacity === "1" && screenSize === "large" && showHiddenMessage){
             setShowHiddenMessage(false);
             animateText({setter:setPsNote, stringTo:"P.S. Can you find the hidden section of my page?"})
@@ -283,7 +287,7 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                     style={styles.globe}
                     onTransitionEnd={globeTransitionEnd}
                 >
-                    <SkillsGlobe />
+                    <SkillsGlobe isVisible={isGlobeVisible}/>
                 </div>
             </div>
             <div style={styles.middle}>
