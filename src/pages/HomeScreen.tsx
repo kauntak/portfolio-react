@@ -42,10 +42,12 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
 
     useEffect(()=> {
         if(isMinified) {
-            dispatch({type:"scroll", payload: scrollPosition});
+            dispatch({type:"scroll", payload: Math.min(scrollPosition, 210)});
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scrollPosition])
+
+    
 
     useEffect(() => {
         dispatch({type:"screenChange", payload: {current:screenSize, prev:prevScreenSize}});
@@ -286,7 +288,7 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
             </div>
             <div style={styles.middle}>
                 <img
-                    src={process.env.PUBLIC_URL + "/assets/images/NozomuPortfolioPic.jpg"} 
+                    src={process.env.PUBLIC_URL + "/assets/images/NozomuPortfolioPic.jpg"}
                     alt="Nozomu"
                     style={styles.profilePic}
                 />
