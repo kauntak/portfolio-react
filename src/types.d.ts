@@ -1,6 +1,7 @@
 import { themeList, pageList } from "./App";
 import { projectTypeList } from "./pages/Portfolio";
 import { STATE_CLASS_NAME, SORT_ALGORITHMS } from "./components/SortComponent";
+import { FIELDS } from "./pages/Contact";
 
 
 export type ScreenSizeType = "small" | "medium" | "large" | "x-large" | "xx-large";
@@ -107,4 +108,57 @@ export type EducationType = {
         from: string,
         to:string
     }
+}
+
+
+export type FieldType = typeof FIELDS[number];
+
+
+type InputChangeAction = {
+    type:"input",
+    payload:{
+        field:FieldType,
+        value:string
+    }
+}
+
+type PreferredChangeAction = {
+    type:"preferred",
+    payload: string
+}
+
+type BlurFieldAction = {
+    type: "blur",
+    payload: FieldType
+}
+
+export type ContactActionType = InputChangeAction | PreferredChangeAction | BlurFieldAction
+
+type ContactErrorType = undefined | "invalid" | "required"
+
+export type ContactStateType = {
+    [key in FieldType]:{
+        value:string,
+        required?:boolean,
+        isError?:ContactErrorType
+    }
+}
+
+type ContactTypeType = typeof CONTACT_TYPE[number];
+
+export type ContactMatchType = {
+    [key in ContactTypeType]:FieldType
+}
+
+export type ContactInfoType = {
+    text:string,
+    links: {
+        url:string,
+        isWebsite?:boolean,
+        content?:{
+            url:string,
+            alt:string,
+            title:string
+        }|string
+    }[]
 }
