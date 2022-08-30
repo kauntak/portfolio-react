@@ -37,8 +37,9 @@ export const Accordion:React.FC<Props> = ({title, content}) => {
                     marginTop: 20,
                     alignContent: "center",
                     cursor: "pointer",
-                    backgroundColor: "var(--button)",
-                    maxWidth: "95%"
+                    backgroundColor: "var(--text-primary)",
+                    color: "var(--bg)",
+                    maxWidth: "98%"
                 }}
                 onClick={onHeaderClick}
             >
@@ -58,7 +59,7 @@ export const Accordion:React.FC<Props> = ({title, content}) => {
                     maxHeight: isShown?maxHeightRef.current:0,
                     transition: `max-height ${isShown?"0.75s":"0.2s"} ease-in-out`,
                     overflowY:"hidden",
-                    paddingBottom: 10,
+                    padding:"0 2vw 1vh 2vw",
                     backgroundColor: "rgba(0.5,0.5,1,0.2)",
                     maxWidth: "90%",
                     margin: "0 auto 20px auto"
