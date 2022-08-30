@@ -1,22 +1,35 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { CSSProperties, useContext, useEffect, useState } from "react";
+import { LocationSearchInput } from "../components/GooglePlaceAutoCompleteComponent";
 import { MinifiedContext } from "../context/MinifiedContext";
 import { useContactReducer } from "../hooks/useContactReducer";
+import { ContactErrorType, FieldType } from "../types";
+import { contactInfo } from "../utils/contact";
 
-
+export const FIELDS = ["name", "email", "phone", "fax", "address","subject", "message", "preferred"] as const;
 export const CONTACT_TYPE = ["eMail", "Phone(Call)", "Phone(Text)", "Post(Letter)", "Carrier Pigeon", "Telegram", "Fax"] as const;
+
 const robotAnswer = ["Yes", "No", "Maybe", "0100111001101111"] as const;
 
-export type RobotAnswerType = typeof robotAnswer[number];
+const placeHolderList:{[key in FieldType]:string} = {
+    name: "Name",
+    email: "Email",
+    address:"Addres",
+    phone:"Phone Number",
+    fax:"Fax Number",
+    preferred: "Preferred Contact Metehod",
+    subject: "Subject",
+    message: "Message..."
+} as const;
+
 
 export const Contact:React.FC = ()=>{
     const isMinified = useContext(MinifiedContext);
     const [state, dispatch] = useContactReducer();
     const [address, setAddress] = useState<string>("");
-
-    useEffect(()=> {
-
-    }, [address])
-
+    const [isAddressError, setIsAddressError] = useState<boolean>(false);
+    const logoStyle:CSSProperties = {maxWidth:"min(3vw, 3vh)", maxHeight:"min(3vw, 3vh)", borderRadius:"50%", backgroundColor:"white"};
+    const rowStyle:CSSProperties = {display:"flex", flexDirection:"row", alignItems:"center"};
+    const inputStyle: CSSProperties = {marginBottom: "1.5vh", width: "20vw"}
     const onChange = (e:React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>) => {
         const field = e.currentTarget.dataset.field as FieldType;
         const value = e.currentTarget.value;
@@ -30,6 +43,11 @@ export const Contact:React.FC = ()=>{
         }
     }
 
+    const onBlur = (e:React.ChangeEvent<HTMLInputElement>) => {
+        const field = e.currentTarget.dataset.field as FieldType;
+        dispatch({type:"blur", payload:field});
+    }
+
     return (
         <>
             <h2
@@ -37,70 +55,228 @@ export const Contact:React.FC = ()=>{
             >
                 Contact
             </h2>
-            <div>
-                <div>
-                    <h5>You can find me here:</h5>
-                    <a
-                        href="http://github.com/kauntak"
-                        rel="noreferrer"
-                        target="_blank"
-                    >
-                        <img
-                            src="/assets/images/Logos/github-512.webp"
-                            alt="Github"
-                            title="My Github account"
-                        />
-                    </a>
-                    <a
-                        href="http://www.linkedin.com/in/nkoshirae"
-                        rel="noreferrer"
-                        target="_blank"
-                    >
-                        <img
-                            src="public/assets/images/Logos/LinkedIn_icon_circle.svg.png"
-                            alt="linkedIn"
-                            title="My linkedIn account"
-                        />
-                    </a>
-                </div>
-                <div>
-                    <h5>Or call me:</h5>
-                    <a
-                        href="tel:1-403-465-1881"
-                    >
-                        1-403-465-1881
-                    </a>
-                </div>
-                <div>
-                    <h5>Or shoot me an email from the form below or to:</h5>
-                    <a
-                        href="mailto:non@koshirae.me"
-                    >
-                        non@koshirae.me
-                    </a>
-                </div>
+            <div
+                style={{
+                    marginLeft:isMinified?"3vw":"13vw",
+                    display: "flex",
+                    flexDirection:"column",
+                    alignContent: "center"
+                }}
+            >
+                {
+                    contactInfo.map((info, index) => {
+                        return (
+                            <div key={index} style={rowStyle}>
+                                <h5>{info.text}</h5>
+                                {
+                                    info.links.map((link, index) => {
+                                        return (
+                                            // eslint-disable-next-line react/jsx-no-target-blank
+                                            <a
+                                                key={index}
+                                                href={link.url}
+                                                rel={link.isWebsite?"noreferrer":undefined}
+                                                target={link.isWebsite?"_blank":undefined}
+                                                style={{color:"var(--button)"}}
+                                            >
+                                                {
+                                                    typeof link.content === "string"
+                                                        ?link.content
+                                                        :<img
+                                                            src={link.content?.url}
+                                                            alt={link.content?.alt}
+                                                            title={link.content?.title}
+                                                            style={logoStyle}
+                                                        />
+                                                }
+                                            </a>
+                                        )
+                                    })
+                                }
+                            </div>
+                        )
+                    })
+                }
             </div>
-            <div>
-                <input type="text" value={state.name.value} onChange={onChange} data-field="name"/>
-                <input type="text" value={state.email.value} onChange={onChange} data-field="email"/>
-                <input type="text" value={state.phone.value} onChange={onChange} data-field="phone"/>
-                <input type="text" value={state.fax.value} onChange={onChange} data-field="fax"/>
-                <input type="text" value={state.address.value} onChange={onChange} data-field="address"/>
-                <textarea value={state.message.value} onChange={onChange} data-field="message"/>
-                <select value={state.preferred.value} onChange={onChange} data-field="preferred">
-                    {
-                        CONTACT_TYPE.map((method, index) => {
-                            return (
-                                <option value={index} key={index}>
-                                    {method}
-                                </option>
-                            );
-                        })
-                    }
-                </select>
+            <div
+                style={{
+                    marginTop: "2vh",
+                    marginLeft:isMinified?"3vw":"14vw",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    maxWidth: "50vw"
+                }}
+            >
+                {
+                    FIELDS.map((field, index) => {
+                        switch(field){
+                            case "address":
+                                return (
+                                    <>
+                                        <div style={rowStyle}>
+                                            <label htmlFor={field}>Address{state[field].required?"*":""}</label>
+                                            {
+                                                state[field].isError
+                                                    ?<ErrorLabel fieldName="Address" errorType={state[field].isError} />
+                                                    :""
+                                            }
+                                        </div>
+                                        <LocationSearchInput 
+                                            key={index} 
+                                            setInput={setAddress} 
+                                            input={address} 
+                                            name={field}
+                                            style={inputStyle}
+                                        />
+                                    </>
+                                );
+                            case "name":
+                            case "subject":
+                                return (
+                                    <>
+                                        <div style={rowStyle}>
+                                            <label htmlFor={field}>{placeHolderList[field]}*</label>
+                                            {
+                                                state[field].isError
+                                                    ?<ErrorLabel fieldName={placeHolderList[field]} errorType={state[field].isError} />
+                                                    :""
+                                            }
+                                        </div>
+                                        <input
+                                            type="text"
+                                            name={field}
+                                            value={state[field].value}
+                                            onChange={onChange}
+                                            data-field={field}
+                                            placeholder={placeHolderList[field]}
+                                            style={inputStyle}
+                                        />
+                                    </>
+                                );
+                            case "phone":
+                            case "fax":
+                            case "email":
+                                return(
+                                    <>
+                                        <div style={rowStyle}>
+                                            <label htmlFor={field}>{placeHolderList[field]}{state[field].required?"*":""}</label>
+                                            {
+                                                state[field].isError
+                                                    ?<ErrorLabel fieldName={placeHolderList[field]} errorType={state[field].isError} />
+                                                    :""
+                                            }
+                                        </div>
+                                        <input
+                                            name={field}
+                                            type="text"
+                                            value={state[field].value}
+                                            onChange={onChange}
+                                            data-field={field}
+                                            placeholder={placeHolderList[field]}
+                                            onBlur={onBlur}
+                                            style={inputStyle}
+                                        />
+                                    </>
+                                );
+                            case "message":
+                                return(
+                                    <>
+                                        <div style={rowStyle}>
+                                            <label htmlFor={field}>Message*</label>
+                                            {
+                                                state[field].isError
+                                                    ?<ErrorLabel fieldName="Message" errorType={state[field].isError} />
+                                                    :""
+                                            }
+                                        </div>
+                                        <textarea
+                                            name={field}
+                                            value={state[field].value}
+                                            onChange={onChange}
+                                            data-field={field}
+                                            placeholder={placeHolderList[field]}
+                                            style={{
+                                                ...inputStyle,
+                                                width: "40vw",
+                                                height: "10vh"
+                                            }}
+                                        />
+                                    </>
+                                )
+                            default:
+                                return "";
+                        }
+                    })
+                }
+                <div style={rowStyle}>
+                    <div style={{display:"flex", flexDirection:"column"}}>
+                        <label htmlFor={"preferred"}>{placeHolderList["preferred"]}</label>
+                        <select
+                            name={"preferred"}
+                            value={state.preferred.value}
+                            onChange={onChange}
+                            data-field={"preferred"}
+                            title={placeHolderList["preferred"]}
+                            style={{
+                                ...inputStyle,
+                                width: "max(10vw, 100px)",
+                                marginRight: "2vw"
+                            }}
+                        >
+                            {
+                                CONTACT_TYPE.map((method, selectIndex) => {
+                                    return (
+                                        <option value={selectIndex} key={selectIndex}>
+                                            {method}
+                                        </option>
+                                    );
+                                })
+                            }
+                        </select>
+                    </div>
+                    <div style={{display:"flex", flexDirection:"column"}}>
+                        <label htmlFor="robot">Are you a robot?</label>
+                        <select
+                            name="robot"
+                            style={{
+                                ...inputStyle,
+                                width: "max(10vw, 100px)"
+                            }}
+                            value="0"
+                        >
+                            {
+                                robotAnswer.map((answer, index) => {
+                                    return (
+                                        <option value={index}>{answer}</option>
+                                    )
+                                })
+                            }
+                        </select>
+                    </div>
+                </div>
             </div>
         </>
     )
 }
 
-export type FieldType = "name" | "email" | "phone" | "fax" | "address" | "preferred" | "message";
+type ErrorProps = {
+    fieldName:string,
+    errorType:ContactErrorType
+}
+
+const ErrorLabel:React.FC<ErrorProps> = ({fieldName, errorType}) => {
+    const errorStyle:CSSProperties = {color: "red"}
+
+    return (
+        <p
+            style={errorStyle}
+        >
+            {
+                errorType === "invalid"
+                    ?`invalid`
+                    :`required`
+            }
+        </p>
+    )
+}
