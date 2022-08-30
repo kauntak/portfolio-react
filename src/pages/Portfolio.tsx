@@ -5,6 +5,7 @@ import { projects } from "../utils/projects";
 import { SelectorType } from "../types";
 import { MinifiedContext } from "../context/MinifiedContext";
 import { ScrollContext } from "../context/Scroll";
+import { IoIosArrowDown } from "react-icons/io";
 
 export const projectTypeList = [
     "All",
@@ -18,40 +19,42 @@ export const Portfolio:React.FC = ()=>{
     const [current, setCurrent] = useState<SelectorType>("All");
     const isMinified = useContext(MinifiedContext);
     const selectorContainerRef = useRef<HTMLDivElement>(null);
-    const [headerHasBorder, setHeaderHasBorder] = useState<boolean>(false);
+    const [isArrowVisible, setIsArrowVisible] = useState<boolean>(false);
     const animated = useRef<boolean>(false)
     const scrollPosition = useContext(ScrollContext);
+    const selectorRef = useRef<HTMLElement>(null);
+    const isFirstRender = useRef<boolean>(true);
 
-    const animateSelector = () => {
-        let i = 1;
-        console.log("animation start");
-        
-        const interval = setInterval(()=> {
+    const animateSelector = (i:number = 1) => {
+        setTimeout(()=> {
             if(i === projectTypeList.length){
-                setHeaderHasBorder(false);
                 setCurrent(projectTypeList[0]);
-                clearInterval(interval);
+                setIsArrowVisible(false);
                 return;
             }
-            setHeaderHasBorder(i % 2 === 1);
             setCurrent(projectTypeList[i]);
+            animateSelector(i + 1);
         }, 750)
     }
 
     useEffect(()=> {
-        if(selectorContainerRef.current === null || animated.current) return;
-        console.log("passed first test");
-        
-        if(window.pageYOffset + window.innerHeight >= selectorContainerRef.current.offsetTop){
-            console.log("is in view:")
+        if(!isMinified || selectorContainerRef.current === null) return;
+        if(isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+        if(animated.current) return;
+        if((window.pageYOffset + (window.innerHeight / 3)) >= selectorContainerRef.current.offsetTop){
+            console.log(window.pageYOffset, window.innerHeight, selectorContainerRef.current?.offsetTop)
             animated.current = true;
+            setIsArrowVisible(true);
             animateSelector();
         }
     }, [scrollPosition]);
-
     
-
     const onGridClick = (e:React.MouseEvent<HTMLDivElement>) => {
+        animateSelector();
+        setIsArrowVisible(true);
         setCurrent("All");
     }
 
@@ -71,7 +74,22 @@ export const Portfolio:React.FC = ()=>{
             >
                 <div
                     ref={selectorContainerRef}
-                >
+                    style={{position:"relative"}}
+                >  
+                    {
+                        isArrowVisible
+                        ?<IoIosArrowDown 
+                            style={{
+                                animation: "blinker 0.75s infinite",
+                                position:"absolute",
+                                left: "calc(min(25px, 15vw) + 3vw)",
+                                top: `calc(${(selectorRef.current?.offsetTop || 0)}px - 5vw)`,
+                                width: "5vw",
+                                height: "auto"
+                            }}
+                        />
+                        :""
+                    }
                     <Selector 
                         list={projectTypeList.map(item => item)} 
                         current={current} 
@@ -84,9 +102,7 @@ export const Portfolio:React.FC = ()=>{
                                     marginTop: 20,
                                     marginRight: "min(20px, 5vw)",
                                     marginLeft: "min(25px, 15vw)",
-                                    zIndex: 20,
-                                    boxShadow: headerHasBorder? "0 0 0 10px var(--accent)" : undefined,
-                                    transition: headerHasBorder?"box-shadow 0.75s ease-in-out" : undefined
+                                    zIndex: 20
                                 }
                                 :{
                                     marginTop:"20px",
@@ -94,6 +110,7 @@ export const Portfolio:React.FC = ()=>{
                                 }
                         }
                         isVertical={isMinified?true:false}
+                        refObject={selectorRef}
                     />
                 </div>
                 <div
