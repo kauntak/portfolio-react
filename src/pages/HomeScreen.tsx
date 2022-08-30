@@ -333,10 +333,14 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
                 }
             </div>
             <div style={styles.doge}>
-                <img 
-                    src="/assets/images/doge.jpg"
-                    alt="Such Screen, Much Big"
-                />
+                {
+                    isShown
+                    ?<img 
+                        src="/assets/images/doge.jpg"
+                        alt="Such Screen, Much Big"
+                    />
+                    :""
+                }
             </div>
         </div>
     )

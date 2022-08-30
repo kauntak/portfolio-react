@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { skills } from "../utils/skills";
 
 type Props = {
@@ -7,10 +7,11 @@ type Props = {
 
 export const SkillsGlobe:React.FC<Props> = ({isVisible})=>{
     const [isError, setIsError] = useState<boolean>(false);
-
+    
     useEffect(()=>{
         const TagCanvas = (window as any).TagCanvas;
-        TagCanvas.outlineColour = "#3246a8";
+        TagCanvas.textColour = "#DEB221";
+        TagCanvas.outlineColour = "var(--accent)";
         TagCanvas.outlineMethod = "colour";
         TagCanvas.shuffleTags = true;
         TagCanvas.initial = [-0.1, 0.07];

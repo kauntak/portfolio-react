@@ -80,7 +80,7 @@ export const ProjectIcon:React.FC<Props> = ({project, current}) => {
                 style={{
                     width: isMinified?200:"min(9vw, 20vh)",
                     height: isMinified?200:"min(9vw, 20vh)",
-                    backgroundColor: "white",
+                    backgroundColor: "var(--text-primary)",
                     padding: "10px",
                     transition: "all 0.5s ease-in-out",
                     transform: (current === "All" || current === project.type)?`scale(1, 1) ${isHovering?"translateY(-10px)":""}`:"scale(0.75, 0.75)",

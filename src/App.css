@@ -23,6 +23,7 @@
     --bg-secondary: #c8d5b9;
     --text-primary: #696d7d;
     --text-secondary: #1282a2;
+    --text-secondary: #bcc5ba;
     --accent: #68b0ab;
     --button: #8fc0a9;
     --hover: #e9d8a6;
@@ -144,4 +145,8 @@ button:active {
 
 .swapping{
   background-color: var(--button);
+}
+
+@keyframes blinker {  
+  50% { opacity: 0; }
 }

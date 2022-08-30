@@ -167,7 +167,8 @@ const largify = ():HomePageStyles => {
             marginLeft: "auto",
             marginRight: "auto",
             position:"relative",
-            top: "1vh"
+            top: "1vh",
+            transition: "all 0.75s ease"
         },
         name:{
             paddingTop: "3vh",

@@ -1,4 +1,4 @@
-import { CSSProperties, Dispatch, SetStateAction } from "react"
+import { CSSProperties, Dispatch, MutableRefObject, SetStateAction } from "react"
 import { AboutOptionTypes, SelectorType } from "../types";
 
 type Props = {
@@ -6,10 +6,11 @@ type Props = {
     current: SelectorType|AboutOptionTypes,
     setCurrent: Dispatch<SetStateAction<SelectorType>>|Dispatch<SetStateAction<AboutOptionTypes>>|Dispatch<SetStateAction<any>>,
     style:CSSProperties,
-    isVertical?: boolean
+    isVertical?: boolean,
+    refObject?: MutableRefObject<HTMLElement | null>
 }
 
-export const Selector:React.FC<Props> = ({list, current, setCurrent, style, isVertical}) => {
+export const Selector:React.FC<Props> = ({list, current, setCurrent, style, isVertical, refObject}) => {
 
     return (
         <section
@@ -20,10 +21,11 @@ export const Selector:React.FC<Props> = ({list, current, setCurrent, style, isVe
                 display:"flex",
                 flexDirection: isVertical?"column":"row"
             }}
+            ref={(e) => {if(refObject && e) refObject.current = e }}
         >
             <div 
                 style={{
-                    backgroundColor: "var(--button)",
+                    backgroundColor: "var(--text-primary)",
                     [isVertical?"height":"width"]: isVertical?20:15,
                     minWidth: isVertical?100:undefined,
                     borderRadius: isVertical?"10px 10px 0 0":"10px 0 0 10px"
@@ -39,9 +41,9 @@ export const Selector:React.FC<Props> = ({list, current, setCurrent, style, isVe
                             cursor: "pointer",
                             textAlign: "center",
                             verticalAlign: "middle",
-                            color: "var(--text-secondary)",
-                            backgroundColor: current===item?"var(--hover)":"var(--button)",
-                            boxShadow: current===item?`inset ${isVertical?"0px 5px 5px -5px":"5px 0 5px -5px"} black, inset ${isVertical?"0px -5px 5px -5px":"-5px 0 5px -5px"} black`:undefined
+                            color: current===item?"var(--text-primary)":"var(--bg-secondary)",
+                            backgroundColor: current===item?"var(--bg)":"var(--text-primary)",
+                            boxShadow: current===item?`inset ${isVertical?"0px 5px 5px -5px":"5px 0 5px -5px"} var(--text-primary), inset ${isVertical?"0px -5px 5px -5px":"-5px 0 5px -5px"} var(--text-primary)`:undefined
                         }}
                         onClick={()=>{setCurrent(item)}}
                     >
@@ -51,7 +53,7 @@ export const Selector:React.FC<Props> = ({list, current, setCurrent, style, isVe
             })}
             <div
                 style={{
-                    backgroundColor: "var(--button)",
+                    backgroundColor: "var(--text-primary)",
                     [isVertical?"height":"width"]: 15,
                     minWidth: isVertical?100:undefined,
                     borderRadius: isVertical?"0 0 10px 10px":"0 10px 10px 0"
