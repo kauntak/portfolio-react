@@ -45,11 +45,11 @@ export const Portfolio:React.FC = ()=>{
         }
         if(animated.current) return;
         if((window.pageYOffset + (window.innerHeight / 3)) >= selectorContainerRef.current.offsetTop){
-            console.log(window.pageYOffset, window.innerHeight, selectorContainerRef.current?.offsetTop)
             animated.current = true;
             setIsArrowVisible(true);
             animateSelector();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scrollPosition]);
     
     const onGridClick = (e:React.MouseEvent<HTMLDivElement>) => {
