@@ -1,4 +1,4 @@
-import { EduAndCertType, ExperienceType } from "../types";
+import { EducationType, ExperienceType } from "../types";
 
 export const experience:ExperienceType[] = [
     {
@@ -36,13 +36,42 @@ export const experience:ExperienceType[] = [
     }
 ]
 
-export const eduAndCerts:EduAndCertType[] = [
+export const eduAndCerts:EducationType[] = [
     {
-        type: "Certificate",
-        institution: "freecodecamp.org",
+        instituteName: "freecodecamp.org Certificates",
         description: "Completed projects using complex data structures, networking, relational databases, and data visualization; built multiple web applications and microservices utilizing Node.js, npm, mongoDB, and the Express framework; Created and implemented algorithms using Object Oriented Programming and Functional Programming paradigms.",
-        certificates: [
-            
+        courses: [
+            {
+                name: "Scientific Computing with Python Certificate",
+                link: "https://freecodecamp.org/certification/fcc86a61d05-e777-433e-b570-c86d0e890f63/scientific-computing-with-python-v7"
+            }, {
+                name: "Back End Development and APIs Certificate",
+                link: "https://freecodecamp.org/certification/fcc86a61d05-e777-433e-b570-c86d0e890f63/back-end-development-and-apis"
+            },{
+                name: "JavaScript Algorithms and Data Structure Certificate",
+                link: "https://freecodecamp.org/certification/fcc86a61d05-e777-433e-b570-c86d0e890f63/javascript-algorithms-and-data-structures"
+            }
+
         ]
+    }, {
+        instituteName: "Souther Alberta Institute of Technology, Calgary, AB",
+        description: "Incomplete due to opportunity to start a new business venture.",
+        courses:[
+            {name:"Computer Hardware and Operating System Essentials"},
+            {name:"Computer Programming Essentials"},
+            {name:"Information Technology Foundations"},
+            {name:"Introduction to Networking"},
+            {name:"Database Design and Programming"},
+            {name:"Object Oriented Programming Essentials"},
+            {name:"Website Development Fundamentals"},
+            {name:"Object Oriented Software Analysis and Design"},
+            {name:"Advanced Object-Oriented Programming"},
+            {name:"Database Programming and Testing"},
+            {name:"Introduction to Database Administration"}
+        ],
+        dates:{
+            from: "September 2010",
+            to: "April 2012"
+        }
     }
 ]

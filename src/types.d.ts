@@ -99,22 +99,12 @@ export type ExperienceType = {
     duties: string[]
 }
 
-type EducationType = {
-    type:"education"
+export type EducationType = {
     instituteName: string,
-    courses: string[],
-    from: string,
-    to:string
-}
-
-type CertificateType = {
-    type: "certificate",
-    instituteName: string,
-    description: string,
-    certificates: {
-        certificateName:string,
-        link:string
+    description?:string,
+    courses: {name:string, link?:string}[],
+    dates?: {
+        from: string,
+        to:string
     }
 }
-
-export type EduAndCertType = EduAndCertType | CertificateType;
