@@ -1,29 +1,19 @@
 import { useEffect, useState } from "react"
+import { loadScript } from "../utils/helpers";
 import { skills } from "../utils/skills";
+import { startTagCanvas } from "../utils/tagCanvas/tagCanvas";
 
 type Props = {
     isVisible:boolean
 }
 
+const TAG_CANVAS_URL = "/scripts/tagCanvas.js";
+
 export const SkillsGlobe:React.FC<Props> = ({isVisible})=>{
     const [isError, setIsError] = useState<boolean>(false);
     
     useEffect(()=>{
-        const TagCanvas = (window as any).TagCanvas;
-        TagCanvas.textColour = "#DEB221";
-        TagCanvas.outlineColour = "var(--accent)";
-        TagCanvas.outlineMethod = "colour";
-        TagCanvas.shuffleTags = true;
-        TagCanvas.initial = [-0.1, 0.07];
-        TagCanvas.minSpeed = 0.02;
-        TagCanvas.maxSpeed = 0.09;
-        TagCanvas.wheelZoom = false;
-        try{
-            TagCanvas.Start("tagCanvas", "tagList");
-        } catch (e) {
-            console.log("Canvas Error", e);
-            setIsError(true);
-        }
+        loadScript(TAG_CANVAS_URL, () => startTagCanvas(setIsError));
     }, []);
 
     return (
