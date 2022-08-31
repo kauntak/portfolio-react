@@ -62,7 +62,6 @@ export const Carousel: React.FC<Props> = ({ list }) => {
             wasDraggingRef.current = false;
             return;
         }
-        console.log("test");
         if(isMinified) setCurrentItemIndex(index);
         else {
             if(Math.abs(index - currentItemIndex) <= 1){
