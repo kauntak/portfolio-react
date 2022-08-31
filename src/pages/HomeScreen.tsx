@@ -7,10 +7,8 @@ import { Popup } from "../components/PopupComponent";
 import { useHomePageReducer } from "../hooks/useHomePageReducer";
 import { MinifiedContext } from "../context/MinifiedContext";
 import { usePrevious } from "../hooks/usePrevious";
+import { ScrollContext } from "../context/Scroll";
 
-type Props = {
-    scrollPosition:number
-}
 
 export const LOVE_LIST = [
     "making things",
@@ -21,7 +19,7 @@ export const LOVE_LIST = [
     "everything computer related!"
 ] as const;
 
-export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
+export const HomeScreen:React.FC = ()=>{
     const [isReady, setIsReady] = useState<boolean>(false);
     const isMinified = useContext(MinifiedContext);
     const isScreenSizeChangedRef = useRef<boolean>(false);
@@ -40,7 +38,7 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
     const wasModalShown = useRef<boolean>(false);
     const screenSize = useContext(ScreenSizeContext);
     const prevScreenSize = usePrevious(screenSize);
-
+    const scrollPosition = useContext(ScrollContext)
     useEffect(()=> {
         if(isMinified) {
             dispatch({type:"scroll", payload: Math.min(scrollPosition, 210)});
