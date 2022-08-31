@@ -10,10 +10,11 @@ type Props = {
     name?:string,
     input: string,
     dispatch: Dispatch<ContactActionType>,
-    disabled?:boolean
+    disabled?:boolean,
+    tabIndex?:number
 }
 
-export const LocationSearchInput:React.FC<Props> = ({style, input, name, dispatch, disabled}) => {
+export const LocationSearchInput:React.FC<Props> = ({style, input, name, dispatch, disabled, tabIndex}) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const onInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +38,7 @@ export const LocationSearchInput:React.FC<Props> = ({style, input, name, dispatc
             placeholder="Address"
             ref={inputRef}
             style={style}
+            tabIndex={tabIndex}
         />
     )
 }
