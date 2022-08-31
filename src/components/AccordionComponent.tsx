@@ -11,11 +11,6 @@ export const Accordion:React.FC<Props> = ({title, content}) => {
     const maxHeightRef = useRef<number>(INITIAL_MAX_HEIGHT);
     const accordionRef = useRef<HTMLDivElement>(null);
 
-    useEffect(()=> {
-        // console.log(isShown, maxHeightRef.current);
-        
-    }, [isShown])
-
     const onHeaderClick = (e:React.MouseEvent<HTMLDivElement>) => {
         setIsShown(prev => {
             if(prev){
@@ -57,7 +52,7 @@ export const Accordion:React.FC<Props> = ({title, content}) => {
             <div
                 style={{
                     maxHeight: isShown?maxHeightRef.current:0,
-                    transition: `max-height ${isShown?"0.75s":"0.2s"} ease-in-out`,
+                    transition: `max-height ${isShown?"0.75s":"0.2s"} ${isShown?"ease-in":"ease-out"}`,
                     overflowY:"hidden",
                     padding:"0 2vw 1vh 2vw",
                     backgroundColor: "rgba(0.5,0.5,1,0.2)",
