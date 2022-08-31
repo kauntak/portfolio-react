@@ -1,4 +1,5 @@
 import React, { CSSProperties, Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { ContactActionType } from "../types";
 import { handleMapsScriptLoad } from "../utils/googleAPI/googlePlaces";
 import { loadScript } from "../utils/helpers";
 
@@ -8,19 +9,21 @@ type Props = {
     style?:CSSProperties,
     name?:string,
     input: string,
-    setInput: Dispatch<SetStateAction<string>>
+    dispatch: Dispatch<ContactActionType>,
+    disabled?:boolean
 }
 
-export const LocationSearchInput:React.FC<Props> = ({style, input, name, setInput}) => {
+export const LocationSearchInput:React.FC<Props> = ({style, input, name, dispatch, disabled}) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const onInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-        setInput(e.target.value);
+        const value  = e.target.value;
+        dispatch({type:"input", payload:{field:"address", value}});
     }
 
     useEffect(()=> {
         loadScript(mapsURL, ()=> {
-            handleMapsScriptLoad(setInput, inputRef);
+            handleMapsScriptLoad(dispatch, inputRef);
         })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -29,6 +32,7 @@ export const LocationSearchInput:React.FC<Props> = ({style, input, name, setInpu
         <input
             name={name}
             value={input}
+            disabled={disabled}
             onChange={onInputChange}
             placeholder="Address"
             ref={inputRef}
