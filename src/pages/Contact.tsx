@@ -3,7 +3,9 @@ import { InputField } from "../components/InputFieldComponent";
 import { Modal } from "../components/ModalComponent";
 import { Popup } from "../components/PopupComponent";
 import { SendButton } from "../components/SendButtonComponent";
+import { CurrentPageContext } from "../context/CurrentPageContext";
 import { MinifiedContext } from "../context/MinifiedContext";
+import { ScrollContext } from "../context/Scroll";
 import { useContactReducer } from "../hooks/useContactReducer";
 import { ContactMatchType, FieldType, SendStateType } from "../types";
 import { contactInfo } from "../utils/contact";
@@ -39,15 +41,19 @@ export const CONTACT_FIELD_MAP:ContactMatchType = {
 
 export const Contact:React.FC = ()=>{
     const isMinified = useContext(MinifiedContext);
+    const contactRef = useRef<HTMLDivElement>(null);
     const [isModalShown, setIsModalShown] = useState<boolean>(false);
     const [popupMessage, setPopupMessage] = useState<string>("");
     const [state, dispatch] = useContactReducer();
     const [sendState, setSendState] = useState<SendStateType>("idle");
     const [isFieldsDisabled, setIsFieldsDisabled] = useState<boolean>(false);
+    const [showTabIndex, setShowTabIndex] = useState<boolean>(false);
     const logoStyle:CSSProperties = {maxWidth:"min(5vw, 5vh)", maxHeight:"min(5vw, 5vh)", borderRadius:"50%", backgroundColor:"white"};
     const rowStyle:CSSProperties = {display:"flex", flexDirection:"row", alignItems:"center"};
     const inputStyle: CSSProperties = {marginBottom: "1.5vh", width: "20vw"}
     const emailsSentRef = useRef<number>(0);
+    const scrollPosition = useContext(ScrollContext);
+    const currentPage = useContext(CurrentPageContext);
 
     const initiateSendMail = async () => {
         const name = state.name.value;
@@ -55,9 +61,15 @@ export const Contact:React.FC = ()=>{
         const preferredMethod = CONTACT_TYPE[parseInt(state.preferred.value)];
         const preferredValue = state[CONTACT_FIELD_MAP[preferredMethod]].value;
         const message = state.message.value;
-        const result = await sendMail(name, preferredMethod, preferredValue, subject, message);
-        setSendState(result);
+        sendMail(name, preferredMethod, preferredValue, subject, message)
+            .then(res => {
+                setSendState("success");
+            }).catch(err => {
+                setSendState("failure");
+            })
     }
+
+
     
     
     const onSendClick = (e:React.MouseEvent<HTMLButtonElement>) => {
@@ -76,18 +88,9 @@ export const Contact:React.FC = ()=>{
             }
         }
         if(isError) return;
-        
-
-
 
         setSendState("sending");
         initiateSendMail();
-        // setTimeout(()=> {
-        //     setSendState("success");
-        //     setTimeout(()=> {
-        //         setSendState("idle");
-        //     }, 2000)
-        // }, 3000);
     }
     
     useEffect(()=> {
@@ -104,7 +107,24 @@ export const Contact:React.FC = ()=>{
                 setIsFieldsDisabled(false);
                 break;
         }
-    }, [sendState])
+    }, [sendState]);
+
+    useEffect(()=>{
+        if(contactRef.current === null) return;
+        if(isMinified){
+            if((window.pageYOffset + (window.innerHeight / 3)) >= contactRef.current.offsetTop){
+                setShowTabIndex(true);
+            } else {
+                setShowTabIndex(false);
+            }
+        } else {
+            if(currentPage.page === "Contact") {
+                setShowTabIndex(true);
+            } else {
+                setShowTabIndex(false);
+            }
+        }
+    }, [scrollPosition, currentPage])
 
     return (
         <>
@@ -133,6 +153,7 @@ export const Contact:React.FC = ()=>{
                     flexDirection:"column",
                     alignContent: "center"
                 }}
+                ref={contactRef}
             >
                 {
                     contactInfo.map((info, index) => {
@@ -194,6 +215,7 @@ export const Contact:React.FC = ()=>{
                                         rowStyle={rowStyle}
                                         dispatch={dispatch}
                                         disabled={isFieldsDisabled}
+                                        setTabIndex={showTabIndex}
                                     />
                                 );
                             })
@@ -212,6 +234,7 @@ export const Contact:React.FC = ()=>{
                             }}
                             value="0"
                             disabled={isFieldsDisabled}
+                            tabIndex={6}
                         >
                             {
                                 robotAnswer.map((answer, index) => {
