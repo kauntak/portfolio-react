@@ -5,7 +5,7 @@ import { Popup } from "../components/PopupComponent";
 import { SendButton } from "../components/SendButtonComponent";
 import { MinifiedContext } from "../context/MinifiedContext";
 import { useContactReducer } from "../hooks/useContactReducer";
-import { ContactMatchType, ContactPreferenceType, FieldType, SendStateType } from "../types";
+import { ContactMatchType, FieldType, SendStateType } from "../types";
 import { contactInfo } from "../utils/contact";
 import { sendMail } from "../utils/helpers";
 
