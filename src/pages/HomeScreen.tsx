@@ -212,7 +212,6 @@ export const HomeScreen:React.FC<Props> = ({scrollPosition})=>{
     }
 
     const globeTransitionEnd = (e:React.TransitionEvent<HTMLDivElement>) => {
-        console.log("Globe end;", {showHiddenMessage, screenSize})
         if(e.currentTarget.style.opacity === "1" && screenSize === "large" && showHiddenMessage){
             setShowHiddenMessage(false);
             animateText({setter:setPsNote, stringTo:"P.S. Can you find the hidden section of my page?"})
