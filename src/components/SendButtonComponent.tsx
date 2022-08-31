@@ -1,11 +1,12 @@
 import React, { CSSProperties, ReactElement, useEffect, useState } from "react"
-import { ContactPreferenceType, FieldType, SendStateType } from "../types"
+import { ContactPreferenceType, SendStateType } from "../types"
 import { LoadingSpinner } from "./LoadinSpinnerComponent"
 
 type Props = {
     onClick:(e:React.MouseEvent<HTMLButtonElement>) => void,
     state: SendStateType,
     preferred: ContactPreferenceType,
+    tabIndex?:number
 }
 
 const CONTACT_MESSAGE_MAP:{[key in ContactPreferenceType]:string} = {
@@ -18,7 +19,7 @@ const CONTACT_MESSAGE_MAP:{[key in ContactPreferenceType]:string} = {
     "Email": "email you"
 }
 
-export const SendButton:React.FC<Props> = ({onClick, state, preferred}) => {
+export const SendButton:React.FC<Props> = ({onClick, state, preferred, tabIndex}) => {
     const [content, setContent] = useState<string|ReactElement>("Send")
     const [style, setStyle] = useState<CSSProperties>({});
     
@@ -64,6 +65,7 @@ export const SendButton:React.FC<Props> = ({onClick, state, preferred}) => {
                 height: "min(10vh, 50px)",
                 position: "relative"   
             }}
+            tabIndex={tabIndex}
         >
             {content}
         </button>
