@@ -1,4 +1,4 @@
-import { CSSProperties, Dispatch } from "react";
+import { CSSProperties, Dispatch, MutableRefObject, useRef } from "react";
 import { CONTACT_TYPE, placeHolderList } from "../pages/Contact";
 import { ContactActionType, ContactStateType, FieldType } from "../types";
 import { ErrorLabel } from "./ErrorLabelComponent";
@@ -10,10 +10,12 @@ type InputFieldProps = {
     dispatch: Dispatch<ContactActionType>,
     inputStyle: CSSProperties,
     rowStyle:CSSProperties,
-    disabled:boolean
+    disabled:boolean,
+    setTabIndex:boolean
 }
 
-export const InputField:React.FC<InputFieldProps> = ({field, state, dispatch, rowStyle, inputStyle, disabled}) => {
+export const InputField:React.FC<InputFieldProps> = ({field, state, dispatch, rowStyle, inputStyle, disabled, setTabIndex}) => {
+
     const onChange = (e:React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>) => {
         const field = e.currentTarget.dataset.field as FieldType;
         const value = e.currentTarget.value;
@@ -34,6 +36,24 @@ export const InputField:React.FC<InputFieldProps> = ({field, state, dispatch, ro
         dispatch({type:"preferred", payload:value})
     }
 
+    const getTabIndex = ():number => {
+        if(!setTabIndex) return 0;
+        switch(field){
+            case "name":
+                return 1;
+            case "preferred":
+                return 2;
+            case "subject":
+                return 4;
+            case "message":
+                return 5;
+            default:
+                if(state.required)
+                    return 3;
+                else return -1;
+        }
+    }
+    
     return (
         <div
             style={{
@@ -61,6 +81,7 @@ export const InputField:React.FC<InputFieldProps> = ({field, state, dispatch, ro
                             border: state.error?"2px solid red":undefined
                         }}
                         disabled={disabled}
+                        tabIndex={getTabIndex()}
                     />
                     :field==="message"
                         ?<textarea
@@ -79,6 +100,7 @@ export const InputField:React.FC<InputFieldProps> = ({field, state, dispatch, ro
                                 maxHeight: "30vh",
                                 border: state.error?"2px solid red":undefined
                             }}
+                            tabIndex={getTabIndex()}
                         />
                         :field==="preferred"
                             ?<select
@@ -93,6 +115,7 @@ export const InputField:React.FC<InputFieldProps> = ({field, state, dispatch, ro
                                     width: "15vw",
                                     minWidth: "max(10vw, 100px)",
                                 }}
+                                tabIndex={getTabIndex()}
                             >
                                 {
                                     CONTACT_TYPE.map((method, selectIndex) => {
@@ -117,6 +140,7 @@ export const InputField:React.FC<InputFieldProps> = ({field, state, dispatch, ro
                                     border: state.error?"2px solid red":undefined
                                 }}
                                 disabled={disabled}
+                                tabIndex={getTabIndex()}
                             />
             }
         </div>
