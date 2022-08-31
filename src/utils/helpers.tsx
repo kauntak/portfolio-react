@@ -16,31 +16,36 @@ export const loadScript = (url: string, callback: Function) => {
 }
 
 const postmailUrl = "https://postmail.invotes.com/send";
-
+let timeout:ReturnType<typeof setTimeout>;
 export const sendMail = (name:string, preferredMethod:ContactPreferenceType, preferredValue:string, subject:string, message:string):Promise<SendStateType> => {
     return new Promise((resolve, reject) => {
         const data = {
             access_token: process.env.REACT_APP_POSTMAIL_API_KEY || "",
-            subject: `Contact from: ${name} - ${subject}`,
+            subject: `Contact form: ${name} - ${subject}`,
             text:`${preferredMethod} - ${preferredValue}
             
             ${message}`
         }
         const params = toParams(data);
         const request = new XMLHttpRequest();
-        request.onreadystatechange = () => {
+        timeout = setTimeout(()=> {
+            request.abort();
+            reject("failure");
+        }, 2000);
+
+        request.onloadend = () => {
             if(request.readyState === 4 && request.status === 200){
+                clearTimeout(timeout);
                 resolve("success");
             } else {
                 reject("failure");
             }
-        };
+        }
         request.open("POST", postmailUrl, true);
         request.setRequestHeader(
             "Content-type",
             "application/x-www-form-urlencoded"
         );
-
         request.send(params);
     })
 }
