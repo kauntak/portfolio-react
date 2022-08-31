@@ -1,4 +1,4 @@
-import React, { CSSProperties, Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import React, { CSSProperties, Dispatch, useEffect, useRef } from "react";
 import { ContactActionType } from "../types";
 import { handleMapsScriptLoad } from "../utils/googleAPI/googlePlaces";
 import { loadScript } from "../utils/helpers";
