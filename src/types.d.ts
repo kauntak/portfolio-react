@@ -1,7 +1,7 @@
 import { themeList, pageList } from "./App";
 import { projectTypeList } from "./pages/Portfolio";
 import { STATE_CLASS_NAME, SORT_ALGORITHMS } from "./components/SortComponent";
-import { FIELDS } from "./pages/Contact";
+import { CONTACT_TYPE, FIELDS } from "./pages/Contact";
 
 
 export type ScreenSizeType = "small" | "medium" | "large" | "x-large" | "xx-large";
@@ -132,7 +132,11 @@ type BlurFieldAction = {
     payload: FieldType
 }
 
-export type ContactActionType = InputChangeAction | PreferredChangeAction | BlurFieldAction
+type RequiredCheckAction = {
+    type: "requiredCheck"
+}
+
+export type ContactActionType = InputChangeAction | PreferredChangeAction | BlurFieldAction | RequiredCheckAction
 
 type ContactErrorType = undefined | "invalid" | "required"
 
@@ -140,14 +144,13 @@ export type ContactStateType = {
     [key in FieldType]:{
         value:string,
         required?:boolean,
-        isError?:ContactErrorType
+        error?:ContactErrorType
     }
 }
 
-type ContactTypeType = typeof CONTACT_TYPE[number];
 
 export type ContactMatchType = {
-    [key in ContactTypeType]:FieldType
+    [key in ContactPreferenceType]:FieldType
 }
 
 export type ContactInfoType = {
@@ -162,3 +165,5 @@ export type ContactInfoType = {
         }|string
     }[]
 }
+export type ContactPreferenceType = typeof CONTACT_TYPE[number]
+export type SendStateType = "idle" | "sending" | "success" | "failure";
