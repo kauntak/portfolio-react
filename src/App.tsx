@@ -7,6 +7,7 @@ import { PageType, ScreenSizeType, ThemeType } from './types';
 import { ScreenSizeContext } from './context/ScreenSize';
 import { ScrollContext } from './context/Scroll';
 import { MinifiedContext } from './context/MinifiedContext';
+import { CurrentPageContext } from './context/CurrentPageContext';
 
 
 export const themeList = ["light", "dark"] as const;
@@ -136,14 +137,16 @@ function App() {
               currentTheme={theme}
               setTheme={setTheme}
             />
-            <HomeScreen scrollPosition={scrollPosition}/>
-            {
-              pageList.map((page, index) => {
-                return (
-                  <Page key={index} page={page} currentPage={currentPage.page} refs={pageRef}/>
-                );
-              })
-            }
+            <HomeScreen />
+            <CurrentPageContext.Provider value={currentPage}>
+              {
+                pageList.map((page, index) => {
+                  return (
+                    <Page key={index} page={page} currentPage={currentPage.page} refs={pageRef}/>
+                  );
+                })
+              }
+            </CurrentPageContext.Provider>
           </ScrollContext.Provider>
         </ScreenSizeContext.Provider>
       </MinifiedContext.Provider>
