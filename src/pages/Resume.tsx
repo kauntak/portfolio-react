@@ -19,6 +19,7 @@ export const Resume:React.FC = ()=>{
             >
                 Download
             </a>
+            <br/>
             <h5>9+ year entrepreneur with 2 years of experience as a Software Developer. Ability to juggle multiple tasks and responsibilities, and possess a repertoire of interpersonal, computer, analytical, problem solving, administrative, managerial and adaptability skills. Able to operate at both the 10,000 foot level and at the 10 inch level.</h5>
             <Accordion 
                 title="PROJECTS"
@@ -53,8 +54,8 @@ export const Resume:React.FC = ()=>{
                                         key={index}
                                         title={exp.title}
                                         content={
-                                            <>
-                                                <h5 style={{marginTop:"1.5vh"}}>{exp.company} {exp.from} - {exp.to?exp.to:"Present"}</h5>
+                                            <div style={{marginTop:"1.5vh"}}>
+                                                <h5>{exp.company} {exp.from} - {exp.to?exp.to:"Present"}</h5>
                                                 <ul>
                                                     {
                                                         exp.duties.map((duty, index) => {
@@ -68,7 +69,7 @@ export const Resume:React.FC = ()=>{
                                                         })
                                                     }
                                                 </ul>
-                                            </>
+                                            </div>
                                         }
                                     />
                                 )
@@ -88,10 +89,10 @@ export const Resume:React.FC = ()=>{
                                     <Accordion
                                         title={eAndC.instituteName}
                                         content={
-                                            <>
+                                            <div style={{marginTop:"1.5vh"}}>
                                                 {
                                                     eAndC.dates
-                                                    ?<h5 style={{marginTop:"1.5vh"}}>{eAndC.dates.from} - {eAndC.dates.to}</h5>
+                                                    ?<h5>{eAndC.dates.from} - {eAndC.dates.to}</h5>
                                                     :""
                                                 }
                                                 {
@@ -109,6 +110,7 @@ export const Resume:React.FC = ()=>{
                                                                     {
                                                                         course.link
                                                                         ?<a
+                                                                            key={index}
                                                                             href={course.link}
                                                                             rel="noreferrer"
                                                                             target="_blank"
@@ -123,7 +125,7 @@ export const Resume:React.FC = ()=>{
                                                         })
                                                     }
                                                 </ul>
-                                            </>
+                                            </div>
                                         }
                                     />
                                 )
