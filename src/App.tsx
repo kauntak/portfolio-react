@@ -10,7 +10,7 @@ import { MinifiedContext } from './context/MinifiedContext';
 import { CurrentPageContext } from './context/CurrentPageContext';
 
 
-export const themeList = ["light", "dark"] as const;
+export const themeList = ["light", "dark", "halloween", "darkRoom", "orangeAndTeal", "purpleMurple", "vaporWave", "valentines", "imBlueDabaDee", "ohGodMyEyes", "6ShadesOfGray"] as const;
 export const pageList = ["Portfolio", "About", "Contact"] as const;
 
 
