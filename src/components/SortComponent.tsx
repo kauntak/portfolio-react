@@ -28,11 +28,12 @@ export const SortDiv:React.FC = () => {
     const [amount, setAmount] = useState<number>(50);
     const [width, setWidth] = useState<number>(12)
     const [state, dispatch] = useSortReducer()
-    const sequenceTimerRef = useRef<ReturnType<typeof setTimeout>>(setTimeout(()=>{}));
+    const sequenceTimerRef = useRef<ReturnType<typeof setTimeout>|null>(null);
     
     const generateBlocks = () =>{
         setIsPaused(true);
-        clearTimeout(sequenceTimerRef.current);
+        if(sequenceTimerRef.current)
+            clearTimeout(sequenceTimerRef.current);
         setSequence([]);
         setSequenceIndex(0);
         setIsSorting(false);
@@ -40,10 +41,10 @@ export const SortDiv:React.FC = () => {
         dispatch({type:"reset", payload: amount});
     }
 
-    const playSequence = (index:number = 0) => { //return;
-        // setSequenceTimer((timer) => setTimeout(()=> {
+    const playSequence = (index:number = 0) => {
         sequenceTimerRef.current = setTimeout(()=> {
-            clearTimeout(sequenceTimerRef.current)
+            if(sequenceTimerRef.current)
+                clearTimeout(sequenceTimerRef.current)
             if(isPausedRef.current) {
                 setSequenceIndex(index);
                 return;
@@ -79,7 +80,10 @@ export const SortDiv:React.FC = () => {
     }
 
     useEffect(()=> {
-        return () => clearTimeout(sequenceTimerRef.current)
+        return () => {
+            if(sequenceTimerRef.current)
+                clearTimeout(sequenceTimerRef.current)
+        }
     }, [])
 
     useEffect(()=>{
@@ -105,6 +109,7 @@ export const SortDiv:React.FC = () => {
         if(isSorted){
             generateBlocks();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sortType])
 
     const algorithms:{
