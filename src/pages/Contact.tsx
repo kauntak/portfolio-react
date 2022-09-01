@@ -14,7 +14,7 @@ import { sendMail } from "../utils/helpers";
 export const FIELDS = ["name", "preferred", "email", "phone", "fax", "address","subject", "message"] as const;
 export const CONTACT_TYPE = ["Email", "Phone (Call)", "Phone (Text)", "Post (Letter)", "Carrier Pigeon", "Telegram", "Fax"] as const;
 
-const robotAnswer = ["Yes", "No", "Ye-NO", "0100111001101111"] as const;
+const robotAnswer = ["Yes", "N-no, w-why would you suspect that I'm a robot? That's absolute preposterous!", "Ye-NO", "0100111001101111"] as const;
 
 
 export const placeHolderList:{[key in FieldType]:string} = {
@@ -124,7 +124,7 @@ export const Contact:React.FC = ()=>{
                 setShowTabIndex(false);
             }
         }
-    }, [scrollPosition, currentPage])
+    }, [scrollPosition, currentPage, isMinified])
 
     return (
         <>
@@ -232,9 +232,8 @@ export const Contact:React.FC = ()=>{
                                 width: "15vw",
                                 minWidth: "max(10vw, 100px)"
                             }}
-                            value="0"
                             disabled={isFieldsDisabled}
-                            tabIndex={6}
+                            tabIndex={showTabIndex?6:0}
                         >
                             {
                                 robotAnswer.map((answer, index) => {
@@ -246,7 +245,7 @@ export const Contact:React.FC = ()=>{
                         </select>
                     </div>
                 </div>
-                <SendButton onClick={onSendClick} state={sendState} preferred={CONTACT_TYPE[parseInt(state.preferred.value)]}/>
+                <SendButton onClick={onSendClick} state={sendState} preferred={CONTACT_TYPE[parseInt(state.preferred.value)]} tabIndex={showTabIndex?7:0}/>
             </div>
         </>
     )
