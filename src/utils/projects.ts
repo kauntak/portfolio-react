@@ -31,10 +31,10 @@ export const projects:ProjectType[] = [
             "heroku"
         ],
         githubLink: "https://github.com/kauntak/Sabores",
-        liveLink: {
-            link:"https://github.com/kauntak/Sabores",
-            isSlow:true
-        }
+        // liveLink: {
+        //     link:"https://github.com/kauntak/Sabores",
+        //     isSlow:true
+        // }
     }, {
         type: "Programs",
         imagePath: "/assets/images/Logos/SambaPOS-icon-Logo.png",
@@ -113,18 +113,18 @@ export const projects:ProjectType[] = [
         imagePath: "/assets/images/nm-foods-web-preview.jpg",
         projectName: "NM Foods - Yoshi Natto 喜納豆",
         sitePath: "https://www.nmfoods.ca/"
-    }, {
-        type: "Designs",
-        imagePath: "",
-        projectName: "Pixel Art",
-        designs: [
+    // }, {
+    //     type: "Designs",
+    //     imagePath: "",
+    //     projectName: "Pixel Art",
+    //     designs: [
 
-        ]
-    }, {
-        type: "Websites",
-        imagePath: "/assets/images/big-catch-web-preview.jpg",
-        projectName: "Big Catch Sushi Bar",
-        sitePath: "https://www.bigcatchcalgary.ca"
+    //     ]
+    // }, {
+    //     type: "Websites",
+    //     imagePath: "/assets/images/big-catch-web-preview.jpg",
+    //     projectName: "Big Catch Sushi Bar",
+    //     sitePath: "https://www.bigcatchcalgary.ca"
     }, {
         type: "Designs",
         imagePath: "/assets/images/Cards/BC-sqaure-2-1.jpg",
@@ -154,8 +154,8 @@ export const projects:ProjectType[] = [
         type: "Websites",
         projectName: "Old Website",
         imagePath: "/assets/images/old-website-preview.jpg",
-        sitePath: "https://github.com/kauntak/Portfolio-webpage",
-        note: "This site is my old portfolio site creating using pure Javascript/HTML/CSS. The new site was updated/refactored using React! \nLink is a github link"
+        sitePath: "https://kauntak.github.io/Portfolio-webpage/#home",
+        note: "This site is my old portfolio site creating using pure Javascript/HTML/CSS. The new site was updated/refactored using React!"
     }, {
         type: "Designs",
         projectName: "Menu Designs",
