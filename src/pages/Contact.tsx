@@ -90,7 +90,16 @@ export const Contact:React.FC = ()=>{
         if(isError) return;
 
         setSendState("sending");
-        initiateSendMail();
+        if(state.preferred.value==="4") {
+            setPopupMessage("Unfortunately it looks like all the pigeons have gone missing. Please try again at a later date.")
+            setTimeout(() => {
+                setSendState("failure");
+                setIsModalShown(true);
+            }, 3500)
+            return;
+        }
+
+        // initiateSendMail();
     }
     
     useEffect(()=> {
