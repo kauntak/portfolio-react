@@ -16,17 +16,7 @@
     width: 5vw;
     max-width: 110px;
     height:100vh;
-    background: var(--bg-secondary); /* fallback for old browsers */
-    background: -webkit-linear-gradient(
-        to bottom,
-        var(--bg-secondary),
-        var(--accent)
-    ); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(
-        to bottom,
-        var(--bg-secondary),
-        var(--accent)
-    );
+    background: var(--bg-secondary);
     display: flex;
     justify-content: center;
     align-content: center;
@@ -157,12 +147,11 @@
 }
 
 .selected{
-    background-color: var(--bg);
-    color: var(--text-primary);
+    background-color: var(--hover);
+    color: var(--text-secondary);
     left: -5px;
 }
 .selected:hover{
-    background-color: var(--bg);
-    color: var(--text-primary);
-
+    background-color: var(--hover);
+    color: var(--text-secondary);
 }
