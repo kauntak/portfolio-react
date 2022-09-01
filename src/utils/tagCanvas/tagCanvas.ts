@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 
-export const startTagCanvas = (setIsError:Dispatch<SetStateAction<boolean>>) => {
+export const startTagCanvas = (setIsError:Dispatch<SetStateAction<boolean>>, color:string) => {
     const interval = setInterval(()=> {
         if((window as any).TagCanvas) {
             clearInterval(interval);
@@ -9,7 +9,7 @@ export const startTagCanvas = (setIsError:Dispatch<SetStateAction<boolean>>) => 
     })
     const initializeTagCanvas = () => {
         const TagCanvas = (window as any).TagCanvas;
-        TagCanvas.textColour = "#DEB221";
+        TagCanvas.textColour = color;
         TagCanvas.outlineColour = "var(--accent)";
         TagCanvas.outlineMethod = "colour";
         TagCanvas.shuffleTags = true;
