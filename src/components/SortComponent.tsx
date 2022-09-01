@@ -232,8 +232,7 @@ export const SortDiv:React.FC = () => {
                                 colorState = "comparing";
                             } else if (index === state.swap[0] || index === state.swap[1]) {
                                 colorState = "swapping";
-                            }
-                            if (state.complete.includes(index)){
+                            } else if (state.complete.includes(index)){
                                 colorState = "sorted";
                             }
                             return (
