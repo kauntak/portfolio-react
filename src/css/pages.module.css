@@ -1,16 +1,4 @@
 .panel {
-    background: var(--bg); /* fallback for old browsers */
-    background: -webkit-linear-gradient(
-        to right,
-        var(--bg),
-        var(--accent),
-        var(--bg-secondary)
-    ); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(
-        to right,
-        var(--bg),
-        var(--accent),
-        var(--bg-secondary)
-    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: var(--bg);
     transition: all 0.5s ease-in-out;
 }
