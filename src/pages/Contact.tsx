@@ -99,7 +99,7 @@ export const Contact:React.FC = ()=>{
             return;
         }
 
-        // initiateSendMail();
+        initiateSendMail();
     }
     
     useEffect(()=> {
