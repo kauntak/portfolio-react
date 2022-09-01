@@ -87,6 +87,7 @@ export const Resume:React.FC = ()=>{
                             eduAndCerts.map((eAndC, index) =>{
                                 return (
                                     <Accordion
+                                        key={index}
                                         title={eAndC.instituteName}
                                         content={
                                             <div style={{marginTop:"1.5vh"}}>
@@ -110,7 +111,6 @@ export const Resume:React.FC = ()=>{
                                                                     {
                                                                         course.link
                                                                         ?<a
-                                                                            key={index}
                                                                             href={course.link}
                                                                             rel="noreferrer"
                                                                             target="_blank"
