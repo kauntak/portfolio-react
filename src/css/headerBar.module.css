@@ -81,6 +81,7 @@
 .icon{
     border-radius: 50%;
     background-color: var(--hover);
+    color: var(--button);
     width: 7vw;
     height: 7vw;
     display: inline-block;
