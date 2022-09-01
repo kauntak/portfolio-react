@@ -8,6 +8,7 @@ import { ScreenSizeContext } from './context/ScreenSize';
 import { ScrollContext } from './context/Scroll';
 import { MinifiedContext } from './context/MinifiedContext';
 import { CurrentPageContext } from './context/CurrentPageContext';
+import { ThemeContext } from './context/ThemeContext';
 
 
 export const themeList = ["light", "dark", "halloween", "darkRoom", "orangeAndTeal", "purpleMurple", "vaporWave", "valentines", "imBlueDabaDee", "ohGodMyEyes", "6ShadesOfGray"] as const;
@@ -130,23 +131,24 @@ function App() {
       <MinifiedContext.Provider value={isMinified}>
         <ScreenSizeContext.Provider value={screenSize}>
           <ScrollContext.Provider value={scrollPosition}>
-            <HeaderBar
-              pages={[...pageList]}
-              currentPage={currentPage.page}
-              onClick={onHeaderClick}
-              currentTheme={theme}
-              setTheme={setTheme}
-            />
-            <HomeScreen />
-            <CurrentPageContext.Provider value={currentPage}>
-              {
-                pageList.map((page, index) => {
-                  return (
-                    <Page key={index} page={page} currentPage={currentPage.page} refs={pageRef}/>
-                  );
-                })
-              }
-            </CurrentPageContext.Provider>
+            <ThemeContext.Provider value={theme}>
+              <HeaderBar
+                pages={[...pageList]}
+                currentPage={currentPage.page}
+                onClick={onHeaderClick}
+                setTheme={setTheme}
+              />
+              <HomeScreen />
+              <CurrentPageContext.Provider value={currentPage}>
+                {
+                  pageList.map((page, index) => {
+                    return (
+                      <Page key={index} page={page} currentPage={currentPage.page} refs={pageRef}/>
+                    );
+                  })
+                }
+              </CurrentPageContext.Provider>
+            </ThemeContext.Provider>
           </ScrollContext.Provider>
         </ScreenSizeContext.Provider>
       </MinifiedContext.Provider>
