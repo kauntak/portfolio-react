@@ -21,8 +21,7 @@ export const handleMapsScriptLoad = (dispatch: Dispatch<ContactActionType>,input
 
 const handlePlaceSelect = (dispatch: Dispatch<ContactActionType>) => {
     const addressObject = autoComplete.getPlace();
-    console.log(addressObject);
-    
-    const newAddress = addressObject.formatted_address;
+    const newAddress = addressObject?.formatted_address;
+    if(!newAddress) return;
     dispatch({type:"input", payload:{field:"address", value: newAddress}});
 }
