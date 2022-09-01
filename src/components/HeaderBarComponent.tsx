@@ -6,6 +6,7 @@ import { ScrollContext } from "../context/Scroll";
 import { MinifiedContext } from "../context/MinifiedContext";
 import { themeList } from "../App";
 import { Modal } from "./ModalComponent";
+import { ThemeContext } from "../context/ThemeContext";
 
 type Props = {
     onClick: (page:PageType|undefined) => void,
@@ -35,6 +36,7 @@ export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage, setThe
     const [showNavigation, setShowNavigation] = useState<boolean>(false);
     const [isThemesShown, setIsThemesShown] = useState<boolean>(false);
     const scrollPosition = useContext(ScrollContext);
+    const currentTheme = useContext(ThemeContext);
     const icons:{[keys in PageType|"theme"]:JSX.Element} = {
         Portfolio:<FaCode />,
         About: <FaUser />,
@@ -73,6 +75,7 @@ export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage, setThe
                     modal={
                         <ul style={{overflowY:"auto", overflowX:"hidden", width:"fit-content", marginRight: "10px"}}>
                             {themeList.map((theme, index) => {
+                                if(theme===currentTheme) return "";
                                 return (
                                     <li
                                         key={index}
