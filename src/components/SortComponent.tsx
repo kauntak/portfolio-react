@@ -210,9 +210,9 @@ export const SortDiv:React.FC = () => {
                     </div>
                 </div>
                 <div style={{display:"flex", flexDirection:"row", margin: "10px", alignItems:"center", justifyContent:"space-between"}}>
-                    {STATE_CLASS_NAME.map(stateName => {
+                    {STATE_CLASS_NAME.map((stateName, index) => {
                         return (
-                            <div style={{display:"flex", flexDirection:"row", margin: 5, alignContent:"center"}}>
+                            <div style={{display:"flex", flexDirection:"row", margin: 5, alignContent:"center"}} key={index}>
                                 <div className={stateName} style={{width: 15, height: 15, marginRight: 5}}/>
                                 {`${stateName.charAt(0).toUpperCase() + stateName.slice(1)}`}
                             </div>
