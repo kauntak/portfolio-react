@@ -6,7 +6,6 @@ export const merge = (oldBlocks:Arr<number>):SequenceType[] => {
     const sequence:SequenceType[] = [];
     
     const sort = (leftIndex:number, midIndex:number, rightIndex:number, isFirst: boolean = false):void => {
-        console.log("sort left:", leftIndex, "mid:", midIndex, "right:", rightIndex);
         
         while((leftIndex < midIndex) && (midIndex <= rightIndex)){
             const compareSequence:SequenceType = {
@@ -18,8 +17,8 @@ export const merge = (oldBlocks:Arr<number>):SequenceType[] => {
             if(blocks.isFirstLarger(leftIndex, midIndex)){
                 const insertSequence:SequenceType = {
                     type:"insert",
-                    indexFrom:midIndex,
-                    indexTo:leftIndex,
+                    indexFrom:leftIndex,
+                    indexTo:midIndex,
                     blocks: blocks.insert(midIndex, leftIndex)
                 }
                 sequence.push(insertSequence);
@@ -52,16 +51,13 @@ export const merge = (oldBlocks:Arr<number>):SequenceType[] => {
         if(leftIndex === undefined) leftIndex = 0;
         if(rightIndex === undefined) rightIndex = blocks.length - 1;
         const difference:number  = rightIndex - leftIndex;
-        console.log("split depth: ", depth);
         if(difference <= 1)
             return sort(leftIndex, leftIndex + 1, rightIndex);
-        const midIndex = Math.round(difference / 2) + leftIndex; //Math.floor((leftIndex + rightIndex) / 2);
-        console.log("left:", leftIndex, "midIndex:", midIndex, "depth: ", depth);
+        const midIndex = Math.round(difference / 2) + leftIndex;
         split(leftIndex, midIndex, depth + 1);
-        console.log("mid+1:", midIndex+1, "right: ", rightIndex, "depth: ", depth);
         split(midIndex + 1, rightIndex, depth + 1);
 
-        return sort(leftIndex, midIndex, rightIndex, isFirst);
+        return sort(leftIndex, midIndex + 1, rightIndex, isFirst);
     }
 
     split();
