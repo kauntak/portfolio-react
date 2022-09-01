@@ -13,7 +13,7 @@ export const SkillsGlobe:React.FC<Props> = ({isVisible})=>{
     const [isError, setIsError] = useState<boolean>(false);
     
     useEffect(()=>{
-        loadScript(TAG_CANVAS_URL, () => startTagCanvas(setIsError));
+        loadScript(TAG_CANVAS_URL, "tagCanvasAPI", () => startTagCanvas(setIsError));
     }, []);
 
     return (
