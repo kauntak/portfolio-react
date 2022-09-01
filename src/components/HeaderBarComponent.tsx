@@ -1,10 +1,11 @@
 import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
 import styles from "./../css/headerBar.module.css";
-import { FaAt, FaBars, FaCode, FaAngleDoubleUp, FaTimes, FaUser, FaCertificate, FaMoon } from "react-icons/fa"
+import { FaAt, FaBars, FaCode, FaAngleDoubleUp, FaTimes, FaUser, FaPalette } from "react-icons/fa"
 import { BsSlashLg } from "react-icons/bs"
 import { PageType, ThemeType } from "../types";
 import { ScrollContext } from "../context/Scroll";
 import { MinifiedContext } from "../context/MinifiedContext";
+import { themeList } from "../App";
 
 type Props = {
     onClick: (page:PageType|undefined) => void,
@@ -13,16 +14,32 @@ type Props = {
     currentTheme: ThemeType,
     setTheme:Dispatch<SetStateAction<ThemeType>>
 }
+
+const THEME_NAME_MAP:{[key in ThemeType]:string} = {
+    light:"Light", 
+    dark:"Dark",
+    halloween:"Halloween",
+    darkRoom:"Dark Room", 
+    orangeAndTeal:"Orange and Teal",
+    purpleMurple:"Purple Murple", 
+    vaporWave:"Vapor Wave", 
+    valentines:"Valentines",
+    imBlueDabaDee:"I'm Blue Daba Dee", 
+    ohGodMyEyes:"OH GOD MY EYES", 
+    "6ShadesOfGray":"6 shades of Gray"
+}
+
+
+
 export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage, currentTheme, setTheme }) => {
     const isMinified = useContext(MinifiedContext);
     const [showNavigation, setShowNavigation] = useState<boolean>(false);
     const scrollPosition = useContext(ScrollContext);
-    const icons:{[keys in PageType|ThemeType]:JSX.Element} = {
+    const icons:{[keys in PageType|"theme"]:JSX.Element} = {
         Portfolio:<FaCode />,
         About: <FaUser />,
         Contact: <FaAt />,
-        light:<FaMoon />,
-        dark:<FaCertificate />
+        theme: <FaPalette />
     }
 
     useEffect(() => {
@@ -144,8 +161,8 @@ export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage, curren
                 >
                     {
                         isMinified
-                            ?icons[currentTheme]
-                            :<>{icons["dark"]}<BsSlashLg />{icons["light"]}</>
+                            ?icons["theme"]
+                            :"Theme"
                     }
                 </li>
             </ul>
