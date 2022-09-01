@@ -1,7 +1,6 @@
 import { ContactPreferenceType, SendStateType } from "../types";
 
-export const loadScript = (url: string, callback: Function) => {
-    const id = "googlePlacesAPIScript"
+export const loadScript = (url: string, id:string, callback: Function) => {
     if(document.getElementById(id) !== null) {
         callback();
         return;
