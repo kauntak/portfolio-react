@@ -1,37 +1,18 @@
-/* :root {
-    --bg: #005f73;
-    --bg-secondary: #0a9396;
-    --text-primary: #bb3e03;
-    --text-secondary: #ca6702;
-    --accent: #001219;
-    --button: #94d2bd;
-    --hover: #e9d8a6;
-} */
+
 :root  {
-  --bg: #344a53;
-  --bg-secondary: #98afba;
-  --text-primary: #956995;
-  --text-secondary: #613963;
-  --accent: #11323f;
-  --button: #94d2bd;
-  --hover: #e9d8a6;
+  --bg:  #161515;
+  --text-primary :#3e7697;
+  --bg-secondary :#3c4e5f;
+  --text-secondary: #e2e5ff;
+  --button: #4f9ab1;
+  --hover:#06335e;
 }
-/* [data-theme="dark"] {
-    --bg: #002843;
-    --bg-secondary: #344a53;
-    --text-primary: #956995;
-    --text-secondary: #613963;
-    --accent: #11323f;
-    --button: #1282a2;
-    --hover: #98afba;
-} */
 
 [data-theme="light"] {
     --bg: #faf3dd;
     --bg-secondary: #c8d5b9;
     --text-primary: #7c8094;
     --text-secondary: #7c8b79;
-    --accent: #68b0ab;
     --button: #8fc0a9;
     --hover: #e9d8a6;
 }
