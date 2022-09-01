@@ -23,7 +23,7 @@ export const LocationSearchInput:React.FC<Props> = ({style, input, name, dispatc
     }
 
     useEffect(()=> {
-        loadScript(mapsURL, ()=> {
+    loadScript(mapsURL, "googlePlacesAPI", ()=> {
             handleMapsScriptLoad(dispatch, inputRef);
         })
     // eslint-disable-next-line react-hooks/exhaustive-deps
