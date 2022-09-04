@@ -53,8 +53,6 @@ export const Portfolio:React.FC = ()=>{
     }, [scrollPosition]);
     
     const onGridClick = (e:React.MouseEvent<HTMLDivElement>) => {
-        animateSelector();
-        setIsArrowVisible(true);
         setCurrent("All");
     }
 
