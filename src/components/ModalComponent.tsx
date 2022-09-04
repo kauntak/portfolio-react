@@ -23,7 +23,7 @@ export const Modal:React.FC<Props> = ({setIsShown, modal}) => {
                 width: "100vw",
                 height: "100vh",
                 overflow: "hidden",
-                zIndex: 100,
+                zIndex: 1000,
                 background: "rgba(0,0,0,0.5)"
             }}
             onClick={onBackgroundClick}
