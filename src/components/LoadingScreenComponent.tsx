@@ -5,11 +5,6 @@ type Props = {
     setIsLoading: Dispatch<SetStateAction<boolean>>
 }
 
-type positionType = {
-    x: number,
-    y: number
-}
-
 const MAX_COUNT = 10;
 const MIN_COUNT = 6
 
@@ -57,6 +52,7 @@ export const LoadingScreenComponent:React.FC<Props> = ({setIsLoading}) => {
         return () => {
             clearInterval(interval);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
 
