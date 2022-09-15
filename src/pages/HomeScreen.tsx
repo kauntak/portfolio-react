@@ -19,8 +19,11 @@ export const LOVE_LIST = [
     "everything computer related!"
 ] as const;
 
-export const HomeScreen:React.FC = ()=>{
-    const [isReady, setIsReady] = useState<boolean>(false);
+type Props = {
+    isLoading: boolean
+}
+
+export const HomeScreen:React.FC<Props> = ({isLoading})=>{
     const isMinified = useContext(MinifiedContext);
     const isScreenSizeChangedRef = useRef<boolean>(false);
     const [isShown, setIsShown] = useState<boolean>(false);
@@ -38,13 +41,22 @@ export const HomeScreen:React.FC = ()=>{
     const wasModalShown = useRef<boolean>(false);
     const screenSize = useContext(ScreenSizeContext);
     const prevScreenSize = usePrevious(screenSize);
-    const scrollPosition = useContext(ScrollContext)
+    const scrollPosition = useContext(ScrollContext);
+
     useEffect(()=> {
         if(isMinified) {
             dispatch({type:"scroll", payload: Math.min(scrollPosition, 210)});
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [scrollPosition])
+    }, [scrollPosition]);
+
+    useEffect(()=>{
+        if(!isLoading){
+            setTimeout(()=> {
+                startAnimation();
+            }, 500);
+        }
+    }, [isLoading])
 
     
 
@@ -70,10 +82,7 @@ export const HomeScreen:React.FC = ()=>{
     }, [screenSize]);
 
     useEffect(()=>{
-        // setIsScreenSizeChanged(true);
-        setIsReady(false);
         isScreenSizeChangedRef.current = true;
-        // dispatch({type:"minify", payload:isMinified});
         if(isMinified){
             if(!wasModalShown.current){
                 wasModalShown.current = true;
@@ -94,16 +103,8 @@ export const HomeScreen:React.FC = ()=>{
             setLoveSentence("");
             setPsNote("");
             isScreenSizeChangedRef.current = false;
-            setIsReady(true);
         }
     }, [isMinified]);
-
-    useEffect(()=>{
-        if(isReady){
-            startAnimation();
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isReady])
 
     const animateText:(obj:StringAnimationType)=>void = ({setter, stringTo, sideEffect}) => {
         return new Promise<void>(resolve => {
