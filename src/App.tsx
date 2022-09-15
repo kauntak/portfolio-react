@@ -9,6 +9,7 @@ import { ScrollContext } from './context/Scroll';
 import { MinifiedContext } from './context/MinifiedContext';
 import { CurrentPageContext } from './context/CurrentPageContext';
 import { ThemeContext } from './context/ThemeContext';
+import { LoadingScreenComponent } from './components/LoadingScreenComponent';
 
 
 export const themeList = ["light", "dark", "halloween", "darkRoom", "orangeAndTeal", "purpleMurple", "vaporWave", "valentines", "imBlueDabaDee", "ohGodMyEyes", "6ShadesOfGray"] as const;
@@ -39,6 +40,7 @@ function App() {
   const homeRef = useRef<HTMLDivElement>(null);
   const pageRef = useRef<Record<PageType, HTMLDivElement>>(defaultPageRef);
   const heightRef = useRef<number>(10000);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   
   const handleResize = () => {
     const { width, height } = getCurrentWindowDimensions();
@@ -128,6 +130,11 @@ function App() {
         overflow: isMinified?undefined:"hidden"
       }}
     >
+      {
+        isLoading
+        ?<LoadingScreenComponent setIsLoading={setIsLoading}/>
+        :""
+      }
       <MinifiedContext.Provider value={isMinified}>
         <ScreenSizeContext.Provider value={screenSize}>
           <ScrollContext.Provider value={scrollPosition}>
@@ -138,7 +145,7 @@ function App() {
                 onClick={onHeaderClick}
                 setTheme={setTheme}
               />
-              <HomeScreen />
+              <HomeScreen isLoading={isLoading}/>
               <CurrentPageContext.Provider value={currentPage}>
                 {
                   pageList.map((page, index) => {
