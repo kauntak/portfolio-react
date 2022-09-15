@@ -34,7 +34,40 @@ export const projects:ProjectType[] = [
         // liveLink: {
         //     link:"https://github.com/kauntak/Sabores",
         //     isSlow:true
-        // }
+        // },
+        screenShots:[
+            {
+                projectName: "Login Screen",
+                imagePath:"/assets/images/SaboresApp/login.png"
+            }, {
+                projectName:"Home Screen English",
+                imagePath:"/assets/images/SaboresApp/homeScreenEN.png"
+            }, {
+                projectName: "Switching Language",
+                imagePath:"/assets/images/SaboresApp/switchingLanguage.png"
+            }, {
+                projectName: "Home Screen Spanish",
+                imagePath:"/assets/images/SaboresApp/homeScreenES.png"
+            }, {
+                projectName: "Inbox/Messages",
+                imagePath:"/assets/images/SaboresApp/messages.png"
+            }, {
+                projectName: "Sending Messages",
+                imagePath:"/assets/images/SaboresApp/sendMessage.png"
+            }, {
+                projectName: "Time Cards",
+                imagePath:"/assets/images/SaboresApp/timeCard.png"
+            }, {
+                projectName: "Time Cards with Tasks shown",
+                imagePath:"/assets/images/SaboresApp/timeCardWTasksOpened.png"
+            }, {
+                projectName: "Admin Panel",
+                imagePath:"/assets/images/SaboresApp/adminItemSelected.png"
+            }, {
+                projectName: "Ordering",
+                imagePath:"/assets/images/SaboresApp/Ordering.png"
+            }
+        ]
     }, {
         type: "Programs",
         imagePath: "/assets/images/Logos/SambaPOS-icon-Logo.png",
