@@ -56,6 +56,7 @@ export const HomeScreen:React.FC<Props> = ({isLoading})=>{
                 startAnimation();
             }, 500);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoading])
 
     
