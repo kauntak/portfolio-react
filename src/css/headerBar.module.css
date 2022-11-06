@@ -40,12 +40,13 @@
 .menuButton{
     font-size: clamp(30px, 6vw, 35px);
     margin-bottom: 10px;
-    width: 6vw;
-    height: 6vw;
+    width: 62px;
+    height: 62px;
     min-width: 45px;
     min-height: 45px;
     position: relative;
     z-index:100;
+    transform: translateX(-4px);
 }
 
 .menu li{
@@ -59,41 +60,29 @@
 }
 
 .menu li:nth-child(2){
-    top: 50px;
+    top: calc(50px + 2vh);
 }
 
 .menu li:nth-child(3){
-    top: 100px;
+    top: calc(120px + 2vh);
 }
 
 .menu li:nth-child(4){
-    top: 150px;
+    top: calc(190px + 2vh);
 }
 
 .menu li:nth-child(5){
-    top: 200px;
+    top: calc(260px + 2vh);
 }
 
 .menu li:nth-child(6){
-    top: 250px;
+    top: calc(3300px + 2vh);
 }
 
 .icon{
-    border-radius: 50%;
-    background-color: var(--hover);
-    color: var(--button);
-    width: 7vw;
-    height: 7vw;
-    display: inline-block;
-    justify-content: center;
-    vertical-align: middle;
-    min-width: 40px;
-    min-height: 40px;
-    max-width: 55px;
-    max-height: 55px;
-    line-height: 5px;
+    display: flex;
+    flex-direction: row;
     transition: 0.5s;
-    overflow: hidden;
     margin-bottom: 10px;
     transition: all 0.5s ease-in-out;
 }
@@ -102,13 +91,6 @@
     vertical-align: middle;
     transform: translateY(30%);
     width: 100%;
-    margin: auto;
-}
-
-
-.icon:hover{
-	opacity: 0.6;
-    box-shadow: 0 5px 10px black; 
 }
 
 .navBar{
@@ -155,4 +137,33 @@
 .selected:hover{
     background-color: var(--hover);
     color: var(--text-secondary);
+}
+
+
+.navIcon{
+    border-radius: 28px;
+    background-color: var(--hover);
+    color: var(--button);
+    width: 56px;
+    height: 56px;
+    max-width: 56px;
+    display: flex;
+    flex-direction: row;
+    line-height: 5px;
+    overflow: hidden;
+    align-items: center;
+    transition: max-width 0.5s ease-in-out;
+}
+
+.navIcon:hover{
+    width: fit-content;
+    max-width: 300px;
+    padding-right: 15px;
+    transition: max-width 0.5s ease-in-out;
+}
+
+.navIcon svg{
+    width: 40px;
+    margin: -15px 10px 0px 10px;
+    min-width: 40px;
 }

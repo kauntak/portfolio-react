@@ -132,85 +132,153 @@ export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage, setThe
             }
             {
                 isMinified
-                    ? ""
-                    : <div className={styles["header"]}>
-                        <img
-                            src={process.env.PUBLIC_URL + "/assets/images/Logos/koshirae_logo_blue.png"}
-                            alt="logo"
-                            className={styles["logo"]}
-                        />
-                    </div>
+                    ?<NavIcons onClick={onClick} pages={pages} currentPage={currentPage} setIsThemesShown={setIsThemesShown}/>
+                    :<NavBar onClick={onClick} currentPage={currentPage} pages={pages} setIsThemesShown={setIsThemesShown}/>
             }
-            <ul className={isMinified?styles["menu"]:styles["navBar"]}>
+        </div>
+    )
+}
+
+type NavProps = {
+    onClick: (page:PageType|undefined) => void,
+    pages: PageType[],
+    currentPage: PageType|undefined,
+    setIsThemesShown:Dispatch<SetStateAction<boolean>>  
+}
+
+const NavBar:React.FC<NavProps> = ({ onClick, pages, currentPage, setIsThemesShown }) => {
+    
+    
+    const toggleTheme = (e:React.MouseEvent<HTMLLIElement>) =>{
+        e.preventDefault();
+        setIsThemesShown(prev => !prev);
+    }
+
+    return (
+        <div
+            className={styles["navigation"]}
+        >
+            <div className={styles["header"]}>
+                <img
+                    src={process.env.PUBLIC_URL + "/assets/images/Logos/koshirae_logo_blue.png"}
+                    alt="logo"
+                    className={styles["logo"]}
+                />
+            </div>
+            <ul className={styles["navBar"]}>
+                <li
+                    className={
+                        `${styles["navigationItem"]} ${
+                            currentPage===undefined
+                                ?styles["selected"]
+                                :""}`
+                    }
+                    onClick={(e)=>{e.preventDefault();onClick(undefined)}}
+                >
+                    Home
+                </li>
                 {
-                    isMinified
-                        ?<li
-                            title={(showNavigation?"Hide":"Show") + " navigation"}
-                            className={styles["menuButton"]}
-                            onClick={onMenuClick}
-                        >
-                            {showNavigation?<FaTimes />:<FaBars />}
-                        </li>
-                        :""
-                }
-                {
-                    scrollPosition===210||!isMinified
-                        ?<li
-                            style={
-                                isMinified
-                                    ?showNavigation
-                                        ?{}   
-                                        :{
-                                            top: 0,
-                                            opacity: 0
-                                        }
-                                    :{}
-                            }
-                            className={
-                                isMinified
-                                    ?styles["icon"]
-                                    :`${styles["navigationItem"]} ${currentPage===undefined
-                                        ?styles["selected"]
-                                        :""}`
-                            }
-                            onClick={(e)=>{e.preventDefault();onClick(undefined)}}
-                        >
-                            {isMinified?<FaAngleDoubleUp />:"Home"}
-                        </li>
-                        :""
-                }
-                {
-                    pages.map((page, index) => {
+                    pages.map((page) => {
                         return (
                             <li
                                 key={page}
-                                style={
-                                    showNavigation||!isMinified
-                                        ?{}   
-                                        :{
-                                            top: 0,
-                                            opacity: 0
-                                        }
-                                }
                                 onClick={(e)=>{e.preventDefault();onClick(page)}}
                                 className={
-                                    isMinified
-                                        ?styles["icon"]
-                                        :`${styles["navigationItem"]} ${
+                                    `${styles["navigationItem"]} ${
                                             currentPage===page
                                                 ?styles["selected"]
                                                 :""
                                             }`
                                 }
                             >
-                                {isMinified?icons[page]:page}
+                                {page}
                             </li>
                         );
                     })
                 }
                 <li
+                    onClick={toggleTheme}
+                    className={styles["navigationItem"]}
+                >
+                    Theme
+                </li>
+            </ul>
+        </div>
+    );
+}
+
+const NavIcons:React.FC<NavProps> = ({ onClick, pages, setIsThemesShown }) => {
+    const [showNavigation, setShowNavigation] = useState<boolean>(false);
+    const scrollPosition = useContext(ScrollContext);
+    const icons:{[keys in PageType|"theme"]:JSX.Element} = {
+        Portfolio:<FaCode />,
+        About: <FaUser />,
+        Contact: <FaAt />,
+        theme: <FaPalette />
+    }
+
+    const onMenuClick = (e:React.MouseEvent<HTMLLIElement>) => {
+        setShowNavigation(oldState => !oldState);
+    }
+
+    const toggleTheme = (e:React.MouseEvent<HTMLLIElement>) =>{
+        e.preventDefault();
+        setIsThemesShown(prev => !prev);
+    }
+    return (
+        <div
+            className={styles["navigation"]}
+        >
+            <ul className={styles["menu"]}>
+                <li
+                    title={(showNavigation?"Hide":"Show") + " navigation"}
+                    className={styles["menuButton"]}
+                    onClick={onMenuClick}
+                >
+                    {showNavigation?<FaTimes />:<FaBars />}
+                </li>
+                {
+                    scrollPosition===210
+                        ?<li
+                            style={
+                                showNavigation
+                                    ?{}   
+                                    :{
+                                        top: 0,
+                                        opacity: 0
+                                    }
+                            }
+                            className={styles["icon"]}
+                            onClick={(e)=>{e.preventDefault();onClick(undefined)}}
+                        >
+                            <HoverIcon icon={<FaAngleDoubleUp />} name="Top"/>
+                        </li>
+                        :""
+                }
+                {
+                    pages.map(page => {
+                        return (
+                            <li
+                                key={page}
+                                style={
+                                    showNavigation
+                                        ?{}   
+                                        :{
+                                            top: 0,
+                                            opacity: 0
+                                        }
+                                }
+                                className={styles["icon"]}
+                                onClick={(e)=>{e.preventDefault();onClick(page)}}
+                            >
+                                <HoverIcon name={page} icon={icons[page]}/>
+                            </li>
+                        )
+                    })
+                }
+                <li
                     style={
-                        showNavigation||!isMinified
+                        showNavigation
                             ?{}   
                             :{
                                 top: 0,
@@ -218,19 +286,27 @@ export const HeaderBar: React.FC<Props> = ({ onClick, pages, currentPage, setThe
                             }
                     }
                     onClick={toggleTheme}
-                    className={
-                        isMinified
-                            ?styles["icon"]
-                            :styles["navigationItem"]
-                    }
+                    className={styles["icon"]}
                 >
-                    {
-                        isMinified
-                            ?icons["theme"]
-                            :"Theme"
-                    }
+                    <HoverIcon icon={icons["theme"]} name="Theme"/>
                 </li>
             </ul>
+        </div>
+    );
+}
+
+type HoverIconType = {
+    name:string,
+    icon:JSX.Element
+}
+
+const HoverIcon:React.FC<HoverIconType> = ({name, icon}) => {
+    return (
+        <div
+            className={styles["navIcon"]}
+        >
+            {icon}
+            {name}
         </div>
     )
 }

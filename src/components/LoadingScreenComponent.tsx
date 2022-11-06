@@ -5,8 +5,8 @@ type Props = {
     setIsLoading: Dispatch<SetStateAction<boolean>>
 }
 
-const MAX_COUNT = 10;
-const MIN_COUNT = 6
+const MAX_COUNT = 8;
+const MIN_COUNT = 5;
 
 export const LoadingScreenComponent:React.FC<Props> = ({setIsLoading}) => {
     const [spinnerStyle, setSpinnerStyle] = useState<CSSProperties>({position:"relative", marginLeft:"auto", marginRight:"auto", top:"40vh"});
@@ -45,7 +45,7 @@ export const LoadingScreenComponent:React.FC<Props> = ({setIsLoading}) => {
                         height:"fit-content",
                         transform: "scale(4)"
                     })
-                }, 500)
+                }, 250)
             }
         }, 250)
 
